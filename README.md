@@ -2,11 +2,7 @@
 
 This repository is used to share source code material for an ongoing lecture on object-oriented programming with Java at HWR Berlin (summer term 2022).
 
-
----
-**NOTE**
-This code is for educational purpose only. Do not rely on it!
----
+> :warning: This code is for educational purpose only. Do not rely on it!
 
 ## Students That Are New To Git
 
@@ -24,10 +20,7 @@ rm -rf .git/
 ```
 4. Open both the repository and the other folder in IntelliJ IDEA.
 
----
-**REMEMBER**
-Only code in the other folder, not the cloned repository. You should only use the cloned repository to copy code into your local environment.
----
+> :warning: Only code in the other folder, not the cloned repository. You should only use the cloned repository to copy code into your local environment.
 
 5. Once you are required to refresh the code during the lecture: Go into your local repository (the original, not the copy) and pull.
 ```
