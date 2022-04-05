@@ -36,3 +36,33 @@ git reset --hard origin/master
 
 Feel free to fork this repository and do your coding there.
 Remember to add this repository as a second remote repository (upstream) and pull from the correct remotes.
+The following section describes how to do this.
+
+### Multiple remote repositories
+
+Your local repository should have a reference to both the fork (your own remote repository) and the original remote repository.
+To configure your git remote repositories, use the `git remote` command set.
+
+1. Clone your fork and go enter the repository.
+```
+git clone <fork-url>
+cd <created-folder>
+```
+2. Now your fork is configured as primary remote repository (origin).
+Next to origin, you should add the original repository as a second remote repository (upstream).
+```
+git remote add upstream <repository-url>
+```
+3. Verify that both remotes are configured correctly.
+The following command should list both remotes: origin and upstream.
+```
+git remote -v
+```
+4. To fetch changes from all remote repositories, use:
+```
+git fetch --all
+```
+5. If there are interesting changes (in e.g. the `main` branch) to merge into your branch, use:
+```
+git pull upstream main
+```
