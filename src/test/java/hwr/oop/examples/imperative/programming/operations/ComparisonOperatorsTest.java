@@ -1,4 +1,4 @@
-package hwr.oop.examples.programming.operations;
+package hwr.oop.examples.imperative.programming.operations;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Comparison Operators (==, !=, >, <, >=, <=)")
-class ComparisonOperators {
+class ComparisonOperatorsTest {
 
     @Test
     @DisplayName("1 < 2 is true")

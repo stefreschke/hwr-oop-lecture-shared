@@ -1,4 +1,4 @@
-package hwr.oop.examples.programming.types;
+package hwr.oop.examples.imperative.programming.types;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
