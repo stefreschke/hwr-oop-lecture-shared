@@ -1,4 +1,4 @@
-package hwr.oop.examples.programming.operations;
+package hwr.oop.examples.imperative.programming.operations;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

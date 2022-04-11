@@ -1,4 +1,4 @@
-package hwr.oop.examples.programming;
+package hwr.oop.examples.imperative.programming;
 
 import org.junit.jupiter.api.Test;
 
