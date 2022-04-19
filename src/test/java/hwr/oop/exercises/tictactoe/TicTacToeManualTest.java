@@ -15,25 +15,31 @@ class TicTacToeManualTest {
     PrintStream out;
     Scanner in;
     Map<Integer, Character> visualCues;
+    public int currentTurn = 0;
+    public int mode;
 
     @BeforeEach
     void setUp() {
-        game = new TicTacToe();
         out = System.out;
         in = new Scanner(System.in);
+        out.println("Pick mode (3/4):");
+        mode = in.nextInt();
+        game = new TicTacToe(mode);
         initializeVisualCues();
     }
 
     @Test
     //@Disabled("manual test")
     void playUntilGameOver() {
-        int currentTurn = 0;
         while (!game.isGameOver()) {
             playMoveNumber(currentTurn);
             printCurrentStateOfGame();
             currentTurn++;
         }
         out.println("Game over!");
+        out.println("--------------");
+        game.clearBoard();
+        playUntilGameOver();
     }
 
     void initializeVisualCues() {
@@ -64,8 +70,8 @@ class TicTacToeManualTest {
     }
 
     void printCurrentStateOfGame() {
-        for (int y = 0; y < 3; y++) {
-            for (int x = 0; x < 3; x++) {
+        for (int y = 0; y < mode; y++) {
+            for (int x = 0; x < mode; x++) {
                 int field = game.getValueAt(x, y);
                 char stuff = visualCues.get(field);
                 out.print(stuff);
