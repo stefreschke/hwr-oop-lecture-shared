@@ -32,6 +32,7 @@ class TicTacToeTest {
     void setCross_SameSquare_IsNotAllowed() {
         TicTacToe game = new TicTacToe();
         game.setCross(1, 1);
+        game.setCircle(2,2);
         try {
             game.setCross(1, 1);
             fail("no error if (1,1) is ticked twice!");
@@ -55,6 +56,7 @@ class TicTacToeTest {
     @Test
     void setCircle_FirstPlayerToedCentralSquare_CentralSquareToed() {
         TicTacToe game = new TicTacToe();
+        game.setCross(0,0);
         game.setCircle(1, 1);
         int value = game.getValueAt(1, 1);
         assertThat(value).isEqualTo(2);
@@ -63,7 +65,9 @@ class TicTacToeTest {
     @Test
     void setCircle_SameSquare_IsNotAllowed() {
         TicTacToe game = new TicTacToe();
+        game.setCross(0,0);
         game.setCircle(1, 1);
+        game.setCross(2,2);
         try {
             game.setCircle(1, 1);
             fail("no error if (1,1) is toed twice!");
@@ -75,6 +79,7 @@ class TicTacToeTest {
     @Test
     void setCircle_TwiceInARow_IsNotAllowed() {
         TicTacToe game = new TicTacToe();
+        game.setCross(2,2);
         game.setCircle(0, 0);
         try {
             game.setCircle(0, 1);
