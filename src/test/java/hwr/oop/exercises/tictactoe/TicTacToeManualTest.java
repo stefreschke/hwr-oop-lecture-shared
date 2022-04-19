@@ -25,7 +25,7 @@ class TicTacToeManualTest {
     }
 
     @Test
-    @Disabled("manual test")
+    //@Disabled("manual test")
     void playUntilGameOver() {
         int currentTurn = 0;
         while (!game.isGameOver()) {
@@ -51,7 +51,7 @@ class TicTacToeManualTest {
         int x = in.nextInt();
         out.print("Y: ");
         int y = in.nextInt();
-        out.println("");
+        out.println();
         performMoveFor(firstPlayer, x, y);
     }
 

@@ -43,6 +43,8 @@ class SwitchCaseTest {
                 System.out.println("Excellent!");
                 break;
             case 'B' :
+                fail();
+                break;
             case 'C' :
                 System.out.println("Well done");
                 break;

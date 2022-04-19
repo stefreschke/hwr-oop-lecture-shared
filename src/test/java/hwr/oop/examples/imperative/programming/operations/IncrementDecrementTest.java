@@ -39,7 +39,7 @@ class IncrementDecrementTest {
     void minusMinus_OneSuffix_VariableDecrementedAfter() {
         int number = 1;
         int suffixResult = number--;
-        assertThat(number).isEqualTo(0);
+        assertThat(number).isZero();
         assertThat(suffixResult).isEqualTo(1);
     }
 
@@ -48,8 +48,8 @@ class IncrementDecrementTest {
     void minusMinus_OnePrefix_VariableDecrementedBefore() {
         int number = 1;
         int prefixResult = --number;
-        assertThat(number).isEqualTo(0);
-        assertThat(prefixResult).isEqualTo(0);
+        assertThat(number).isZero();
+        assertThat(prefixResult).isZero();
     }
 
     @Test
@@ -57,6 +57,6 @@ class IncrementDecrementTest {
     void minusMinus_BestPractice_UsedSeparately() {
         int number = 1;
         number--;  // or --number, does not matter
-        assertThat(number).isEqualTo(0);
+        assertThat(number).isZero();
     }
 }

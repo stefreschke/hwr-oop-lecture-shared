@@ -12,9 +12,8 @@ class TypeConversionTest {
     @DisplayName("int -> long (upcast): possible, implicitly")
     void upcast_FromIntToLong_PossibleImplicitly() {
         int intVar = 1;
-        long longVar = intVar;
         assertThat(intVar)
-                .isEqualTo(longVar)
+                .isEqualTo((long) intVar)
                 .isEqualTo(1);
     }
 

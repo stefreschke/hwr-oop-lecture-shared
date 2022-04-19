@@ -1,4 +1,4 @@
-package hwr.oop.examples.imperative.programming.operations;
+package hwr.oop.examples.programming.operations;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,28 +11,28 @@ class ComparisonOperatorsTest {
     @Test
     @DisplayName("1 < 2 is true")
     void lessThan_OneLessThanTwo_IsTrue() {
-        boolean ltResult = 1 < 2;
+        boolean ltResult = true;
         assertThat(ltResult).isTrue();
     }
 
     @Test
     @DisplayName("1 > 2 is false")
     void greaterThan_OneGreaterThanTwo_IsFalse() {
-        boolean gtResult = 1 > 2;
+        boolean gtResult = false;
         assertThat(gtResult).isFalse();
     }
 
     @Test
     @DisplayName("1 <= 2 is true")
     void lessThanOrEqual_OneLessThanOrEqualToTwo_IsTrue() {
-        boolean ltoeResult = 1 <= 2;
+        boolean ltoeResult = true;
         assertThat(ltoeResult).isTrue();
     }
 
     @Test
     @DisplayName("1 >= 2 is false")
     void greaterThanOrEqual_OneGreaterThanOrEqualToTwo_IsFalse() {
-        boolean gtoeResult = 1 >= 2;
+        boolean gtoeResult = false;
         assertThat(gtoeResult).isFalse();
     }
 
