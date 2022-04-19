@@ -40,8 +40,21 @@ class TicTacToe {
             throw new RuntimeException("You made an illegal move!");
     }
 
-    boolean isGameOver() {
+    boolean isfullBoard() {
+        for (int[] ints : board) {
+            for (int anInt : ints) {
+                if (anInt == 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
+    boolean isGameOver() {
+        if (isfullBoard()) {
+            return true;
+        }
         // vertical, horizontal wins
         int sum = 0;
         int sum1 = 0;
