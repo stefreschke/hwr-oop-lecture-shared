@@ -23,21 +23,25 @@ class TicTacToe {
     }
 
     void setCross(int x, int y) {
-        if (!isGameOver() && getValueAt(x, y) == 0 && !crossSet) {
-            board[x][y] = 1;
-            crossSet = true;
-            circleSet = false;
-        } else
+        check(x, y, crossSet);
+        board[x][y] = 1;
+        crossSet = true;
+        circleSet = false;
+    }
+
+    private void check(int x, int y, boolean set) {
+        boolean moveIsValid = isGameOver() || getValueAt(x, y) != 0 || set;
+        if (moveIsValid) {
             throw new RuntimeException("You made an illegal move!");
+        }
     }
 
     void setCircle(int x, int y) {
-        if (!isGameOver() && getValueAt(x, y) == 0 && !circleSet) {
-            board[x][y] = 2;
-            crossSet = false;
-            circleSet = true;
-        } else
-            throw new RuntimeException("You made an illegal move!");
+        check(x, y, circleSet);
+        board[x][y] = 2;
+        crossSet = false;
+        circleSet = true;
+
     }
 
     boolean isfullBoard() {
