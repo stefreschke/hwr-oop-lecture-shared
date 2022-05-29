@@ -1,4 +1,4 @@
-package hwr.oop.examples.polymorphism.subtyping;
+package hwr.oop.examples.polymorphism.subtyp;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Nested;

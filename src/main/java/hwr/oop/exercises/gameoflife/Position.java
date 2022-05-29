@@ -13,8 +13,8 @@ public class Position {
         for (int i = -1; i < 2; i++){
             for (int j = -1; j < 2; j++){
                 if(this.x == neighbour.x + i && this.y == neighbour.y + j)
-                    return true;
+                    return false;
             }
-        } return false;
+        } return true;
     }
 }

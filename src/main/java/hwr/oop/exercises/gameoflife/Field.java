@@ -13,9 +13,8 @@ public class Field {
     }
 
     public Cell[] setCellNeigbour(){
-        for(Cell c : cells){
 
-        }
+        return new Cell[0];
     }
 
     public Cell getCellAt(Position position) {
