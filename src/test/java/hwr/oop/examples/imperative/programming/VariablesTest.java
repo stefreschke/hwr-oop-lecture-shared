@@ -13,7 +13,7 @@ class VariablesTest {
 
     @Test
     void nonFinalVariable_IntVariable_CanBeReassigned() {
-        int intVar = 1;
+        int intVar;
         intVar = 2;
         assertThat(intVar).isEqualTo(2);
     }
@@ -33,7 +33,7 @@ class VariablesTest {
 
     @Test
     void nonFinalVariable_StringVariable_CanBeReassigned() {
-        String stringVar = "42";
+        String stringVar;
         stringVar = "1337";
         assertThat(stringVar).isEqualTo("1337");
     }

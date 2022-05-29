@@ -1,7 +1,13 @@
 package hwr.oop.examples;
 
-class HelloWorld {
+public class HelloWorld {
+    String name;
+
+    public HelloWorld(String name) {
+        this.name = name;
+    }
+
     String getOutputString() {
-        return "Hello World";
+        return "Hello " + name;
     }
 }

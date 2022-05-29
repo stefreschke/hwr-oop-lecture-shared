@@ -21,7 +21,7 @@ class GameOfLifeManualTest {
     }
 
     @Test
-    @Disabled("manual test")
+    //@Disabled("manual test")
     void manualTest() throws InterruptedException {
         while(true) {
             String string = buildConsoleOutput();

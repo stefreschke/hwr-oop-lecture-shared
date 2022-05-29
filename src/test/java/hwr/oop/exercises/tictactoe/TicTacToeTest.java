@@ -9,7 +9,7 @@ class TicTacToeTest {
 
     @Test
     void newGame_NoTicksYet_AllFieldsAreZero() {
-        TicTacToe game = new TicTacToe();
+        TicTacToe game = new TicTacToe(3);
         int[] squares = new int[9];
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
@@ -22,7 +22,7 @@ class TicTacToeTest {
 
     @Test
     void setCross_FirstPlayerTicksCentralSquare_CentralSquareTicked() {
-        TicTacToe game = new TicTacToe();
+        TicTacToe game = new TicTacToe(3);
         game.setCross(1, 1);
         int value = game.getValueAt(1, 1);
         assertThat(value).isEqualTo(1);
@@ -30,9 +30,8 @@ class TicTacToeTest {
 
     @Test
     void setCross_SameSquare_IsNotAllowed() {
-        TicTacToe game = new TicTacToe();
+        TicTacToe game = new TicTacToe(3);
         game.setCross(1, 1);
-        game.setCircle(2,2);
         try {
             game.setCross(1, 1);
             fail("no error if (1,1) is ticked twice!");
@@ -43,7 +42,7 @@ class TicTacToeTest {
 
     @Test
     void setCross_TwiceInARow_IsNotAllowed() {
-        TicTacToe game = new TicTacToe();
+        TicTacToe game = new TicTacToe(3);
         game.setCross(0, 0);
         try {
             game.setCross(0, 1);
@@ -55,8 +54,7 @@ class TicTacToeTest {
 
     @Test
     void setCircle_FirstPlayerToedCentralSquare_CentralSquareToed() {
-        TicTacToe game = new TicTacToe();
-        game.setCross(0,0);
+        TicTacToe game = new TicTacToe(3);
         game.setCircle(1, 1);
         int value = game.getValueAt(1, 1);
         assertThat(value).isEqualTo(2);
@@ -64,10 +62,8 @@ class TicTacToeTest {
 
     @Test
     void setCircle_SameSquare_IsNotAllowed() {
-        TicTacToe game = new TicTacToe();
-        game.setCross(0,0);
+        TicTacToe game = new TicTacToe(3);
         game.setCircle(1, 1);
-        game.setCross(2,2);
         try {
             game.setCircle(1, 1);
             fail("no error if (1,1) is toed twice!");
@@ -78,8 +74,7 @@ class TicTacToeTest {
 
     @Test
     void setCircle_TwiceInARow_IsNotAllowed() {
-        TicTacToe game = new TicTacToe();
-        game.setCross(2,2);
+        TicTacToe game = new TicTacToe(3);
         game.setCircle(0, 0);
         try {
             game.setCircle(0, 1);
@@ -91,7 +86,7 @@ class TicTacToeTest {
 
     @Test
     void isGameOver_NewGame_GameIsNotOver() {
-        TicTacToe game = new TicTacToe();
+        TicTacToe game = new TicTacToe(3);
         boolean over = game.isGameOver();
         assertThat(over).isFalse();
     }
@@ -99,7 +94,7 @@ class TicTacToeTest {
     @Test
     void isGameOver_FirstPlayerCompletesThree_GameIsOver() {
         // given
-        TicTacToe game = new TicTacToe();
+        TicTacToe game = new TicTacToe(3);
         game.setCross(0, 0);
         game.setCircle(0, 1);
         game.setCross(1, 0);
@@ -114,7 +109,7 @@ class TicTacToeTest {
     @Test
     void isGameOver_FirstPlayerDoesNotWinAfterThreeTicsNotInARow_GameIsNotOver() {
         // given: a NOT finished Game
-        TicTacToe game = new TicTacToe();
+        TicTacToe game = new TicTacToe(3);
         game.setCross(0, 0);
         game.setCircle(0, 1);
         game.setCross(1, 0);
@@ -130,7 +125,7 @@ class TicTacToeTest {
     @Test
     void setCross_finishedGame_PlayingAFinishedGameIsNotAllowed() {
         // given: a finished Game
-        TicTacToe game = new TicTacToe();
+        TicTacToe game = new TicTacToe(3);
         game.setCross(0, 0);
         game.setCircle(0, 1);
         game.setCross(1, 0);
@@ -147,4 +142,51 @@ class TicTacToeTest {
         }
     }
 
+    @Test
+    void isGameOver_finishedGame_stop() {
+        TicTacToe game = new TicTacToe(4);
+        game.setCross(0, 0);
+        game.setCircle(0, 1);
+        game.setCross(1, 0);
+        game.setCircle(1, 1);
+        game.setCross(2, 0);
+        game.setCircle(2,1);
+        game.setCross(3,0);
+
+        boolean over = game.isGameOver();
+
+        assertThat(over).isTrue();
+    }
+
+    @Test
+    void isGameOver_threeInARowIsNotAWin() {
+        TicTacToe game = new TicTacToe(4);
+        game.setCross(0, 0);
+        game.setCircle(0, 1);
+        game.setCross(1, 0);
+        game.setCircle(1, 1);
+        game.setCross(2, 0);
+
+        boolean over = game.isGameOver();
+
+        assertThat(over).isFalse();
+    }
+
+    @Test
+    void fullBoard() {
+        TicTacToe game = new TicTacToe(3);
+        game.setCross(0, 1);
+        game.setCircle(0, 0);
+        game.setCross(1, 1);
+        game.setCircle(2, 1);
+        game.setCross(1, 0);
+        game.setCircle(0, 2);
+        game.setCross(2, 0);
+        game.setCircle(1, 2);
+        game.setCross(2,2);
+
+        boolean over = game.isGameOver();
+
+        assertThat(over).isTrue();
+    }
 }

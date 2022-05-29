@@ -15,7 +15,7 @@ class AutoboxingTest {
 
     @Test
     void autoboxing_ImplicitDownCastingFive_BoxedAndUnboxedEqual() {
-        Integer boxed = Integer.valueOf(5);
+        Integer boxed = 5;
         int unboxed = boxed;
         assertThat(boxed).isEqualTo(unboxed);
     }
@@ -29,7 +29,7 @@ class AutoboxingTest {
 
     @Test
     void wrapperTypeCast_ExplicitDownCastingFive_BoxedAndUnboxedEqual() {
-        Integer boxed = Integer.valueOf(5);
+        Integer boxed = 5;
         int unboxed = (int) boxed;
         assertThat(boxed).isEqualTo(unboxed);
     }
