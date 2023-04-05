@@ -3,10 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>hwr.oop.solutions</groupId>
-    <artifactId>project</artifactId>
+    <groupId>hwr.oop</groupId>
+    <artifactId>hwr-oop-lecture-shared</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-    <name>project</name>
+    <name>hwr-oop-lecture-shared</name>
     <description>project-description</description>
     <properties>
         <!-- java -->
