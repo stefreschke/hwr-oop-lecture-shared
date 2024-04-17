@@ -1,25 +1,36 @@
-package hwr.oop.huzur.cards;
+package hwr.oop.huzur.domain.cards;
 
-import hwr.oop.huzur.Card;
-import hwr.oop.huzur.Color;
-import hwr.oop.huzur.Sign;
+import hwr.oop.huzur.domain.Card;
+import hwr.oop.huzur.domain.Color;
+import hwr.oop.huzur.domain.Sign;
+import java.util.Arrays;
+import java.util.List;
 
 public class CardConverter {
+
+  public List<Card> parseCards(String cardsString) {
+    return Arrays.stream(cardsString.split(","))
+        .map(this::convert).toList();
+  }
 
   public Card convert(String string) {
     if (string.length() != 2) {
       throw new InvalidCardStringFormatException(string);
     }
-    final String first = string.substring(0, 1);
-    final String second = string.substring(1, 2);
     return switch (string) {
       case "J1" -> Joker.first();
       case "J2" -> Joker.second();
-      default -> new NormalCard(convertColor(first), convertSign(second));
+      default -> convertNonJokerCard(string);
     };
   }
 
-  private Color convertColor(String string) {
+  private Card convertNonJokerCard(String string) {
+    final var first = string.substring(0, 1);
+    final var second = string.substring(1, 2);
+    return new NormalCard(convertColor(first), convertSign(second));
+  }
+
+  public Color convertColor(String string) {
     return switch (string) {
       case "C" -> Color.CLUBS;
       case "S" -> Color.SPADES;

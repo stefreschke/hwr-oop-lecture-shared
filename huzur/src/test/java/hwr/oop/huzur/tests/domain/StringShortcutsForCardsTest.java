@@ -1,11 +1,14 @@
-package hwr.oop.huzur.tests;
+package hwr.oop.huzur.tests.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import hwr.oop.huzur.cards.CardConverter;
-import hwr.oop.huzur.Color;
-import hwr.oop.huzur.cards.Joker;
-import hwr.oop.huzur.Sign;
+import hwr.oop.huzur.domain.Color;
+import hwr.oop.huzur.domain.Sign;
+import hwr.oop.huzur.domain.cards.CardConverter;
+import hwr.oop.huzur.domain.cards.Joker;
+import hwr.oop.huzur.domain.cards.NormalCard;
+import hwr.oop.huzur.tests.ErrorHandlingTag;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -78,24 +81,38 @@ class StringShortcutsForCardsTest {
   }
 
   @Test
+  void multipleConversions_ReturnListOfCards() {
+    final var cards = converter.parseCards("J1,HA,S7,D9,CJ,J2");
+    assertThat(cards).hasSize(6).containsSequence(
+        Joker.first(), new NormalCard(Color.HEARTS, Sign.ACE),
+        new NormalCard(Color.SPADES, Sign.SEVEN), new NormalCard(Color.DIAMONDS, Sign.NINE),
+        new NormalCard(Color.CLUBS, Sign.JACK), Joker.second()
+    );
+  }
+
+  @Test
+  @ErrorHandlingTag
   void convert_ThreeSignString_Exception() {
     assertThatThrownBy(() -> converter.convert("AHH"))
         .hasMessageContainingAll("AHH", "expected two", "got");
   }
 
   @Test
+  @ErrorHandlingTag
   void convert_SingleSignString_Exception() {
     assertThatThrownBy(() -> converter.convert("A"))
         .hasMessageContainingAll("A", "expected two", "got");
   }
 
   @Test
+  @ErrorHandlingTag
   void convert_ColorL_UnknownColor_Exception() {
     assertThatThrownBy(() -> converter.convert("LA"))
         .hasMessageContainingAll("L", "Cannot convert Color");
   }
 
   @Test
+  @ErrorHandlingTag
   void convert_SignL_UnknownSign_Exception() {
     assertThatThrownBy(() -> converter.convert("DL"))
         .hasMessageContainingAll("L", "Cannot convert Sign");

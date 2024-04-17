@@ -1,4 +1,4 @@
-package hwr.oop.huzur;
+package hwr.oop.huzur.domain;
 
 import java.util.Arrays;
 import java.util.List;

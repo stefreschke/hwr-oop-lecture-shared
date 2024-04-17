@@ -3,7 +3,7 @@
     <module name="huzur" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="hwr.oop.huzur.cards.*" />
+        <option name="PATTERN" value="hwr.oop.huzur.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

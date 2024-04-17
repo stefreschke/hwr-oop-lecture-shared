@@ -1,4 +1,4 @@
-package hwr.oop.huzur;
+package hwr.oop.huzur.domain;
 
 /**
  * Cards are <i>immutable</i> and should be usable as Key in {@link java.util.Map}. Thus, any
@@ -14,5 +14,7 @@ public interface Card {
 
   boolean isAlwaysTrump();
 
-  boolean sameColorAs(Card second);
+  boolean sameColorAs(Card other);
+
+  boolean sameSignAs(Card other);
 }

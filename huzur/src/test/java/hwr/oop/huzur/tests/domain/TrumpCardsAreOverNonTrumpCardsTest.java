@@ -1,14 +1,17 @@
-package hwr.oop.huzur.tests;
+package hwr.oop.huzur.tests.domain;
 
 
-import static hwr.oop.huzur.tests.HuzurTestUtil.allCardsOfColor;
+import static hwr.oop.huzur.tests.Utils.allCardsOfColor;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import hwr.oop.huzur.Card;
-import hwr.oop.huzur.Color;
-import hwr.oop.huzur.Game;
-import hwr.oop.huzur.cards.CardConverter;
-import hwr.oop.huzur.cards.Joker;
+import hwr.oop.huzur.domain.Card;
+import hwr.oop.huzur.domain.Color;
+import hwr.oop.huzur.domain.FreshNewGame;
+import hwr.oop.huzur.domain.Player;
+import hwr.oop.huzur.domain.cards.CardConverter;
+import hwr.oop.huzur.domain.cards.Joker;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 import org.assertj.core.api.SoftAssertions;
@@ -31,38 +34,38 @@ class TrumpCardsAreOverNonTrumpCardsTest {
   void allGames_BothJokers_AreAlwaysTrump(Color trumpColor) {
     final var first = Joker.first();
     final var second = Joker.second();
-    final var game = new Game(trumpColor);
-    final var soft = new SoftAssertions();
-    soft.assertThat(game.isTrump(first)).isTrue();
-    soft.assertThat(game.isTrump(second)).isTrue();
-    soft.assertAll();
+    final var game = new FreshNewGame(trumpColor, List.of(new Player("alpha"), new Player("beta")));
+    assertSoftly(softly -> {
+      softly.assertThat(game.isTrump(first)).isTrue();
+      softly.assertThat(game.isTrump(second)).isTrue();
+    });
   }
 
   @ParameterizedTest
   @EnumSource(Color.class)
   void allCardsOfTrumpColor_AreTrump(Color trumpColor) {
-    final var game = new Game(trumpColor);
-    final var soft = new SoftAssertions();
-    allCardsOfColor(trumpColor).forEach(card -> soft.assertThat(game.isTrump(card)).isTrue());
-    soft.assertAll();
+    final var game = new FreshNewGame(trumpColor, List.of(new Player("alpha"), new Player("beta")));
+    assertSoftly(softly -> allCardsOfColor(trumpColor)
+        .forEach(card -> softly.assertThat(game.isTrump(card)).isTrue()));
   }
 
   @Test
   void heartsAreTrump_DiamondsClubsAndSpadesAreNotTrump() {
-    final var game = new Game(Color.HEARTS);
-    final var soft = new SoftAssertions();
-    Stream.of(Color.DIAMONDS, Color.CLUBS, Color.SPADES)
+    final var game = new FreshNewGame(Color.HEARTS,
+        List.of(new Player("alpha"), new Player("beta")));
+    SoftAssertions.assertSoftly(softly -> Stream.of(Color.DIAMONDS, Color.CLUBS, Color.SPADES)
         .forEach(color -> allCardsOfColor(color)
-            .forEach(card -> soft.assertThat(game.isTrump(card)).isFalse())
-        );
-    soft.assertAll();
+            .forEach(card -> softly.assertThat(game.isTrump(card)).isFalse())
+        ));
+
   }
 
   @Test
   void spadesAreTrump_TrumpCards_SpadesAreInOrder() {
-    final var game = new Game(Color.SPADES);
+    final var game = new FreshNewGame(Color.SPADES,
+        List.of(new Player("alpha"), new Player("beta")));
     final var cmp = game.strenghtComparator();
-    ComparatorAssert.of(cmp)
+    ComparatorAssert.sut(cmp)
         .weakerThan("S7", "S8")
         .weakerThan("S8", "S9")
         .weakerThan("S9", "ST")
@@ -77,9 +80,10 @@ class TrumpCardsAreOverNonTrumpCardsTest {
 
   @Test
   void diamondsAreTrump_ColorCards_SpadesAreInOrder() {
-    final var game = new Game(Color.DIAMONDS);
+    final var game = new FreshNewGame(Color.DIAMONDS,
+        List.of(new Player("alpha"), new Player("beta")));
     final var cmp = game.strenghtComparator();
-    ComparatorAssert.of(cmp)
+    ComparatorAssert.sut(cmp)
         .weakerThan("S7", "S8")
         .weakerThan("S8", "S9")
         .weakerThan("S9", "ST")
@@ -94,9 +98,10 @@ class TrumpCardsAreOverNonTrumpCardsTest {
 
   @Test
   void clubsAreTrump_SevenOfClubs_StrongerThanAllColorAces() {
-    final var game = new Game(Color.CLUBS);
+    final var game = new FreshNewGame(Color.CLUBS,
+        List.of(new Player("alpha"), new Player("beta")));
     final var comparator = game.strenghtComparator();
-    ComparatorAssert.of(comparator)
+    ComparatorAssert.sut(comparator)
         .strongerThan("C7", "HA")
         .strongerThan("C7", "DA")
         .strongerThan("C7", "SA")
@@ -105,9 +110,10 @@ class TrumpCardsAreOverNonTrumpCardsTest {
 
   @Test
   void clubsAreTrump_AceOfSpades_NotStrongerThanSevenOfDiamonds() {
-    final var game = new Game(Color.CLUBS);
+    final var game = new FreshNewGame(Color.CLUBS,
+        List.of(new Player("alpha"), new Player("beta")));
     final var comparator = game.strenghtComparator();
-    ComparatorAssert.of(comparator)
+    ComparatorAssert.sut(comparator)
         .notStrongerThan("SA", "D7")
         .notStrongerThan("SA", "H7")
         .strongerThan("SA", "S7")
@@ -116,9 +122,10 @@ class TrumpCardsAreOverNonTrumpCardsTest {
 
   @Test
   void heartsAreTrump_AceOfHearts_WeakerThanJokers() {
-    final var game = new Game(Color.HEARTS);
+    final var game = new FreshNewGame(Color.HEARTS,
+        List.of(new Player("alpha"), new Player("beta")));
     final var comparator = game.strenghtComparator();
-    ComparatorAssert.of(comparator)
+    ComparatorAssert.sut(comparator)
         .weakerThan("HA", "J1")
         .weakerThan("HA", "J2")
         .strongerThan("J1", "J2")
@@ -127,30 +134,30 @@ class TrumpCardsAreOverNonTrumpCardsTest {
 
   private static class ComparatorAssert {
 
-    private final SoftAssertions soft;
-    private final Comparator<Card> comparator;
+    private final SoftAssertions softly;
+    private final Comparator<Card> sut;
     private final CardConverter converter;
 
-    private static ComparatorAssert of(Comparator<Card> comparator) {
-      return new ComparatorAssert(comparator);
+    private static ComparatorAssert sut(Comparator<Card> sut) {
+      return new ComparatorAssert(sut);
     }
 
-    private ComparatorAssert(Comparator<Card> comparator) {
-      this.comparator = comparator;
-      this.soft = new SoftAssertions();
+    private ComparatorAssert(Comparator<Card> sut) {
+      this.sut = sut;
+      this.softly = new SoftAssertions();
       this.converter = new CardConverter();
-      Objects.requireNonNull(comparator);
+      Objects.requireNonNull(sut);
     }
 
     private ComparatorAssert strongerThan(Card bigger, Card smaller) {
-      soft.assertThat(comparator.compare(bigger, smaller)).isPositive().isNotZero();
-      soft.assertThat(comparator.compare(smaller, bigger)).isNegative().isNotZero();
+      softly.assertThat(sut.compare(bigger, smaller)).isPositive().isNotZero();
+      softly.assertThat(sut.compare(smaller, bigger)).isNegative().isNotZero();
       return this;
     }
 
     private ComparatorAssert notStrongerThan(Card first, Card second) {
-      soft.assertThat(comparator.compare(first, second)).isNotPositive();
-      soft.assertThat(comparator.compare(second, first)).isNotPositive();
+      softly.assertThat(sut.compare(first, second)).isNotPositive();
+      softly.assertThat(sut.compare(second, first)).isNotPositive();
       return this;
     }
 
@@ -171,7 +178,7 @@ class TrumpCardsAreOverNonTrumpCardsTest {
     }
 
     private void run() {
-      soft.assertAll();
+      softly.assertAll();
     }
   }
 }
