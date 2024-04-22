@@ -1,8 +1,8 @@
 package hwr.oop.huzur.tests;
 
-import hwr.oop.huzur.domain.Card;
-import hwr.oop.huzur.domain.Color;
-import hwr.oop.huzur.domain.Sign;
+import hwr.oop.huzur.domain.cards.Card;
+import hwr.oop.huzur.domain.cards.Card.Color;
+import hwr.oop.huzur.domain.cards.Card.Sign;
 import hwr.oop.huzur.domain.cards.NormalCard;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Utils {
+
   public static Path resourceAsPath(String name) {
     final var loader = Utils.class.getClassLoader();
     final var stuff = loader.getResource(name);

@@ -3,8 +3,8 @@ package hwr.oop.huzur.tests.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import hwr.oop.huzur.domain.Color;
-import hwr.oop.huzur.domain.Sign;
+import hwr.oop.huzur.domain.cards.Card.Color;
+import hwr.oop.huzur.domain.cards.Card.Sign;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.domain.cards.Joker;
 import hwr.oop.huzur.domain.cards.NormalCard;

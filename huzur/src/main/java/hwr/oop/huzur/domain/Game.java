@@ -1,25 +1,38 @@
 package hwr.oop.huzur.domain;
 
+import hwr.oop.huzur.domain.cards.Card;
+import hwr.oop.huzur.domain.layouts.Layout;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 public interface Game extends GameCardContext {
 
+  static FixedGameBuilder newBuilder() {
+    return new FixedGameBuilder();
+  }
+
+  static FreshGameBuilder fresh(Card.Color trump) {
+    return new FreshGameBuilder(trump);
+  }
+
+  Player turn();
 
   Stream<Player> players();
 
   HandOfPlayer handOf(Player player);
 
-  Stream<Card> remainingDeck();
-
   int numberOfRemainingCards();
 
-  Player turn();
+  Stream<Card> remainingDeck();
+
+  Optional<Layout> currentLayout();
+
+  boolean gameIsOver();
+
+  Optional<Player> winner();
 
   Game play(Player player, List<Card> cards);
 
   Game pickup(Player player);
-
-  Optional<Layout> currentLayout();
 }

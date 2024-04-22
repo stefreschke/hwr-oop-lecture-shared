@@ -1,12 +1,9 @@
 package hwr.oop.huzur.domain.cards;
 
-import hwr.oop.huzur.domain.Card;
-import hwr.oop.huzur.domain.Color;
-import hwr.oop.huzur.domain.Sign;
 import java.util.Arrays;
 import java.util.List;
 
-public class CardConverter {
+public final class CardConverter {
 
   public List<Card> parseCards(String cardsString) {
     return Arrays.stream(cardsString.split(","))
@@ -30,28 +27,28 @@ public class CardConverter {
     return new NormalCard(convertColor(first), convertSign(second));
   }
 
-  public Color convertColor(String string) {
+  public Card.Color convertColor(String string) {
     return switch (string) {
-      case "C" -> Color.CLUBS;
-      case "S" -> Color.SPADES;
-      case "H" -> Color.HEARTS;
-      case "D" -> Color.DIAMONDS;
+      case "C" -> Card.Color.CLUBS;
+      case "S" -> Card.Color.SPADES;
+      case "H" -> Card.Color.HEARTS;
+      case "D" -> Card.Color.DIAMONDS;
       default -> throw new UnknownColorException(string);
     };
   }
 
-  private Sign convertSign(String string) {
+  private Card.Sign convertSign(String string) {
     return switch (string) {
-      case "7" -> Sign.SEVEN;
-      case "8" -> Sign.EIGHT;
-      case "9" -> Sign.NINE;
-      case "T" -> Sign.TEN;
-      case "J" -> Sign.JACK;
-      case "Q" -> Sign.QUEEN;
-      case "K" -> Sign.KING;
-      case "3" -> Sign.THREE;
-      case "2" -> Sign.TWO;
-      case "A" -> Sign.ACE;
+      case "7" -> Card.Sign.SEVEN;
+      case "8" -> Card.Sign.EIGHT;
+      case "9" -> Card.Sign.NINE;
+      case "T" -> Card.Sign.TEN;
+      case "J" -> Card.Sign.JACK;
+      case "Q" -> Card.Sign.QUEEN;
+      case "K" -> Card.Sign.KING;
+      case "3" -> Card.Sign.THREE;
+      case "2" -> Card.Sign.TWO;
+      case "A" -> Card.Sign.ACE;
       default -> throw new UnknownSignException(string);
     };
   }

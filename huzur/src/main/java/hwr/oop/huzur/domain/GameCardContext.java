@@ -1,5 +1,7 @@
 package hwr.oop.huzur.domain;
 
+import hwr.oop.huzur.domain.cards.Card;
+import hwr.oop.huzur.domain.cards.Card.Color;
 import java.util.Comparator;
 
 public interface GameCardContext {

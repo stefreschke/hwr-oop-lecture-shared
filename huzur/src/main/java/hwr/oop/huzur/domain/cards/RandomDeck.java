@@ -1,23 +1,22 @@
-package hwr.oop.huzur.domain;
+package hwr.oop.huzur.domain.cards;
 
-import hwr.oop.huzur.domain.cards.CardFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class RandomDeck implements Deck {
+final class RandomDeck implements Deck {
 
   private final List<Card> cards;
 
-  public RandomDeck() {
+  RandomDeck() {
     final var mutableCards = new ArrayList<>(new CardFactory().createAllCards().toList());
     Collections.shuffle(mutableCards);
     this.cards = Collections.unmodifiableList(mutableCards);
   }
 
   @Override
-  public Stream<Card> cards() {
+  public Stream<Card> peek() {
     return cards.stream();
   }
 

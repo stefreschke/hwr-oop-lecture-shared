@@ -2,8 +2,8 @@ package hwr.oop.huzur.tests.domain;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import hwr.oop.huzur.domain.Color;
-import hwr.oop.huzur.domain.Sign;
+import hwr.oop.huzur.domain.cards.Card.Color;
+import hwr.oop.huzur.domain.cards.Card.Sign;
 import hwr.oop.huzur.domain.cards.Joker;
 import hwr.oop.huzur.domain.cards.NormalCard;
 import java.util.stream.Stream;

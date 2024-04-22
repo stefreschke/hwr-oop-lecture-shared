@@ -1,28 +1,22 @@
-package hwr.oop.huzur.domain;
+package hwr.oop.huzur.domain.cards;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class UnshuffledDeck implements Deck {
+final class UnshuffledDeck implements Deck {
 
   private final List<Card> cards;
 
-  public static Deck of(List<Card> cards) {
+  static Deck of(List<Card> cards) {
     return new UnshuffledDeck(cards);
   }
 
-  public static Deck of(Card... cards) {
-    return new UnshuffledDeck(Arrays.asList(cards));
-  }
-
-  private UnshuffledDeck(List<Card> cards) {
-    // nothing to do here
+  UnshuffledDeck(List<Card> cards) {
     this.cards = cards;
   }
 
   @Override
-  public Stream<Card> cards() {
+  public Stream<Card> peek() {
     return cards.stream();
   }
 

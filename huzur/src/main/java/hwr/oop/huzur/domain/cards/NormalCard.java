@@ -1,9 +1,6 @@
 package hwr.oop.huzur.domain.cards;
 
 
-import hwr.oop.huzur.domain.Card;
-import hwr.oop.huzur.domain.Color;
-import hwr.oop.huzur.domain.Sign;
 import java.util.Objects;
 
 public record NormalCard(Color color, Sign sign) implements Card {

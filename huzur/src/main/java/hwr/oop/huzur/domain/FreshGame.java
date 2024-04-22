@@ -1,6 +1,10 @@
 package hwr.oop.huzur.domain;
 
-import hwr.oop.huzur.domain.Deck.DrawFromDeckResult;
+import hwr.oop.huzur.domain.cards.Card;
+import hwr.oop.huzur.domain.cards.Card.Color;
+import hwr.oop.huzur.domain.cards.Deck;
+import hwr.oop.huzur.domain.cards.Deck.DrawFromDeckResult;
+import hwr.oop.huzur.domain.layouts.Layout;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class FreshNewGame implements Game {
+final class FreshGame implements Game {
 
   private static final int NUMBER_OF_CARDS_PER_PLAYER = 7;
   private final Color trump;
@@ -17,13 +21,13 @@ public class FreshNewGame implements Game {
   private final Deck deck;
   private final Map<Player, List<Card>> handCards;
 
-  public FreshNewGame(Color trump, List<Player> players) {
+  FreshGame(Color trump, List<Player> players) {
     if (players.size() < 2) {
       throw new IllegalArgumentException("Game requires at least two players");
     }
     this.trump = trump;
     this.players = players;
-    final var randomDeck = new RandomDeck();
+    final var randomDeck = Deck.random();
     final var drawResult = randomDeck.draw(players.size() * NUMBER_OF_CARDS_PER_PLAYER);
     this.deck = drawResult.deck();
     this.handCards = buildHandCardsMap(players, drawResult);
@@ -33,7 +37,6 @@ public class FreshNewGame implements Game {
   public Color trump() {
     return trump;
   }
-
 
   @Override
   public Stream<Player> players() {
@@ -51,7 +54,7 @@ public class FreshNewGame implements Game {
 
   @Override
   public Stream<Card> remainingDeck() {
-    return deck.cards();
+    return deck.peek();
   }
 
   @Override
@@ -79,12 +82,22 @@ public class FreshNewGame implements Game {
     return null;
   }
 
+  @Override
+  public boolean gameIsOver() {
+    return false;
+  }
+
+  @Override
+  public Optional<Player> winner() {
+    return Optional.empty();
+  }
+
   private Map<Player, List<Card>> buildHandCardsMap(List<Player> players,
       DrawFromDeckResult drawResult) {
     final Map<Player, List<Card>> freshMap = new HashMap<>();
     IntStream.range(0, players.size()).forEach(i -> {
       final var player = players.get(i);
-      final var cards = drawResult.cards()
+      final var cards = drawResult.cards().toList()
           .subList(i * NUMBER_OF_CARDS_PER_PLAYER, i * NUMBER_OF_CARDS_PER_PLAYER + 7);
       freshMap.put(player, Collections.unmodifiableList(cards));
     });

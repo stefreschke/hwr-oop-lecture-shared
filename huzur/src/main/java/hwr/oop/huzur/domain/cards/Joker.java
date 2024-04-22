@@ -1,9 +1,5 @@
 package hwr.oop.huzur.domain.cards;
 
-import hwr.oop.huzur.domain.Card;
-import hwr.oop.huzur.domain.Color;
-import hwr.oop.huzur.domain.Sign;
-
 public record Joker(int strength) implements Card {
 
 

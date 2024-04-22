@@ -6,13 +6,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import hwr.oop.huzur.domain.Color;
-import hwr.oop.huzur.domain.Deck;
-import hwr.oop.huzur.domain.RandomDeck;
-import hwr.oop.huzur.domain.Sign;
-import hwr.oop.huzur.domain.UnshuffledDeck;
+import hwr.oop.huzur.domain.cards.Card.Color;
+import hwr.oop.huzur.domain.cards.Card.Sign;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.domain.cards.CardFactory;
+import hwr.oop.huzur.domain.cards.Deck;
 import hwr.oop.huzur.domain.cards.Joker;
 import hwr.oop.huzur.domain.cards.NormalCard;
 import hwr.oop.huzur.tests.ErrorHandlingTag;
@@ -34,8 +32,8 @@ class RandomAndShuffledDecksTest {
   @Test
   void randomDeck_ContainsAllHuzurCards() {
     final var allCards = cardFactory.createAllCards().toList();
-    final var randomDeck = new RandomDeck();
-    final var result = randomDeck.cards();
+    final var randomDeck = Deck.random();
+    final var result = randomDeck.peek();
     assertSoftly(softly -> {
       softly.assertThat(result)
           .containsExactlyInAnyOrderElementsOf(allCards);
@@ -44,13 +42,13 @@ class RandomAndShuffledDecksTest {
 
   @Test
   void randomDeck_IsNotEmpty() {
-    final var deck = new RandomDeck();
+    final var deck = Deck.random();
     assertThat(deck.isEmpty()).isFalse();
   }
 
   @Test
   void randomDeck_Draw42Cards_IsEmpty() {
-    final var deck = new RandomDeck();
+    final var deck = Deck.random();
     final var result = deck.draw(42);
     final var updatedDeck = result.deck();
     assertThat(updatedDeck.isEmpty()).isTrue();
@@ -59,8 +57,8 @@ class RandomAndShuffledDecksTest {
   @Test
   void randomDeck_Shuffles() {
     final var allCards = cardFactory.createAllCards().toList();
-    final var randomDeck = new RandomDeck();
-    final var cards = randomDeck.cards().toList();
+    final var randomDeck = Deck.random();
+    final var cards = randomDeck.peek().toList();
     assertThat(cards)
         .isNotEmpty()
         .doesNotContainSequence(allCards);
@@ -68,9 +66,9 @@ class RandomAndShuffledDecksTest {
 
   @Test
   void randomDeck_ObservationDoesNotChangeState() {
-    final var randomDeck = new RandomDeck();
-    final var first = randomDeck.cards().toList();
-    final var second = randomDeck.cards().toList();
+    final var randomDeck = Deck.random();
+    final var first = randomDeck.peek().toList();
+    final var second = randomDeck.peek().toList();
     assertThat(first).containsExactlyElementsOf(second);
   }
 
@@ -78,8 +76,8 @@ class RandomAndShuffledDecksTest {
   void unshuffledDeck_ContainsExactlyTheProvidedCards() {
     final var converter = new CardConverter();
     final var parsedCards = converter.parseCards("J1,HA,S7,D9,CJ,J2");
-    final var doubleDeck = UnshuffledDeck.of(parsedCards);
-    final var cards = doubleDeck.cards();
+    final var doubleDeck = Deck.unshuffled(parsedCards);
+    final var cards = doubleDeck.peek();
     assertThat(cards).hasSize(6).containsSequence(
         Joker.first(), new NormalCard(Color.HEARTS, Sign.ACE),
         new NormalCard(Color.SPADES, Sign.SEVEN), new NormalCard(Color.DIAMONDS, Sign.NINE),
@@ -93,42 +91,42 @@ class RandomAndShuffledDecksTest {
   )
   void randomDeck_Draw_FirstCardIsRemovedInUpdate_OldDeckImmutable() {
     // if ever flaky, replace with fixed randomization test
-    final var originalDeck = new RandomDeck();
-    final var firstCard = originalDeck.cards().findFirst().orElseThrow();
+    final var originalDeck = Deck.random();
+    final var firstCard = originalDeck.peek().findFirst().orElseThrow();
     final var deckSize = originalDeck.remainingCards();
     final var drawResult = originalDeck.draw();
     final var updatedDeck = drawResult.deck();
     final SoftAssertions soft = new SoftAssertions();
-    soft.assertThat(originalDeck.cards()).hasSize(deckSize).contains(firstCard);
-    soft.assertThat(updatedDeck.cards()).hasSize(deckSize - 1).doesNotContain(firstCard);
+    soft.assertThat(originalDeck.peek()).hasSize(deckSize).contains(firstCard);
+    soft.assertThat(updatedDeck.peek()).hasSize(deckSize - 1).doesNotContain(firstCard);
     soft.assertAll();
   }
 
   @Test
   void unshuffledDeckOfTwoCards_Draw_FirstCardRemoved_OldDeckImmutable() {
-    final var originalDeck = UnshuffledDeck.of(
+    final var originalDeck = Deck.unshuffled(
         new NormalCard(Color.HEARTS, Sign.SEVEN),
         new NormalCard(Color.HEARTS, Sign.EIGHT)
     );
-    final var firstCard = originalDeck.cards().findFirst().orElseThrow();
+    final var firstCard = originalDeck.peek().findFirst().orElseThrow();
     final var deckSize = originalDeck.remainingCards();
     final var drawResult = originalDeck.draw();
     final var updatedDeck = drawResult.deck();
     final var soft = new SoftAssertions();
-    soft.assertThat(originalDeck.cards()).hasSize(deckSize).contains(firstCard);
-    soft.assertThat(updatedDeck.cards()).hasSize(deckSize - 1).doesNotContain(firstCard);
+    soft.assertThat(originalDeck.peek()).hasSize(deckSize).contains(firstCard);
+    soft.assertThat(updatedDeck.peek()).hasSize(deckSize - 1).doesNotContain(firstCard);
     soft.assertAll();
   }
 
   @Test
   void unshuffledDeck_OneCardLeft_Draw_FirstCardRemoved_OldDeckImmutable() {
-    final var originalDeck = UnshuffledDeck.of(
+    final var originalDeck = Deck.unshuffled(
         new NormalCard(Color.HEARTS, Sign.SEVEN)
     );
     final var drawResult = originalDeck.draw();
     final var updatedDeck = drawResult.deck();
     final SoftAssertions soft = new SoftAssertions();
-    soft.assertThat(updatedDeck.cards()).isEmpty();
+    soft.assertThat(updatedDeck.peek()).isEmpty();
     soft.assertThat(updatedDeck.isEmpty()).isTrue();
     soft.assertAll();
   }
@@ -136,15 +134,15 @@ class RandomAndShuffledDecksTest {
   @Test
   @ErrorHandlingTag
   void unshuffledDeck_EmptyDeck_Draw_Exception() {
-    final var originalDeck = UnshuffledDeck.of(Collections.emptyList());
+    final var originalDeck = Deck.unshuffled(Collections.emptyList());
     assertThatThrownBy(originalDeck::draw)
         .hasMessageContainingAll("empty", "can not draw");
   }
 
   @Test
   void randomDeck_ContainsAll42HuzurCards() {
-    final var randomDeck = new RandomDeck();
-    final var cards = randomDeck.cards();
+    final var randomDeck = Deck.random();
+    final var cards = randomDeck.peek();
     assertThat(cards)
         .hasSize(42)
         // all colors
@@ -170,7 +168,7 @@ class RandomAndShuffledDecksTest {
   @Test
   @ErrorHandlingTag
   void randomDeck_Draw43Cards_Exception() {
-    final var deck = new RandomDeck();
+    final var deck = Deck.random();
     assertThatThrownBy(() -> deck.draw(43))
         .hasMessageContainingAll("42 cards remaining", "draw 43 cards");
   }
@@ -178,7 +176,7 @@ class RandomAndShuffledDecksTest {
   @Test
   @ErrorHandlingTag
   void unshuffledDeck_ThreeCards_DrawFour_Exception() {
-    final Deck deck = UnshuffledDeck.of(
+    final Deck deck = Deck.unshuffled(
         new NormalCard(Color.HEARTS, Sign.TWO),
         new NormalCard(Color.HEARTS, Sign.THREE),
         new NormalCard(Color.HEARTS, Sign.SEVEN)
@@ -189,7 +187,7 @@ class RandomAndShuffledDecksTest {
 
   @Test
   void unshuffledDeck_ThreeCards_DrawTwo() {
-    final Deck deck = UnshuffledDeck.of(
+    final Deck deck = Deck.unshuffled(
         new NormalCard(Color.HEARTS, Sign.TWO),
         new NormalCard(Color.HEARTS, Sign.THREE),
         new NormalCard(Color.HEARTS, Sign.SEVEN)

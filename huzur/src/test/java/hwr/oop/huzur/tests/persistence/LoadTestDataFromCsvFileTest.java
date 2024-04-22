@@ -2,13 +2,13 @@ package hwr.oop.huzur.tests.persistence;
 
 import static hwr.oop.huzur.tests.Utils.resourceAsPath;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import hwr.oop.huzur.domain.Color;
 import hwr.oop.huzur.domain.Player;
+import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.persistence.CsvFilePersistenceAdapter;
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -40,9 +40,34 @@ class LoadTestDataFromCsvFileTest {
 
 
   @Test
-  @Disabled("Loading layouts not yet implemented")
-  void load1337_NoLayout() {
-    fail("Loading layouts not yet implemented");
+  void load42_InitialLayout_ContainingThreeCards() {
+    final var layoutCards = converter.parseCards("D7,S7,S8");
+    final var game = sut.loadById("42");
+    final var layout = game.currentLayout().orElseThrow();
+    assertSoftly(softly -> {
+      softly.assertThat(layout.cards()).containsExactlyInAnyOrderElementsOf(layoutCards);
+      softly.assertThat(layout.hiddenCards()).isEmpty();
+      softly.assertThat(layout.startingPlayer()).isEqualTo(alpha);
+    });
+  }
+
+  @Test
+  void load43_HasLayout() {
+    final var layoutCards = converter.parseCards("D7,S7,S8");
+    final var game = sut.loadById("43");
+    final var layout = game.currentLayout().orElseThrow();
+    assertSoftly(softly -> {
+      softly.assertThat(layout.cards()).containsExactlyInAnyOrderElementsOf(layoutCards);
+      softly.assertThat(layout.hiddenCards()).isEmpty();
+      softly.assertThat(layout.startingPlayer()).isEqualTo(alpha);
+    });
+  }
+
+  @Test
+  void load1337_CurrentlyNoLayout() {
+    final var game = sut.loadById("1337");
+    final var optional = game.currentLayout();
+    assertThat(optional).isNotPresent();
   }
 
   @Test
@@ -71,7 +96,7 @@ class LoadTestDataFromCsvFileTest {
     final var handCardsAlpha = game.handOf(alpha).cards();
     final var handCardsBeta = game.handOf(beta).cards();
     final var handCardsGamma = game.handOf(gamma).cards();
-    SoftAssertions.assertSoftly(softly -> {
+    assertSoftly(softly -> {
       softly.assertThat(handCardsAlpha).containsExactlyElementsOf(
           converter.parseCards("D7,D8,D9,S7,S8,S9,J1")
       );

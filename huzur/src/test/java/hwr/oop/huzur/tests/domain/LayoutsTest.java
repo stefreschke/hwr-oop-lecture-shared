@@ -5,8 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.junit.jupiter.api.Assertions.fail;
 
-import hwr.oop.huzur.domain.Color;
-import hwr.oop.huzur.domain.FixedHandGame;
+import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.Game;
 import hwr.oop.huzur.domain.Player;
 import hwr.oop.huzur.domain.cards.CardConverter;
@@ -15,7 +14,6 @@ import hwr.oop.huzur.tests.TestSetupTest;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class LayoutsTest {
@@ -238,9 +236,65 @@ class LayoutsTest {
   }
 
   @Test
-  @Disabled("Exception if wrong player plays not yet implemented")
-  void outOfTurn_Exception() {
-      fail("Exception if wrong player plays not yet implemented");
+  @ErrorHandlingTag
+  void alphaPlays_GammaAnswersOutOfTurn_Exception() {
+    final var alpha = Player.id("alpha");
+    final var gamma = Player.id("gamma");
+    final var layoutCards = List.of(converter.convert("H7"));
+    final var answerCards = List.of(converter.convert("HA"));
+    final var afterAlpha = fixture.play(alpha, layoutCards);
+    assertThatThrownBy(() -> afterAlpha.play(gamma, answerCards))
+        .hasMessageContainingAll("gamma", "out of turn", "next player", "beta");
+  }
+
+  @Test
+  @ErrorHandlingTag
+  void alphaPlaysThreeCards_BetaAnswersOnlyWithTwo_Exception() {
+    final var alpha = Player.id("alpha");
+    final var beta = Player.id("beta");
+    final var layoutCards = converter.parseCards("H7,S7,D9");
+    final var answerCards = converter.parseCards("H3,S3");
+    final var afterAlpha = fixture.play(alpha, layoutCards);
+    assertThatThrownBy(() -> afterAlpha.play(beta, answerCards))
+        .hasMessageContainingAll("not enough cards", "got 2", "required 3");
+  }
+
+  @Test
+  @ErrorHandlingTag
+  void alphaPlaysThreeCards_BetaAnswersWithFour_Exception() {
+    final var alpha = Player.id("alpha");
+    final var beta = Player.id("beta");
+    final var layoutCards = converter.parseCards("H7,S7,D9");
+    final var answerCards = converter.parseCards("H3,S3,D3,J2");
+    final var afterAlpha = fixture.play(alpha, layoutCards);
+    assertThatThrownBy(() -> afterAlpha.play(beta, answerCards))
+        .hasMessageContainingAll("too many cards", "got 4", "required 3");
+  }
+
+  @Test
+  void alphaBetaGammaPlay_LayoutEmptied_StillGammasTurn() {
+    final var alpha = Player.id("alpha");
+    final var beta = Player.id("beta");
+    final var gamma = Player.id("gamma");
+    final var layoutCards = converter.parseCards("H7,S7,D9");
+    final var answerCards = converter.parseCards("H3,S3,D3");
+    final var finishCards = converter.parseCards("HA,SA,DA");
+    // when
+    final var afterGamma = fixture
+        .play(alpha, layoutCards)
+        .play(beta, answerCards)
+        .play(gamma, finishCards);
+    // then
+    final var layoutOptional = afterGamma.currentLayout();
+    assertSoftly(softly -> {
+      softly.assertThat(afterGamma.turn()).isEqualTo(gamma);
+      softly.assertThat(layoutOptional).isEmpty();
+      softly.assertThat(afterGamma.handOf(alpha).numberOfCards()).isEqualTo(4);
+      softly.assertThat(afterGamma.handOf(beta).numberOfCards()).isEqualTo(4);
+      softly.assertThat(afterGamma.handOf(gamma).numberOfCards()).isEqualTo(4);
+      softly.assertThat(afterGamma.handOf(gamma).containsCards(layoutCards)).isFalse();
+      softly.assertThat(afterGamma.handOf(gamma).containsCards(answerCards)).isFalse();
+    });
   }
 
 
@@ -249,7 +303,7 @@ class LayoutsTest {
     final var beta = Player.id("beta");
     final var gamma = Player.id("gamma");
     final var converter = new CardConverter();
-    return FixedHandGame.newBuilder()
+    return Game.newBuilder()
         .playerOrder(alpha, beta, gamma)
         .player(alpha).hasCards(converter.parseCards("H7,S7,D9,HT,ST,DJ,J1"))
         .player(beta).hasCards(converter.parseCards("H3,S3,D3,HK,SK,DK,J2"))

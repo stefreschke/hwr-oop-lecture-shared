@@ -1,5 +1,7 @@
-package hwr.oop.huzur.domain;
+package hwr.oop.huzur.domain.layouts;
 
+import hwr.oop.huzur.domain.Player;
+import hwr.oop.huzur.domain.cards.Card;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,26 +11,31 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-class InitialLayout implements Layout {
+final class InitialLayout implements Layout {
 
   private final Player player;
   private final List<Card> cards;
   private final Map<Card, List<Card>> partnerMap;
+  private final int numberOfPlayers;
+  private final LayoutType type;
+  private final int numberOfCards;
 
-  InitialLayout(Player player, List<Card> cards) {
+  InitialLayout(int numberOfPlayers, Player player, List<Card> cards) {
     Objects.requireNonNull(player);
     Objects.requireNonNull(cards);
 
+    this.numberOfPlayers = numberOfPlayers;
     this.player = player;
     this.cards = cards;
     this.partnerMap = buildPartnerMap(cards);
     Objects.requireNonNull(partnerMap);
 
+    this.type = LayoutType.of(cards);
+    this.numberOfCards = cards.size();
     assertValidNumberOfPairs(cards);
   }
 
   private void assertValidNumberOfPairs(List<Card> cards) {
-    final var type = LayoutType.of(cards);
     final var accountedFor = new ArrayList<Card>();
     partnerMap.forEach((key, values) -> {
       final var match = values.stream()
@@ -74,32 +81,19 @@ class InitialLayout implements Layout {
     return Stream.empty();
   }
 
-  private enum LayoutType {
-    SINGLE(0), THREE(1), FIVE(2);
-
-    private final int pairsRequired;
-
-    LayoutType(int pairsRequired) {
-      this.pairsRequired = pairsRequired;
-    }
-
-    private int pairsRequired() {
-      return pairsRequired;
-    }
-
-    private static LayoutType of(int numberOfCards) {
-      return switch (numberOfCards) {
-        case 1 -> SINGLE;
-        case 3 -> THREE;
-        case 5 -> FIVE;
-        default -> throw new IllegalArgumentException(
-            String.format("Invalid number of cards, got %d cards, but expected any of {1, 3, 5}",
-                numberOfCards));
-      };
-    }
-
-    private static LayoutType of(List<Card> cards) {
-      return of(cards.size());
-    }
+  @Override
+  public boolean isFinished() {
+    return false;
   }
+
+  @Override
+  public int numberOfPlayers() {
+    return numberOfPlayers;
+  }
+
+  @Override
+  public int numberOfCards() {
+    return numberOfCards;
+  }
+
 }

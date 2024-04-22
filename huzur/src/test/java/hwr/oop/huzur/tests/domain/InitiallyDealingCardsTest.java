@@ -4,12 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import hwr.oop.huzur.domain.Color;
-import hwr.oop.huzur.domain.FixedHandGame;
-import hwr.oop.huzur.domain.FixedHandGame.FixedHandBuilder;
-import hwr.oop.huzur.domain.FreshNewGame;
+import hwr.oop.huzur.domain.FixedGameBuilder;
+import hwr.oop.huzur.domain.Game;
 import hwr.oop.huzur.domain.HandOfPlayer;
 import hwr.oop.huzur.domain.Player;
+import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.tests.ErrorHandlingTag;
 import hwr.oop.huzur.tests.TestSetupTest;
@@ -36,7 +35,7 @@ class InitiallyDealingCardsTest {
 
   @Test
   void newGame_FourPlayer_ReturnsSetPlayers() {
-    final var game = new FreshNewGame(Color.HEARTS, List.of(alpha, beta, gamma));
+    final var game = Game.fresh(Color.HEARTS).playedBy(List.of(alpha, beta, gamma));
     final var players = game.players();
     assertThat(players).contains(alpha, beta, gamma);
   }
@@ -44,7 +43,7 @@ class InitiallyDealingCardsTest {
   @Test
   @ErrorHandlingTag
   void newGame_OnlyOnePlayer_Exception() {
-    assertThatThrownBy(() -> new FreshNewGame(Color.HEARTS, List.of(alpha)))
+    assertThatThrownBy(() -> Game.fresh(Color.HEARTS).playedBy(List.of(alpha)))
         .hasMessageContainingAll("at least two players");
   }
 
@@ -71,28 +70,21 @@ class InitiallyDealingCardsTest {
   @Test
   @ErrorHandlingTag
   void newGame_NoPlayers_Exception() {
-    assertThatThrownBy(() -> new FreshNewGame(Color.HEARTS, Collections.emptyList()))
+    assertThatThrownBy(() -> Game.fresh(Color.HEARTS).playedBy(Collections.emptyList()))
         .hasMessageContainingAll("at least two players");
   }
 
   @Test
   @ErrorHandlingTag
-  void handOfPlayer_WithoutCards_Exceptions() {
-    assertThatThrownBy(() -> new HandOfPlayer(new Player("alpha"), List.of()))
-        .hasMessageContainingAll("has no cards", "alpha");
-  }
-
-  @Test
-  @ErrorHandlingTag
   void newGame_HandOfUnknownPlayer_Exception() {
-    final var game = new FreshNewGame(Color.HEARTS, List.of(alpha, beta, gamma));
+    final var game = Game.fresh(Color.HEARTS).playedBy(List.of(alpha, beta, gamma));
     assertThatThrownBy(() -> game.handOf(Player.id("delta")))
         .hasMessageContainingAll("delta", "does not play");
   }
 
   @Test
   void newGame_ThreePlayers_EachPlayerHasSevenCards() {
-    final var game = new FreshNewGame(Color.HEARTS, List.of(alpha, beta, gamma));
+    final var game = Game.fresh(Color.HEARTS).playedBy(List.of(alpha, beta, gamma));
     assertSoftly(softly -> List.of(alpha, beta, gamma).forEach(player -> {
       final var handOfPlayer = game.handOf(player);
       final var cards = handOfPlayer.cards();
@@ -102,7 +94,7 @@ class InitiallyDealingCardsTest {
 
   @Test
   void newGame_TwoPlayers_28CardsLeft() {
-    final var deck = new FreshNewGame(Color.HEARTS, List.of(alpha, beta));
+    final var deck = Game.fresh(Color.HEARTS).playedBy(List.of(alpha, beta));
     final int remainingCards = deck.numberOfRemainingCards();
     final var cards = deck.remainingDeck();
     assertSoftly(softly -> {
@@ -113,7 +105,7 @@ class InitiallyDealingCardsTest {
 
   @Test
   void newGame_ThreePlayers_21CardsLeft() {
-    final var deck = new FreshNewGame(Color.HEARTS, List.of(alpha, beta, gamma));
+    final var deck = Game.fresh(Color.HEARTS).playedBy(List.of(alpha, beta, gamma));
     final int remainingCards = deck.numberOfRemainingCards();
     final var cards = deck.remainingDeck();
     assertSoftly(softly -> {
@@ -125,7 +117,7 @@ class InitiallyDealingCardsTest {
   @Test
   void newGame_FourPlayers_14CardsLeft() {
     final var delta = Player.id("delta");
-    final var deck = new FreshNewGame(Color.HEARTS, List.of(alpha, beta, gamma, delta));
+    final var deck = Game.fresh(Color.HEARTS).playedBy(List.of(alpha, beta, gamma, delta));
     final int remainingCards = deck.numberOfRemainingCards();
     final var cards = deck.remainingDeck();
     assertSoftly(softly -> {
@@ -136,9 +128,9 @@ class InitiallyDealingCardsTest {
 
   @Test
   void newGame_ThreePlayers_EachPlayerHasIndividualCards() {
-    final var game = new FreshNewGame(Color.HEARTS, List.of(alpha, beta, gamma));
+    final var game = Game.fresh(Color.HEARTS).playedBy(List.of(alpha, beta, gamma));
     final var allPlayersCards = Stream.of(alpha, beta, gamma).map(game::handOf)
-        .map(HandOfPlayer::cards).flatMap(List::stream).toList();
+        .flatMap(HandOfPlayer::cards).toList();
     final var distinctAllPlayerCards = allPlayersCards.stream().distinct();
     assertThat(distinctAllPlayerCards).hasSameSizeAs(allPlayersCards).hasSize(21);
   }
@@ -189,8 +181,8 @@ class InitiallyDealingCardsTest {
     });
   }
 
-  private FixedHandBuilder fixture() {
-    return FixedHandGame.newBuilder()
+  private FixedGameBuilder fixture() {
+    return Game.newBuilder()
         .player(alpha).hasCards(converter.parseCards("H7,S7,D9,HT,ST,DJ,J1"))
         .player(beta).hasCards(converter.parseCards("H3,S3,D3,HK,SK,DK,J2"))
         .player(gamma).hasCards(converter.parseCards("HA,SA,DA,H8,S8,H9,S9"))
