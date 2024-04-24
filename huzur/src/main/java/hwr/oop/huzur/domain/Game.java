@@ -16,6 +16,8 @@ public interface Game extends GameCardContext {
     return new FreshGameBuilder(trump);
   }
 
+  GameId id();
+
   Player turn();
 
   Stream<Player> players();

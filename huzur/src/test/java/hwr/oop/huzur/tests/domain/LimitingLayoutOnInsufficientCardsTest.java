@@ -5,12 +5,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import hwr.oop.huzur.domain.FixedGameBuilder;
 import hwr.oop.huzur.domain.Game;
-import hwr.oop.huzur.domain.layouts.LayoutType;
 import hwr.oop.huzur.domain.Player;
 import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.domain.cards.Deck;
 import hwr.oop.huzur.domain.cards.Joker;
+import hwr.oop.huzur.domain.layouts.LayoutType;
 import hwr.oop.huzur.tests.ErrorHandlingTag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,6 +91,7 @@ class LimitingLayoutOnInsufficientCardsTest {
 
   private FixedGameBuilder fixture() {
     return Game.newBuilder()
+        .id("1337")
         .playerOrder(turn, next)
         .player(turn).hasCards(converter.parseCards("H7,S7,D9,HT,ST,C9,H8"))
         .trump(Color.CLUBS)

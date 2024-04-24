@@ -4,6 +4,7 @@ import hwr.oop.huzur.domain.GameCardContext;
 import hwr.oop.huzur.domain.Player;
 import hwr.oop.huzur.domain.cards.Card;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -23,11 +24,15 @@ public interface Layout {
 
   int numberOfPlayers();
 
+  Player player();
+
   Player startingPlayer();
 
   Stream<Card> cards();
 
   Stream<Card> hiddenCards();
+
+  Optional<Layout> previous();
 
   default Stream<Card> allCards() {
     return Stream.concat(cards(), hiddenCards());

@@ -33,6 +33,11 @@ public record Joker(int strength) implements Card {
   }
 
   @Override
+  public String shortHandle() {
+    return strength <= 1337 ? "J2" : "J1";
+  }
+
+  @Override
   public boolean hasSign(Sign sign) {
     return false;
   }

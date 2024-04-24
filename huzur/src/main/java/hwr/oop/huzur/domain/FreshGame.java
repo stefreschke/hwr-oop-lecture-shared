@@ -10,86 +10,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 final class FreshGame implements Game {
 
   private static final int NUMBER_OF_CARDS_PER_PLAYER = 7;
-  private final Color trump;
-  private final List<Player> players;
-  private final Deck deck;
-  private final Map<Player, List<Card>> handCards;
+  private final Game wrapped;
 
   FreshGame(Color trump, List<Player> players) {
     if (players.size() < 2) {
       throw new IllegalArgumentException("Game requires at least two players");
     }
-    this.trump = trump;
-    this.players = players;
-    final var randomDeck = Deck.random();
-    final var drawResult = randomDeck.draw(players.size() * NUMBER_OF_CARDS_PER_PLAYER);
-    this.deck = drawResult.deck();
-    this.handCards = buildHandCardsMap(players, drawResult);
+    wrapped = createNewGame(trump, players);
   }
 
-  @Override
-  public Color trump() {
-    return trump;
-  }
-
-  @Override
-  public Stream<Player> players() {
-    return players.stream();
-  }
-
-  @Override
-  public HandOfPlayer handOf(Player player) {
-    if (!handCards.containsKey(player)) {
-      final var message = String.format("Player %s does not play in hand", player);
-      throw new IllegalArgumentException(message);
-    }
-    return new HandOfPlayer(player, handCards.get(player));
-  }
-
-  @Override
-  public Stream<Card> remainingDeck() {
-    return deck.peek();
-  }
-
-  @Override
-  public int numberOfRemainingCards() {
-    return deck.remainingCards();
-  }
-
-  @Override
-  public Player turn() {
-    return null;
-  }
-
-  @Override
-  public Game play(Player player, List<Card> cards) {
-    return null;
-  }
-
-  @Override
-  public Optional<Layout> currentLayout() {
-    return Optional.empty();
-  }
-
-  @Override
-  public Game pickup(Player player) {
-    return null;
-  }
-
-  @Override
-  public boolean gameIsOver() {
-    return false;
-  }
-
-  @Override
-  public Optional<Player> winner() {
-    return Optional.empty();
+  private Game createNewGame(Color trump, List<Player> players) {
+    final var newID = UUID.randomUUID();
+    final var drawResult = Deck.random().draw(players.size() * NUMBER_OF_CARDS_PER_PLAYER);
+    final var deck = drawResult.deck();
+    final var handCards = buildHandCardsMap(players, drawResult);
+    final var builder = Game.newBuilder()
+        .id(newID.toString())
+        .noLayout()
+        .deck(deck)
+        .turn(players.getFirst())
+        .trump(trump)
+        .playerOrder(players);
+    handCards.forEach((p, cs) -> builder.player(p).hasCards(cs));
+    return builder.build();
   }
 
   private Map<Player, List<Card>> buildHandCardsMap(List<Player> players,
@@ -102,5 +52,65 @@ final class FreshGame implements Game {
       freshMap.put(player, Collections.unmodifiableList(cards));
     });
     return freshMap;
+  }
+
+  @Override
+  public Color trump() {
+    return wrapped.trump();
+  }
+
+  @Override
+  public Stream<Player> players() {
+    return wrapped.players();
+  }
+
+  @Override
+  public HandOfPlayer handOf(Player player) {
+    return wrapped.handOf(player);
+  }
+
+  @Override
+  public Stream<Card> remainingDeck() {
+    return wrapped.remainingDeck();
+  }
+
+  @Override
+  public int numberOfRemainingCards() {
+    return wrapped.numberOfRemainingCards();
+  }
+
+  @Override
+  public GameId id() {
+    return wrapped.id();
+  }
+
+  @Override
+  public Player turn() {
+    return wrapped.turn();
+  }
+
+  @Override
+  public Optional<Layout> currentLayout() {
+    return wrapped.currentLayout();
+  }
+
+  @Override
+  public Game play(Player player, List<Card> cards) {
+    return wrapped.play(player, cards);
+  }
+
+  @Override
+  public Game pickup(Player player) {
+    return wrapped.pickup(player);
+  }
+
+  @Override
+  public boolean gameIsOver() {
+    return wrapped.gameIsOver();
+  }
+
+  @Override
+  public Optional<Player> winner() {
+    return wrapped.winner();
   }
 }

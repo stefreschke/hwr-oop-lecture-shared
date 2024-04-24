@@ -22,8 +22,10 @@ final class FixedGame implements Game {
   private final Deck deck;
   private final Player turn;
   private final Layout layout;
+  private final GameId gameId;
 
   FixedGame(
+      GameId gameId,
       Color trump,
       List<Player> players,
       Map<Player, List<Card>> handCards,
@@ -31,12 +33,14 @@ final class FixedGame implements Game {
       Player turn,
       Layout layout
   ) {
+    Objects.requireNonNull(gameId);
     Objects.requireNonNull(trump);
     Objects.requireNonNull(handCards);
     Objects.requireNonNull(deck);
     Objects.requireNonNull(turn);
     assertNoDuplicateCards(handCards, deck);
 
+    this.gameId = gameId;
     this.trump = trump;
     this.players = players;
     this.handCards = Collections.unmodifiableMap(handCards);
@@ -71,6 +75,11 @@ final class FixedGame implements Game {
   @Override
   public int numberOfRemainingCards() {
     return deck.remainingCards();
+  }
+
+  @Override
+  public GameId id() {
+    return gameId;
   }
 
   @Override
@@ -227,6 +236,7 @@ final class FixedGame implements Game {
 
   private FixedGameBuilder copy() {
     return Game.newBuilder()
+        .id(gameId)
         .trump(trump)
         .deck(deck.peek())
         .playerOrder(players)

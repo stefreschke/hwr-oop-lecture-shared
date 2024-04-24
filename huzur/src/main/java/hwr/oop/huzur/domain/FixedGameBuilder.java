@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 public final class FixedGameBuilder {
 
   private final Map<Player, List<Card>> map;
+  private GameId gameId;
   private Color trump;
   private Deck deck;
   private Player turn;
@@ -21,6 +22,16 @@ public final class FixedGameBuilder {
 
   FixedGameBuilder() {
     this.map = new HashMap<>();
+  }
+
+  public FixedGameBuilder id(GameId gameId) {
+    this.gameId = gameId;
+    return this;
+  }
+
+  public FixedGameBuilder id(String gameId) {
+    this.gameId = GameId.of(gameId);
+    return this;
   }
 
   public FixedGameBuilder trump(Color color) {
@@ -87,6 +98,6 @@ public final class FixedGameBuilder {
   }
 
   public Game build() {
-    return new FixedGame(trump, players, map, deck, turn, layout);
+    return new FixedGame(gameId, trump, players, map, deck, turn, layout);
   }
 }

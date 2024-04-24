@@ -183,6 +183,7 @@ class InitiallyDealingCardsTest {
 
   private FixedGameBuilder fixture() {
     return Game.newBuilder()
+        .id("1337")
         .player(alpha).hasCards(converter.parseCards("H7,S7,D9,HT,ST,DJ,J1"))
         .player(beta).hasCards(converter.parseCards("H3,S3,D3,HK,SK,DK,J2"))
         .player(gamma).hasCards(converter.parseCards("HA,SA,DA,H8,S8,H9,S9"))

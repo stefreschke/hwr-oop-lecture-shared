@@ -1,9 +1,36 @@
 package hwr.oop.huzur.domain.cards;
 
+import hwr.oop.huzur.domain.cards.Card.Color;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public final class CardConverter {
+
+  private final Map<String, Card> handleMap;
+  private final Map<Character, Color> colorHandleMap;
+
+  public CardConverter() {
+    this.handleMap = createMap();
+    this.colorHandleMap = createColorHandleMap();
+  }
+
+  private Map<Character, Color> createColorHandleMap() {
+    return Color.all().stream().collect(Collectors.toMap(
+        Color::handle,
+        Function.identity()
+    ));
+  }
+
+  private Map<String, Card> createMap() {
+    final var cardFactory = new CardFactory();
+    return cardFactory.createAllCards().collect(Collectors.toMap(
+        Card::shortHandle,
+        Function.identity()
+    ));
+  }
 
   public List<Card> parseCards(String cardsString) {
     return Arrays.stream(cardsString.split(","))
@@ -14,43 +41,20 @@ public final class CardConverter {
     if (string.length() != 2) {
       throw new InvalidCardStringFormatException(string);
     }
-    return switch (string) {
-      case "J1" -> Joker.first();
-      case "J2" -> Joker.second();
-      default -> convertNonJokerCard(string);
-    };
+    if (handleMap.containsKey(string)) {
+      return handleMap.get(string);
+    } else {
+      throw new UnknownCardException(string);
+    }
   }
 
-  private Card convertNonJokerCard(String string) {
-    final var first = string.substring(0, 1);
-    final var second = string.substring(1, 2);
-    return new NormalCard(convertColor(first), convertSign(second));
-  }
-
-  public Card.Color convertColor(String string) {
-    return switch (string) {
-      case "C" -> Card.Color.CLUBS;
-      case "S" -> Card.Color.SPADES;
-      case "H" -> Card.Color.HEARTS;
-      case "D" -> Card.Color.DIAMONDS;
-      default -> throw new UnknownColorException(string);
-    };
-  }
-
-  private Card.Sign convertSign(String string) {
-    return switch (string) {
-      case "7" -> Card.Sign.SEVEN;
-      case "8" -> Card.Sign.EIGHT;
-      case "9" -> Card.Sign.NINE;
-      case "T" -> Card.Sign.TEN;
-      case "J" -> Card.Sign.JACK;
-      case "Q" -> Card.Sign.QUEEN;
-      case "K" -> Card.Sign.KING;
-      case "3" -> Card.Sign.THREE;
-      case "2" -> Card.Sign.TWO;
-      case "A" -> Card.Sign.ACE;
-      default -> throw new UnknownSignException(string);
-    };
+  public Color convertColor(String string) {
+    final char asChar = string.charAt(0);
+    if (colorHandleMap.containsKey(asChar)) {
+      return colorHandleMap.get(asChar);
+    } else {
+      throw new UnknownColorException(string);
+    }
   }
 
   private static class InvalidCardStringFormatException extends RuntimeException {
@@ -60,17 +64,17 @@ public final class CardConverter {
     }
   }
 
+  private static class UnknownCardException extends RuntimeException {
+
+    public UnknownCardException(String colorString) {
+      super("Cannot convert Card, got: " + colorString);
+    }
+  }
+
   private static class UnknownColorException extends RuntimeException {
 
     public UnknownColorException(String colorString) {
       super("Cannot convert Color, got: " + colorString);
-    }
-  }
-
-  private static class UnknownSignException extends RuntimeException {
-
-    public UnknownSignException(String signString) {
-      super("Cannot convert Sign, got: " + signString);
     }
   }
 }

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -94,6 +95,16 @@ final class InitialLayout implements Layout {
   @Override
   public int numberOfCards() {
     return numberOfCards;
+  }
+
+  @Override
+  public Optional<Layout> previous() {
+    return Optional.empty();
+  }
+
+  @Override
+  public Player player() {
+    return player;
   }
 
 }

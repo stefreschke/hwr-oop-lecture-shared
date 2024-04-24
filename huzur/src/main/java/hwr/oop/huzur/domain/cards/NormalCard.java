@@ -41,6 +41,11 @@ public record NormalCard(Color color, Sign sign) implements Card {
   }
 
   @Override
+  public String shortHandle() {
+    return String.valueOf("" + color.handle() + sign.handle());
+  }
+
+  @Override
   public String toString() {
     return "Card{" + sign + " of " + color + "}";
   }

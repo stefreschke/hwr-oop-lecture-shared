@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -19,6 +20,8 @@ final class AnswerLayout implements Layout {
   private final int numberOfPlayers;
   private final int numberOfCards;
   private final Player startingPlayer;
+  private final Layout previous;
+  private final Player player;
 
   AnswerLayout(Layout previous, GameCardContext context, Player player, List<Card> cards) {
     Objects.requireNonNull(previous);
@@ -30,6 +33,8 @@ final class AnswerLayout implements Layout {
     this.numberOfCards = previous.numberOfCards();
     this.startingPlayer = previous.startingPlayer();
     this.hiddenCards = previous.allCards().toList();
+    this.previous = previous;
+    this.player = player;
 
     assertCorrectNumberOfCards();
     assertCardsStrongEnough(previous, context.strenghtComparator());
@@ -112,5 +117,15 @@ final class AnswerLayout implements Layout {
   @Override
   public int numberOfCards() {
     return numberOfCards;
+  }
+
+  @Override
+  public Optional<Layout> previous() {
+    return Optional.ofNullable(previous);
+  }
+
+  @Override
+  public Player player() {
+    return player;
   }
 }

@@ -3,11 +3,10 @@ package hwr.oop.huzur.tests.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static org.junit.jupiter.api.Assertions.fail;
 
-import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.Game;
 import hwr.oop.huzur.domain.Player;
+import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.tests.ErrorHandlingTag;
 import hwr.oop.huzur.tests.TestSetupTest;
@@ -304,6 +303,7 @@ class LayoutsTest {
     final var gamma = Player.id("gamma");
     final var converter = new CardConverter();
     return Game.newBuilder()
+        .id("1337")
         .playerOrder(alpha, beta, gamma)
         .player(alpha).hasCards(converter.parseCards("H7,S7,D9,HT,ST,DJ,J1"))
         .player(beta).hasCards(converter.parseCards("H3,S3,D3,HK,SK,DK,J2"))

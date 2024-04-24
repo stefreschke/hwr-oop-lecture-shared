@@ -108,13 +108,13 @@ class StringShortcutsForCardsTest {
   @ErrorHandlingTag
   void convert_ColorL_UnknownColor_Exception() {
     assertThatThrownBy(() -> converter.convert("LA"))
-        .hasMessageContainingAll("L", "Cannot convert Color");
+        .hasMessageContainingAll("L", "Cannot convert");
   }
 
   @Test
   @ErrorHandlingTag
   void convert_SignL_UnknownSign_Exception() {
     assertThatThrownBy(() -> converter.convert("DL"))
-        .hasMessageContainingAll("L", "Cannot convert Sign");
+        .hasMessageContainingAll("L", "Cannot convert");
   }
 }

@@ -1,12 +1,13 @@
 package hwr.oop.huzur.persistence;
 
+import hwr.oop.huzur.application.GameRepository;
 import hwr.oop.huzur.domain.Game;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 
-public class CsvFilePersistenceAdapter {
+public final class CsvFilePersistenceAdapter implements GameRepository {
 
   private final Path csvFilePath;
 
@@ -14,6 +15,7 @@ public class CsvFilePersistenceAdapter {
     this.csvFilePath = csvFilePath;
   }
 
+  @Override
   public Game loadById(String id) {
     Optional<String> result;
     try (var stuff = Files.newBufferedReader(csvFilePath)) {
@@ -33,4 +35,12 @@ public class CsvFilePersistenceAdapter {
     }
   }
 
+  @Override
+  public void save(Game game) {
+    try (final var writer = Files.newBufferedWriter(csvFilePath)) {
+      writer.append(CsvRow.fromGame(game).toString());
+    } catch (IOException e) {
+      throw new IllegalStateException("Could not save game " + game, e);
+    }
+  }
 }

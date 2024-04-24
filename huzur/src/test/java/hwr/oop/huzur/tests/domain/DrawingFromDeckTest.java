@@ -2,9 +2,9 @@ package hwr.oop.huzur.tests.domain;
 
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.Game;
 import hwr.oop.huzur.domain.Player;
+import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -90,6 +90,7 @@ class DrawingFromDeckTest {
 
   private Game fixture() {
     return Game.newBuilder()
+        .id("1337")
         .playerOrder(alpha, beta, gamma)
         .player(alpha).hasCards(converter.parseCards("H7,S7,D9,HT,ST,DJ,H8"))
         .player(beta).hasCards(converter.parseCards("H3,S3,D3,HK,SK,DK,S8"))
