@@ -3,8 +3,8 @@ package hwr.oop.huzur.tests.persistence.csv;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-import hwr.oop.huzur.application.LoadGamePort;
-import hwr.oop.huzur.application.SaveGamePort;
+import hwr.oop.huzur.application.ports.out.LoadGamePort;
+import hwr.oop.huzur.application.ports.out.SaveGamePort;
 import hwr.oop.huzur.domain.Game;
 import hwr.oop.huzur.domain.Player;
 import hwr.oop.huzur.domain.cards.Card.Color;
@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -156,6 +157,31 @@ class NewCsvFileTest {
           .isEqualTo(fixture.turn());
       softly.assertThat(loaded.currentLayout()).isEmpty();
     });
+  }
+
+  @Test
+  void saveUpdateAndOriginal_LoadReturnsUpdate() {
+    // given
+    final var original = Game.fresh(Color.CLUBS).playedBy(alpha, beta, gamma);
+    final var randomCardOfAlpha = original.handOf(alpha).cards().findFirst().orElseThrow();
+    final var updated = original.play(alpha, List.of(randomCardOfAlpha));
+    // when
+    saveGamePort.save(original);
+    final var firstLoad = loadGamePort.loadById(original.id().value());
+    saveGamePort.save(updated);
+    final var secondLoad = loadGamePort.loadById(original.id().value());
+    // then
+    assertSoftly(softly -> {
+      softly.assertThat(firstLoad)
+          .isNotNull()
+          .matches(f -> f.turn().equals(alpha), "first load, alpha is turn")
+          .matches(f -> f.currentLayout().isEmpty(), "first load, no layout");
+      softly.assertThat(secondLoad)
+          .isNotNull()
+          .matches(s -> s.turn().equals(beta), "second load, beta is turn")
+          .matches(s -> s.currentLayout().isPresent(), "second load, layout available");
+    });
+
   }
 
   private Game fixture() {

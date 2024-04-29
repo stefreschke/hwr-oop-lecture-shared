@@ -4,7 +4,7 @@ import static hwr.oop.huzur.tests.Utils.resourceAsPath;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import hwr.oop.huzur.application.LoadGamePort;
+import hwr.oop.huzur.application.ports.out.LoadGamePort;
 import hwr.oop.huzur.domain.Player;
 import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.CardConverter;

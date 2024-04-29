@@ -42,6 +42,8 @@ public interface Layout {
     return (int) allCards().count();
   }
 
+  boolean finishedOnPlay();
+
   class AnswerBuilder {
 
     private final Layout previous;

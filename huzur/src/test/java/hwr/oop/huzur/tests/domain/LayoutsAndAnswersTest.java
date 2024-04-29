@@ -15,7 +15,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class LayoutsTest {
+class LayoutsAndAnswersTest {
 
   private CardConverter converter;
   private Game fixture;
@@ -81,6 +81,7 @@ class LayoutsTest {
       softly.assertThat(layout.startingPlayer()).isEqualTo(alpha);
       softly.assertThat(layout.cards()).contains(card);
       softly.assertThat(layout.hiddenCards()).isEmpty();
+      softly.assertThat(layout.finishedOnPlay()).isFalse();
     });
   }
 
@@ -167,6 +168,7 @@ class LayoutsTest {
       softly.assertThat(layout.startingPlayer()).isEqualTo(alpha);
       softly.assertThat(layout.cards()).containsExactlyInAnyOrderElementsOf(answerCards);
       softly.assertThat(layout.hiddenCards()).containsExactlyInAnyOrderElementsOf(layoutCards);
+      softly.assertThat(layout.finishedOnPlay()).isTrue();
       softly.assertThat(handOfAlpha.numberOfCards()).isEqualTo(4);
       softly.assertThat(handOfAlpha.containsCards(layoutCards)).isFalse();
       softly.assertThat(handOfBeta.numberOfCards()).isEqualTo(4);

@@ -98,6 +98,11 @@ final class InitialLayout implements Layout {
   }
 
   @Override
+  public boolean finishedOnPlay() {
+    return numberOfPlayers == 2;
+  }
+
+  @Override
   public Optional<Layout> previous() {
     return Optional.empty();
   }

@@ -120,6 +120,11 @@ final class AnswerLayout implements Layout {
   }
 
   @Override
+  public boolean finishedOnPlay() {
+    return allCards().count() + numberOfCards == (long) numberOfCards * numberOfPlayers;
+  }
+
+  @Override
   public Optional<Layout> previous() {
     return Optional.ofNullable(previous);
   }

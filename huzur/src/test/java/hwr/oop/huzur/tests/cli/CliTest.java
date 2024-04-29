@@ -6,8 +6,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
-import hwr.oop.huzur.application.LoadGamePort;
-import hwr.oop.huzur.application.SaveGamePort;
+import hwr.oop.huzur.application.ports.out.LoadGamePort;
+import hwr.oop.huzur.application.ports.out.SaveGamePort;
 import hwr.oop.huzur.cli.Cli;
 import java.io.ByteArrayOutputStream;
 import java.util.List;

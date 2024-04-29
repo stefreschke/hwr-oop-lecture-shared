@@ -157,7 +157,7 @@ public final class CsvRow {
       if (layout == null) {
         layout = parseFirstLayout(layoutPart, playerCount);
       } else {
-        layout = parseFollowingLayouts(layout, layoutPart, trump);
+        layout = parseSubsequentLayout(layout, layoutPart, trump);
       }
     }
     return layout;
@@ -170,7 +170,7 @@ public final class CsvRow {
     return Layout.initial(numberOfPlayers, player, cards);
   }
 
-  private Layout parseFollowingLayouts(Layout previous, String layoutString, Color trump) {
+  private Layout parseSubsequentLayout(Layout previous, String layoutString, Color trump) {
     final var parts = Arrays.asList(layoutString.split("-"));
     final var player = Player.id(parts.getFirst());
     final var cards = converter.parseCards(parts.getLast());

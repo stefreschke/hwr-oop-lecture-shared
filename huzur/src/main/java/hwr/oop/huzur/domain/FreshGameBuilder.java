@@ -1,6 +1,7 @@
 package hwr.oop.huzur.domain;
 
 import hwr.oop.huzur.domain.cards.Card.Color;
+import java.util.Arrays;
 import java.util.List;
 
 public final class FreshGameBuilder {
@@ -13,5 +14,9 @@ public final class FreshGameBuilder {
 
   public Game playedBy(List<Player> players) {
     return new FreshGame(trump, players);
+  }
+
+  public Game playedBy(Player... players) {
+    return playedBy(Arrays.asList(players));
   }
 }
