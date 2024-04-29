@@ -16,8 +16,6 @@ public class Party {
 
   public void takePlace() {
     Map<PartyGuest, Alcohol> alcPerPartyGuest = alcohol.splitFor(guests);
-    alcPerPartyGuest.forEach((g, a) -> g.consume(a));
-
-
+    alcPerPartyGuest.forEach(PartyGuest::consume);
   }
 }

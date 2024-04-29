@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -13,25 +14,37 @@ class LoopsExampleTest {
   @Test
   void forEachLoop() {
     final List<Integer> numbers = List.of(1, 2, 3, 4);
+    final List<Integer> iterated = new ArrayList<>();
     for (Integer number : numbers) {
-      System.out.println(number);
+      iterated.add(number);
     }
+    assertThat(iterated)
+        .containsExactlyElementsOf(numbers)
+        .containsSequence(numbers);
   }
 
   @Test
   void streamAPILoop() {
     final List<Integer> numbers = List.of(1, 2, 3, 4);
-    numbers.forEach(number -> System.out.println(number));
+    final List<Integer> iterated = new ArrayList<>();
+    numbers.forEach(number -> iterated.add(number));
+    assertThat(iterated)
+        .containsExactlyElementsOf(numbers)
+        .containsSequence(numbers);
   }
 
   @Test
   void iteratorLoop() {
     final List<Integer> numbers = List.of(1, 2, 3, 4);
+    final List<Integer> iterated = new ArrayList<>();
     final Iterator<Integer> iterator = numbers.iterator();
     while (iterator.hasNext()) {
       final Integer number = iterator.next();
-      System.out.println(number);
+      iterated.add(number);
     }
+    assertThat(iterated)
+        .containsExactlyElementsOf(numbers)
+        .containsSequence(numbers);
   }
 
   @Test

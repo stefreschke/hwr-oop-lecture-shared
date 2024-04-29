@@ -3,7 +3,7 @@
     <module name="examples" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="hwr.oop.examples.*" />
+        <option name="PATTERN" value="hwr.oop.examples.cli.InputOutputCliTest" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

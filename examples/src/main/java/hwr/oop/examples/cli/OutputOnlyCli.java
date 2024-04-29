@@ -4,8 +4,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.List;
 
-// Just as a static class, to have a gist one pager.
-// This is SUT. Thus, it should be under src/main!
 public class OutputOnlyCli {
 
   private final PrintStream out;

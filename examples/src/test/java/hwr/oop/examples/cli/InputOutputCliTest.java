@@ -25,6 +25,7 @@ class InputOutputCliTest {
   }
 
   @Test
+  @SuppressWarnings("java:S2699")
   @Disabled("This is a manual tests, thus it should not be part of our test suite")
   void manualTest() {
     final var ui = new InputOutputCli(System.out, System.in);

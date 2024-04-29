@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 class HelloWorldTest {
 
   @Test
+  @SuppressWarnings("java:S2699")
   void helloWorld() {
     System.out.println("Hello World");
   }

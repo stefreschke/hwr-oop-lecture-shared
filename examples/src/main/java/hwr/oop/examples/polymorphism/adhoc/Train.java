@@ -44,14 +44,14 @@ public class Train {
   }
 
   // Varargs approach
-  public void attachCar(Wagon... Wagons) {
-    List<Wagon> WagonList = Arrays.asList(Wagons);
-    this.wagons.addAll(WagonList);
+  public void attachCar(Wagon... wagons) {
+    List<Wagon> wagonList = Arrays.asList(wagons);
+    this.wagons.addAll(wagonList);
   }
 
   // equal to varargs (under the hood)
-  public void attachCarAsArray(Wagon[] Wagons) {
-    List<Wagon> WagonList = Arrays.asList(Wagons);
-    this.wagons.addAll(WagonList);
+  public void attachCarAsArray(Wagon[] wagons) {
+    List<Wagon> wagonList = Arrays.asList(wagons);
+    this.wagons.addAll(wagonList);
   }
 }

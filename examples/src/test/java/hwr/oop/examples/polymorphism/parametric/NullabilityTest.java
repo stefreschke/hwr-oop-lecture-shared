@@ -3,7 +3,7 @@ package hwr.oop.examples.polymorphism.parametric;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class NullabilityTest {
+class NullabilityTest {
 
   @Test
   void nullCheck_differentOrders_NullCheckIsOrderDependent() {

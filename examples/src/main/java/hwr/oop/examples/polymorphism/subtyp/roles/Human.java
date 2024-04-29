@@ -32,6 +32,7 @@ public class Human implements Student, Worker, PartyGuest {
   }
 
   @Override
+  @SuppressWarnings("java:S106")
   public Alcohol bloodAlcohol() {
     bloodAlcohol.ifOver9000(() -> System.out.println(
         "ITS OVER 9000!!!!1! (https://youtu.be/QsDDXSmGJZA?t=52)"));

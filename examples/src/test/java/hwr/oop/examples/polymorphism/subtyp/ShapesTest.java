@@ -85,13 +85,6 @@ class ShapesTest {
       assertThat(numberOfSides).isEqualTo(4);
     }
 
-    @Test
-    void quadrangle_comparable() {
-      Comparable<Quadrangle> first = new Rectangle(1, 2);
-      Comparable<Quadrangle> second = new Rectangle(1, 2);
-
-    }
   }
-
 
 }

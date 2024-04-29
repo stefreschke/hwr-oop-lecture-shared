@@ -5,8 +5,6 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-// Just as a static class, to have a gist one pager.
-// This is SUT. Thus, it should be under src/main!
 public class InputOutputCli {
 
   private final PrintStream out;

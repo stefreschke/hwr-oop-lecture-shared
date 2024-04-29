@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 class LambdaTest {
 
   @Test
+  @SuppressWarnings("java:S2699")
   void runnable() {
     Runnable r = () -> System.out.println("Hello World!");
     r.run();
@@ -28,6 +29,7 @@ class LambdaTest {
   }
 
   @Test
+  @SuppressWarnings("java:S2699")
   void consumer() {
     Consumer<String> consumer = s -> System.out.println("Hello " + s + "!");
     consumer.accept("Stefan");
