@@ -22,4 +22,12 @@ public final class NewGameService implements NewGameUseCase {
     final var newGame = Game.fresh(convertedTrump).playedBy(convertedPlayers);
     saveGamePort.save(newGame);
   }
+
+  @Override
+  public void newGame(String id, String trump, List<String> players) {
+    final var convertedPlayers = players.stream().map(Player::id).toList();
+    final var convertedTrump = Color.valueOf(trump.toUpperCase());
+    final var newGame = Game.fresh(id, convertedTrump).playedBy(convertedPlayers);
+    saveGamePort.save(newGame);
+  }
 }

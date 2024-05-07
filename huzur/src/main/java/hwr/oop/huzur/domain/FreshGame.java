@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -19,20 +18,19 @@ final class FreshGame implements Game {
   private static final int NUMBER_OF_CARDS_PER_PLAYER = 7;
   private final Game wrapped;
 
-  FreshGame(Color trump, List<Player> players) {
+  FreshGame(String id, Color trump, List<Player> players) {
     if (players.size() < 2) {
       throw new IllegalArgumentException("Game requires at least two players");
     }
-    wrapped = createNewGame(trump, players);
+    wrapped = createNewGame(id, trump, players);
   }
 
-  private Game createNewGame(Color trump, List<Player> players) {
-    final var newID = UUID.randomUUID();
+  private Game createNewGame(String newID, Color trump, List<Player> players) {
     final var drawResult = Deck.random().draw(players.size() * NUMBER_OF_CARDS_PER_PLAYER);
     final var deck = drawResult.deck();
     final var handCards = buildHandCardsMap(players, drawResult);
     final var builder = Game.newBuilder()
-        .id(newID.toString())
+        .id(newID)
         .noLayout()
         .deck(deck)
         .turn(players.getFirst())

@@ -30,6 +30,18 @@ class CreateNewGameUseCaseTest {
   ArgumentCaptor<Game> gameArgumentCaptor;
 
   @Test
+  void idProvided_CorrectGameSaved() {
+    // when
+    newGameService.newGame("1337", "hearts", List.of("alpha", "beta"));
+    // then
+    verify(saveGamePort).save(gameArgumentCaptor.capture());
+    final var savedGame = gameArgumentCaptor.getValue();
+    assertThat(savedGame)
+        .isNotNull()
+        .matches(g -> g.id().value().equals("1337"), "id is 1337");
+  }
+
+  @Test
   void trumpHearts_PlayersAlphaBeta_CorrectGameSaved() {
     // when
     newGameService.newGame("hearts", List.of("alpha", "beta"));

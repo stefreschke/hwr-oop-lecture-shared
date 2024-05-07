@@ -1,27 +1,43 @@
 package hwr.oop.huzur.cli;
 
-import hwr.oop.huzur.application.ports.out.LoadGamePort;
-import hwr.oop.huzur.application.ports.out.SaveGamePort;
-import hwr.oop.huzur.domain.Game;
-import hwr.oop.huzur.domain.Player;
-import hwr.oop.huzur.domain.cards.Card.Color;
+import hwr.oop.huzur.application.ports.in.NewGameUseCase;
 import java.io.PrintStream;
 import java.util.List;
+import java.util.Objects;
 
-final class NewGameCommand implements Command {
+final class NewGameCommand implements MutableCommand {
 
-  private final List<Player> players;
-  private final Color trump;
+  private final NewGameUseCase newGameUseCase;
+  private String trump;
+  private String gameId;
+  private List<String> players;
 
-  public NewGameCommand(String trump, List<String> players) {
-    this.players = players.stream().map(Player::id).toList();
-    this.trump = Color.valueOf(trump.toUpperCase());
+  public NewGameCommand(NewGameUseCase newGameUseCase) {
+    this.newGameUseCase = newGameUseCase;
   }
 
   @Override
-  public void invoke(PrintStream out, SaveGamePort saveGamePort, LoadGamePort loadGamePort) {
-    final var newGame = Game.fresh(trump).playedBy(players);
-    saveGamePort.save(newGame);
-    out.println("Created new game with id: " + newGame.id().value());
+  public void parse(List<String> arguments) {
+    this.gameId = arguments.get(2);
+    this.trump = arguments.get(4);
+    this.players = arguments.subList(6, arguments.size());
+  }
+
+  @Override
+  public boolean isApplicable(List<String> arguments) {
+    return arguments.size() >= 8
+        && arguments.get(1).equals("id")
+        && arguments.get(3).equals("trump")
+        && arguments.get(5).equals("players");
+  }
+
+  @Override
+  public void invoke(PrintStream out) {
+    Objects.requireNonNull(gameId);
+    Objects.requireNonNull(trump);
+    Objects.requireNonNull(players);
+
+    newGameUseCase.newGame(gameId, trump, players);
+    out.println("Created new game with id: " + gameId);
   }
 }

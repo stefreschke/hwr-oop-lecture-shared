@@ -1,13 +1,22 @@
 package hwr.oop.huzur.cli;
 
-import hwr.oop.huzur.application.ports.out.LoadGamePort;
-import hwr.oop.huzur.application.ports.out.SaveGamePort;
 import java.io.PrintStream;
+import java.util.List;
 
-public final class HelpCommand implements Command {
+public final class HelpCommand implements MutableCommand {
 
   @Override
-  public void invoke(PrintStream out, SaveGamePort saveGamePort, LoadGamePort loadGamePort) {
+  public void parse(List<String> arguments) {
+    // nothing to do
+  }
 
+  @Override
+  public boolean isApplicable(List<String> arguments) {
+    return arguments.getFirst().equals("help");
+  }
+
+  @Override
+  public void invoke(PrintStream out) {
+    // nothing to do
   }
 }

@@ -1,5 +1,6 @@
 package hwr.oop.huzur.application;
 
+import hwr.oop.huzur.application.ports.in.PickupStackOnGameUseCase;
 import hwr.oop.huzur.application.ports.in.PlayOnGameUseCase;
 import hwr.oop.huzur.application.ports.out.LoadGamePort;
 import hwr.oop.huzur.application.ports.out.SaveGamePort;
@@ -7,7 +8,7 @@ import hwr.oop.huzur.domain.Player;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import java.util.List;
 
-public final class PlayOnGameService implements PlayOnGameUseCase {
+public final class PlayOnGameService implements PlayOnGameUseCase, PickupStackOnGameUseCase {
 
   private final LoadGamePort loadGamePort;
   private final SaveGamePort saveGamePort;

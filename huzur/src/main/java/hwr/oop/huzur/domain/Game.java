@@ -16,6 +16,10 @@ public interface Game extends GameCardContext {
     return new FreshGameBuilder(trump);
   }
 
+  static FreshGameBuilder fresh(String id, Card.Color trump) {
+    return new FreshGameBuilder(id, trump);
+  }
+
   GameId id();
 
   Player turn();
