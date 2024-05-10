@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.fail;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Cool Stack, with Parameterization on Class")
+@DisplayName("Generics: Cool Stack, with Parameterization on Class")
 class GenericStackTest {
 
   @Test
@@ -51,7 +51,7 @@ class GenericStackTest {
       // then
       fail("Stack empty, but still got: " + someTrain);
     } catch (Exception e) {
-      e.printStackTrace();
+      // happy path, nothing to do
     }
   }
 

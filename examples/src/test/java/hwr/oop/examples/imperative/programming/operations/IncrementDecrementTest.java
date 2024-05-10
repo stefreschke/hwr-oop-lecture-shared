@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Increment/Decrement Operators (++, --)")
+@DisplayName("Primitives: Increment/Decrement Operators (++, --)")
 class IncrementDecrementTest {
 
   @Test

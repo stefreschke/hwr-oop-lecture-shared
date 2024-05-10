@@ -6,7 +6,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("For Loop")
+@DisplayName("Foundations: For Loop")
 class ForLoopsTest {
 
   @Test
@@ -40,7 +40,7 @@ class ForLoopsTest {
 
   @Test
   void forEachLoop_EquivalentToForLoop_ButOnlyOnCollections() {
-    List<Integer> integers = List.of(1, 2, 3, 4);  // Collections, we'll do this later
+    List<Integer> integers = List.of(1, 2, 3, 4);
     integers.forEach((number) -> {
       System.out.println(number);
       assertThat(number).isBetween(1, 4);

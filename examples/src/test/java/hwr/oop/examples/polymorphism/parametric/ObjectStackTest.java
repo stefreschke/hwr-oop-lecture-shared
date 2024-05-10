@@ -6,7 +6,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOf
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Object based Stack, without Parameterization on Class")
+@DisplayName("Generics: Object based Stack, without Parameterization on Class")
 class ObjectStackTest {
 
   @Test

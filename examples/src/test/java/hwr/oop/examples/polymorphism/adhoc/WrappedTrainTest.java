@@ -3,9 +3,11 @@ package hwr.oop.examples.polymorphism.adhoc;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import org.assertj.core.util.Arrays;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class WrappedTrainTest {
+@DisplayName("Polymorphism: Adhoc: Varargs (Wagon... wagons)")
+class WrappedTrainTest {
 
   @Test
   void attachCar_Add1SingleWaggon_TrainHas1RailCars() {

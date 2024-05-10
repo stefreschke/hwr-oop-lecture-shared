@@ -7,14 +7,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("CLI: Input & Output (2023 and before)")
 class InputOutputCliTest {
 
   @Test
   void consoleUI_TypeThreeAndFour_OutputIsSeven() {
     // given
-    final var inputStream = createInputStreamForInput("3\n4\n");
+    final var inputInBytes = "3\n4\n".getBytes();
+    final var inputStream = (InputStream) new ByteArrayInputStream(inputInBytes);
     final var outputStream = new ByteArrayOutputStream();
     final var consoleUI = new InputOutputCli(outputStream, inputStream);
     // when
@@ -36,11 +39,6 @@ class InputOutputCliTest {
     final var outputText = outputStream.toString();
     final var key = "output:";
     return outputText.substring(outputText.indexOf(key) + key.length()).trim();
-  }
-
-  private InputStream createInputStreamForInput(String input) {
-    final var inputInBytes = input.getBytes();
-    return new ByteArrayInputStream(inputInBytes);
   }
 
 }

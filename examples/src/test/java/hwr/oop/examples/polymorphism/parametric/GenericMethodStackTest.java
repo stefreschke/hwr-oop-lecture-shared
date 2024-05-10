@@ -7,7 +7,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOf
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Semi-Cool Stack, with Parameterization on Method while hiding cast")
+@DisplayName("Generics: Semi-Cool Stack, with Parameterization on Method while hiding cast")
 class GenericMethodStackTest {
 
   @Test

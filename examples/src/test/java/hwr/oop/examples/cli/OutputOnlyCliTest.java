@@ -5,8 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.List;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("CLI: Output only (2024ff)")
 class OutputOnlyCliTest {
 
   @Test
@@ -33,5 +36,8 @@ class OutputOnlyCliTest {
     assertThat(outputText).contains("8");
   }
 
-
+  @Test
+  void main_DoesNotThrowException() {
+    Assertions.assertDoesNotThrow(() -> Main.main(new String[] {"3", "4"}));
+  }
 }

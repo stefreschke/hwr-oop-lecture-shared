@@ -1,12 +1,12 @@
 package hwr.oop.examples.polymorphism.subtyp.roles;
 
-public class Human implements Student, Worker, PartyGuest {
+public class DualStudent implements Student, Worker, PartyGuest {
 
   private String lastThingStudied;
   private Money earnings;
   private Alcohol bloodAlcohol;
 
-  public Human() {
+  public DualStudent() {
     this.earnings = Money.of(0);
     this.bloodAlcohol = Alcohol.none();
   }

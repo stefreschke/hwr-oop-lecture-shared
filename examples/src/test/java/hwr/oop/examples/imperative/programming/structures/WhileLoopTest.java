@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.fail;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("While Loop")
+@DisplayName("Foundations: While Loop")
 class WhileLoopTest {
 
   @Test

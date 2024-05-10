@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Brackets () manipulate Operator precedence")
+@DisplayName("Primitives: Brackets () manipulate Operator precedence")
 class BracketsTest {
 
   @Test

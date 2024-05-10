@@ -2,12 +2,15 @@ package hwr.oop.examples.polymorphism.subtyp;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("Polymorphism: Subtyping: Shapes")
 class ShapesTest {
 
   @Nested
+  @DisplayName("Squares")
   class SquareTest {
 
     @Test
@@ -52,6 +55,7 @@ class ShapesTest {
   }
 
   @Nested
+  @DisplayName("Rectangles")
   class RectangleTest {
 
     @Test

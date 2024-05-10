@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.fail;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Arrays, e.g. int[]{...}")
+@DisplayName("Containers: Arrays, e.g. int[]{...}")
 class ArraysTest {
 
   @Test

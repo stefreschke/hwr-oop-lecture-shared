@@ -5,8 +5,10 @@ import static org.assertj.core.api.Assertions.fail;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("java.util.Optionals: Explizites null-Handling")
 class OptionalTest {
 
   @Test

@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Class meta information (.class and #getClass)")
+@DisplayName("Object: Class meta information (.class and #getClass)")
 class MetaInformationTest {
 
   @Test

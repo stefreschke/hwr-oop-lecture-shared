@@ -4,22 +4,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import hwr.oop.examples.polymorphism.subtyp.roles.Alcohol;
 import hwr.oop.examples.polymorphism.subtyp.roles.Employer;
-import hwr.oop.examples.polymorphism.subtyp.roles.Human;
+import hwr.oop.examples.polymorphism.subtyp.roles.DualStudent;
 import hwr.oop.examples.polymorphism.subtyp.roles.Money;
 import hwr.oop.examples.polymorphism.subtyp.roles.Party;
 import hwr.oop.examples.polymorphism.subtyp.roles.PartyGuest;
 import hwr.oop.examples.polymorphism.subtyp.roles.Student;
 import hwr.oop.examples.polymorphism.subtyp.roles.Teacher;
 import hwr.oop.examples.polymorphism.subtyp.roles.Worker;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class InterfaceAsRolesTest {
+@DisplayName("Lose Kopplung: Duale Student*in")
+class DualStudentLooseCouplingExampleTest {
 
   @Test
   void humanAsStudent() {
     // given
-    Student studentA = new Human();
-    Student studentB = new Human();
+    Student studentA = new DualStudent();
+    Student studentB = new DualStudent();
     Teacher teacher = new Teacher(studentA, studentB);
     // when
     teacher.teach();
@@ -33,8 +35,8 @@ class InterfaceAsRolesTest {
   @Test
   void humanAsWorker() {
     // given
-    Worker workerA = new Human();
-    Worker workerB = new Human();
+    Worker workerA = new DualStudent();
+    Worker workerB = new DualStudent();
     Employer employer = new Employer(workerA, workerB);
     // when
     employer.forceWorkersToWorkFor(Money.of(5));
@@ -50,15 +52,15 @@ class InterfaceAsRolesTest {
   @Test
   void humanAsPartyGuest() {
     // given
-    PartyGuest humanA = new Human();
-    PartyGuest humanB = new Human();
+    PartyGuest partyGuestA = new DualStudent();
+    PartyGuest partyGuestB = new DualStudent();
     Alcohol alcohol = Alcohol.aLot();
-    Party party = new Party(alcohol, humanA, humanB);
+    Party party = new Party(alcohol, partyGuestA, partyGuestB);
     // when
     party.takePlace();
     // then
-    int alcoholA = humanA.bloodAlcohol().amount();
-    int alcoholB = humanB.bloodAlcohol().amount();
+    int alcoholA = partyGuestA.bloodAlcohol().amount();
+    int alcoholB = partyGuestB.bloodAlcohol().amount();
     assertThat(alcoholA).isGreaterThan(9000);
     assertThat(alcoholB).isGreaterThan(9000);
   }
