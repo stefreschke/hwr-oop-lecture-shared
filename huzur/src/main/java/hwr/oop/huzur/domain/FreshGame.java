@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -18,19 +19,25 @@ final class FreshGame implements Game {
   private static final int NUMBER_OF_CARDS_PER_PLAYER = 7;
   private final Game wrapped;
 
-  FreshGame(String id, Color trump, List<Player> players) {
+  FreshGame(String gameId, Color trump, List<Player> players) {
+    Objects.requireNonNull(gameId);
+    Objects.requireNonNull(trump);
+    assertValidNumberOfPlayers(players);
+    wrapped = createNewGame(gameId, trump, players);
+  }
+
+  private void assertValidNumberOfPlayers(List<Player> players) {
     if (players.size() < 2) {
       throw new IllegalArgumentException("Game requires at least two players");
     }
-    wrapped = createNewGame(id, trump, players);
   }
 
-  private Game createNewGame(String newID, Color trump, List<Player> players) {
+  private Game createNewGame(String gameId, Color trump, List<Player> players) {
     final var drawResult = Deck.random().draw(players.size() * NUMBER_OF_CARDS_PER_PLAYER);
     final var deck = drawResult.deck();
     final var handCards = buildHandCardsMap(players, drawResult);
     final var builder = Game.newBuilder()
-        .id(newID)
+        .id(gameId)
         .noLayout()
         .deck(deck)
         .turn(players.getFirst())
@@ -40,16 +47,20 @@ final class FreshGame implements Game {
     return builder.build();
   }
 
-  private Map<Player, List<Card>> buildHandCardsMap(List<Player> players,
-      DrawFromDeckResult drawResult) {
+  private Map<Player, List<Card>> buildHandCardsMap(
+      List<Player> players,
+      DrawFromDeckResult drawResult
+  ) {
     final Map<Player, List<Card>> freshMap = new HashMap<>();
-    IntStream.range(0, players.size()).forEach(i -> {
+    final int numberOfPlayers = players.size();
+    IntStream.range(0, numberOfPlayers).forEach(i -> {
       final var player = players.get(i);
       final var cards = drawResult.cards().toList()
           .subList(i * NUMBER_OF_CARDS_PER_PLAYER, i * NUMBER_OF_CARDS_PER_PLAYER + 7);
-      freshMap.put(player, Collections.unmodifiableList(cards));
+      final var immutableList = Collections.unmodifiableList(cards);
+      freshMap.put(player, immutableList);
     });
-    return freshMap;
+    return Collections.unmodifiableMap(freshMap);
   }
 
   @Override

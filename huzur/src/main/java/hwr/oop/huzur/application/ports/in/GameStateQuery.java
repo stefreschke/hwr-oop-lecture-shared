@@ -13,7 +13,9 @@ public interface GameStateQuery {
                       List<String> cardsToDrawOnPickup,
                       boolean layoutFinishedIfAnswered,
                       Map<String, Integer> remainingCardsInHand,
-                      int remainingCardsInDeck) {
+                      int remainingCardsInDeck,
+                      String trump
+  ) {
     // nothing else to do here
   }
 }

@@ -5,26 +5,23 @@ import hwr.oop.huzur.application.ports.in.NewGameUseCase;
 import hwr.oop.huzur.application.ports.in.PickupStackOnGameUseCase;
 import hwr.oop.huzur.application.ports.in.PlayOnGameUseCase;
 import java.util.List;
+import java.util.function.Supplier;
 
 final class ArgumentParser {
 
-  private final NewGameUseCase newGameUseCase;
-  private final PlayOnGameUseCase playOnGameUseCase;
-  private final PickupStackOnGameUseCase pickupStackOnGameUseCase;
-  private final GameStateQuery gameStateQuery;
   private final List<MutableCommand> commands;
 
-  public ArgumentParser(NewGameUseCase newGameUseCase, PlayOnGameUseCase playOnGameUseCase,
-      PickupStackOnGameUseCase pickupStackOnGameUseCase, GameStateQuery gameStateQuery) {
-
-    this.newGameUseCase = newGameUseCase;
-    this.playOnGameUseCase = playOnGameUseCase;
-    this.pickupStackOnGameUseCase = pickupStackOnGameUseCase;
-    this.gameStateQuery = gameStateQuery;
+  public ArgumentParser(
+      Supplier<NewGameUseCase> newGameUseCase,
+      Supplier<PlayOnGameUseCase> playOnGameUseCase,
+      Supplier<PickupStackOnGameUseCase> pickupStackOnGameUseCase,
+      Supplier<GameStateQuery> gameStateQuery
+  ) {
     this.commands = List.of(
         new HelpCommand(),
         new NewGameCommand(newGameUseCase),
-        new PlayOnGameCommand(playOnGameUseCase, pickupStackOnGameUseCase)
+        new PlayOnGameCommand(playOnGameUseCase, pickupStackOnGameUseCase),
+        new GameQueryCommand(gameStateQuery)
     );
   }
 

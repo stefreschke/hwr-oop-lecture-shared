@@ -1,14 +1,13 @@
 package hwr.oop.huzur.persistence;
 
-import hwr.oop.huzur.application.ports.out.LoadGamePort;
-import hwr.oop.huzur.application.ports.out.SaveGamePort;
+import hwr.oop.huzur.application.ports.out.GameRepository;
 import hwr.oop.huzur.domain.Game;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 
-public final class CsvFilePersistenceAdapter implements LoadGamePort, SaveGamePort {
+public final class CsvFilePersistenceAdapter implements GameRepository {
 
   private final Path csvFilePath;
   private final IOExceptionBomb ioExceptionBomb;

@@ -33,7 +33,8 @@ public final class GameStateQueryHandler implements GameStateQuery {
             Player::id,
             p -> game.handOf(p).numberOfCards()
         )),
-        game.numberOfRemainingCards()
+        game.numberOfRemainingCards(),
+        game.trump().toString()
     );
   }
 

@@ -17,17 +17,8 @@
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
     <!-- dependencies -->
-    <jcommander.version>1.83</jcommander.version>
     <maven-javadoc-plugin.version>3.6.3</maven-javadoc-plugin.version>
   </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.jcommander</groupId>
-      <artifactId>jcommander</artifactId>
-      <version>${jcommander.version}</version>
-    </dependency>
-  </dependencies>
 
   <build>
     <plugins>
@@ -37,7 +28,6 @@
         <version>${maven-javadoc-plugin.version}</version>
         <configuration>
           <source>${java.version}</source>
-          <target>${java.version}</target>
         </configuration>
       </plugin>
     </plugins>

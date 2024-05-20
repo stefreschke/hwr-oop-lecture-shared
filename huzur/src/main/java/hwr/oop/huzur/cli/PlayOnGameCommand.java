@@ -7,30 +7,31 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
-public class PlayOnGameCommand implements MutableCommand {
+public final class PlayOnGameCommand implements MutableCommand {
 
-  private final PlayOnGameUseCase playOnGameUseCase;
-  private final PickupStackOnGameUseCase pickupStackOnGameUseCase;
+  private final Supplier<PlayOnGameUseCase> playOnGameUseCase;
+  private final Supplier<PickupStackOnGameUseCase> pickupStackOnGameUseCase;
   private String gameId;
   private String playerId;
   private List<String> cards;
 
-  public PlayOnGameCommand(PlayOnGameUseCase playOnGameUseCase,
-      PickupStackOnGameUseCase pickupStackOnGameUseCase) {
+  public PlayOnGameCommand(Supplier<PlayOnGameUseCase> playOnGameUseCase,
+      Supplier<PickupStackOnGameUseCase> pickupStackOnGameUseCase) {
     this.playOnGameUseCase = playOnGameUseCase;
     this.pickupStackOnGameUseCase = pickupStackOnGameUseCase;
   }
 
   @Override
   public void parse(List<String> arguments) {
-    final var cardsStrings = parseCardStrings(arguments);
     this.gameId = arguments.get(2);
     this.playerId = arguments.get(4);
-    if (cardsStrings.getFirst().equalsIgnoreCase("pickup")) {
-      this.cards = Collections.emptyList();
+    final String playType = arguments.get(5);
+    if (playType.startsWith("play") || playType.startsWith("lay")) {
+      this.cards = parseCardStrings(arguments);
     } else {
-      this.cards = cardsStrings;
+      this.cards = Collections.emptyList();
     }
   }
 
@@ -44,17 +45,18 @@ public class PlayOnGameCommand implements MutableCommand {
   @Override
   public boolean isApplicable(List<String> arguments) {
     return arguments.size() >= 7 && arguments.getFirst().equals("on") && arguments.get(1)
-        .equals("game");
+        .equals("game") && arguments.get(3).equals("player") && (arguments.get(5).equals("lays")
+        || arguments.get(5).equals("plays") || arguments.get(5).equals("picks"));
   }
 
   @Override
   public void invoke(PrintStream out) {
     final boolean pickup = cards.isEmpty();
     if (pickup) {
-      pickupStackOnGameUseCase.pickup(gameId, playerId);
+      pickupStackOnGameUseCase.get().pickup(gameId, playerId);
       out.printf("player %s picked up stack on game %s%n", playerId, gameId);
     } else {
-      playOnGameUseCase.play(gameId, playerId, cards);
+      playOnGameUseCase.get().play(gameId, playerId, cards);
       out.printf("player %s lays %s on game %s%n", playerId, cards, gameId);
     }
   }

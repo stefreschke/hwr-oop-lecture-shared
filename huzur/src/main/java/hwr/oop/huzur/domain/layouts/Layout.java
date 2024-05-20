@@ -38,9 +38,7 @@ public interface Layout {
     return Stream.concat(cards(), hiddenCards());
   }
 
-  default int numberOfCards() {
-    return (int) allCards().count();
-  }
+  int numberOfCards();
 
   boolean finishedOnPlay();
 

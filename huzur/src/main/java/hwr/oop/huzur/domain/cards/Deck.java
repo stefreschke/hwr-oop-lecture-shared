@@ -21,7 +21,7 @@ public interface Deck {
   }
 
   static Deck unshuffled(Card... cards) {
-    return new UnshuffledDeck(Arrays.asList(cards));
+    return unshuffled(Arrays.asList(cards));
   }
 
   static Deck empty() {
@@ -65,7 +65,7 @@ public interface Deck {
     private final Deck deck;
     private final List<Card> cards;
 
-    public DrawFromDeckResult(Deck deck, List<Card> cards) {
+    DrawFromDeckResult(Deck deck, List<Card> cards) {
       Objects.requireNonNull(deck);
       Objects.requireNonNull(cards);
       this.deck = deck;

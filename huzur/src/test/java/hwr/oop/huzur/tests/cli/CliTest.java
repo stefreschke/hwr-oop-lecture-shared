@@ -1,16 +1,24 @@
 package hwr.oop.huzur.tests.cli;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import hwr.oop.huzur.application.ports.in.GameStateQuery;
+import hwr.oop.huzur.application.ports.in.GameStateQuery.GameStateDto;
 import hwr.oop.huzur.application.ports.in.NewGameUseCase;
 import hwr.oop.huzur.application.ports.in.PickupStackOnGameUseCase;
 import hwr.oop.huzur.application.ports.in.PlayOnGameUseCase;
+import hwr.oop.huzur.application.ports.out.GameRepository;
 import hwr.oop.huzur.cli.Cli;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.OutputStream;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,55 +40,113 @@ class CliTest {
   @Mock
   GameStateQuery gameStateQuery;
 
+  @Mock
+  Function<Path, GameRepository> gameRepositoryFunction;
+
+  @Mock
+  GameRepository gameRepository;
+
   private OutputStream outputStream;
   private Cli sut;
 
   @BeforeEach
   void setUp() {
     this.outputStream = new ByteArrayOutputStream();
-    this.sut = new Cli(outputStream, newGameUseCase, playOnGameUseCase,
-        pickupStackOnGameUseCase, gameStateQuery);
-  }
-
-  @Test
-  void debug_DisplaysHuzurMessage() {
-    sut.handle("--debug");
-    final var output = outputStream.toString();
-    assertThat(output)
-        .contains("Huzur")
-        .contains(List.of("--debug"));
+    when(gameRepositoryFunction.apply(any())).thenReturn(gameRepository);
+    this.sut = new Cli(
+        outputStream,
+        repo -> newGameUseCase,  // disregard repo, pass mocks
+        repo -> playOnGameUseCase,
+        repo -> pickupStackOnGameUseCase,
+        repo -> gameStateQuery,
+        gameRepositoryFunction
+    );
   }
 
   @Test
   void newGame_CreatesNewGame() {
     sut.handle("new_game", "id", "1337", "trump", "HEARTS", "players", "alpha",
-        "beta");
+        "beta", "--file", "example.csv");
     final var output = outputStream.toString();
     assertThat(output).contains("Created new game with id: 1337");
+    verify(gameRepositoryFunction).apply(pathOf("example.csv"));
     verify(newGameUseCase).newGame("1337", "HEARTS", List.of("alpha", "beta"));
   }
 
   @Test
   void onGamePLayerLays_SingleCard_PlaySingleCardUseCaseCalled() {
-    sut.handle("on", "game", "1337", "player", "alpha", "lays", "H7");
+    sut.handle("on", "game", "1337", "player", "alpha", "lays", "H7", "--file", "example.csv");
     final var output = outputStream.toString();
-    assertThat(output).contains("alpha", "lays", "H7");
+    assertThat(output).contains("alpha", "lays", "H7", "on game 1337");
+    verify(gameRepositoryFunction).apply(pathOf("example.csv"));
     verify(playOnGameUseCase).play("1337", "alpha", List.of("H7"));
   }
 
   @Test
   void onGamePlayerLays_ThreeCardsCommaSeparated_PlayThreeCardsUseCaseCalled() {
-    sut.handle("on", "game", "1337", "player", "alpha", "lays", "H7,S7,H8");
+    sut.handle("on", "game", "1337", "player", "alpha", "lays", "H7,S7,H8", "--file",
+        "example.csv");
     final var output = outputStream.toString();
-    assertThat(output).contains("alpha", "lays", "H7", "H8", "S7");
+    assertThat(output).contains("alpha", "lays", "H7", "H8", "S7", "on game 1337");
+    verify(gameRepositoryFunction).apply(pathOf("example.csv"));
     verify(playOnGameUseCase).play("1337", "alpha", List.of("H7", "S7", "H8"));
   }
 
   @Test
   void onGamePlayerLays_ThreeCardsSpaceSeparated_PlayThreeCardsUseCaseCalled() {
-    sut.handle("on", "game", "1337", "player", "alpha", "lays", "H7", "S7", "H8");
+    sut.handle("on", "game", "1337", "player", "alpha", "lays", "H7", "S7", "H8", "--file",
+        "example.csv");
     final var output = outputStream.toString();
-    assertThat(output).contains("alpha", "lays", "H7", "H8", "S7");
+    assertThat(output).contains("alpha", "lays", "H7", "H8", "S7", "on game 1337");
+    verify(gameRepositoryFunction).apply(pathOf("example.csv"));
     verify(playOnGameUseCase).play("1337", "alpha", List.of("H7", "S7", "H8"));
+  }
+
+  @Test
+  void onGamePlayerPicksUp_PickupCalled() {
+    sut.handle("on", "game", "1337", "player", "beta", "picks", "up", "--file", "example.csv");
+    final var output = outputStream.toString();
+    assertThat(output).contains("beta", "picked up", "on game 1337");
+    verify(gameRepositoryFunction).apply(pathOf("example.csv"));
+    verify(pickupStackOnGameUseCase).pickup("1337", "beta");
+  }
+
+  @Test
+  void gameState_QueryCalled() {
+    final var gameStateDtoFixture = new GameStateDto(
+        "alpha",
+        List.of("AH", "AC", "AD"),
+        List.of("2H", "2C", "2D"),
+        List.of("2H", "2C", "2D"),
+        false,
+        Map.of(
+            "alpha", 3,
+            "beta", 4,
+            "gamma", 5
+        ),
+        0,
+        "HEARTS"
+    );
+    when(gameStateQuery.gameStateOf("1337")).thenReturn(gameStateDtoFixture);
+    sut.handle("on", "game", "1337", "state", "--file", "example.csv");
+    final var output = outputStream.toString();
+    assertThat(output).contains(
+        "turn: alpha", "hand: AH,AC,AD", "layout: 2H,2C,2D",
+        "cards to pickup from layout (3): 2H,2C,2D",
+        "trump: HEARTS", "remaining Deck: empty",
+        "beta has 4 cards remaining", "gamma has 5 cards remaining"
+    );
+    verify(gameStateQuery).gameStateOf("1337");
+  }
+
+  @Test
+  void file_ArgumentUsedByCsvAdapter() {
+    final var csvFileString = "src/test/resources/loadExampleTest.csv";
+    sut.handle("--file", csvFileString);
+    verify(gameRepositoryFunction).apply(pathOf(csvFileString));
+  }
+
+  private Path pathOf(String filename) {
+    return new File(filename).toPath();
   }
 }

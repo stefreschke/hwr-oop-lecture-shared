@@ -4,15 +4,16 @@ import hwr.oop.huzur.application.ports.in.NewGameUseCase;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 final class NewGameCommand implements MutableCommand {
 
-  private final NewGameUseCase newGameUseCase;
+  private final Supplier<NewGameUseCase> newGameUseCase;
   private String trump;
   private String gameId;
   private List<String> players;
 
-  public NewGameCommand(NewGameUseCase newGameUseCase) {
+  public NewGameCommand(Supplier<NewGameUseCase> newGameUseCase) {
     this.newGameUseCase = newGameUseCase;
   }
 
@@ -37,7 +38,7 @@ final class NewGameCommand implements MutableCommand {
     Objects.requireNonNull(trump);
     Objects.requireNonNull(players);
 
-    newGameUseCase.newGame(gameId, trump, players);
+    newGameUseCase.get().newGame(gameId, trump, players);
     out.println("Created new game with id: " + gameId);
   }
 }
