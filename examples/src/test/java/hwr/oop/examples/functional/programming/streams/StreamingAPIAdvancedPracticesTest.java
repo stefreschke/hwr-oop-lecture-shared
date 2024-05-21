@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
  * The -Dto objects are examples for 'anemic' object-oriented code, a common mistake students make.
  * The non-Dto objects are better solutions solving the mistakes of the -Dto objects.
  */
-@DisplayName("Function Programming: Streams: Coding Practices")
-class ComplexStreamsAndPracticesTest {
+@DisplayName("Function Programming: Streams: Advanced and Practices")
+class StreamingAPIAdvancedPracticesTest {
 
   private List<TrainDto> trainDtos;
   private List<WagonDto> wagonDtos;
@@ -44,12 +44,14 @@ class ComplexStreamsAndPracticesTest {
 
   @Test
   void buildFullTrains_DoesNotThrowException() {
+
     final var wagons = wagonDtos.stream()
         .map(WagonDto::asWagon)
         .toList();
     final var trains = trainDtos.stream()
         .map(t -> t.asTrain(wagons))
         .toList();
+
     assertSoftly(softly -> {
       softly.assertThat(wagons).hasSize(14);
       softly.assertThat(trains).hasSize(6);
@@ -61,6 +63,7 @@ class ComplexStreamsAndPracticesTest {
    */
   @Test
   void bad_AllTrainsWithTrainNumberOver9000() {
+
     // when
     final List<String> trainNumbersOver9000 = trainDtos.stream()
         .map(TrainDto::trainNumber)                              // only use trainNumber
@@ -71,6 +74,7 @@ class ComplexStreamsAndPracticesTest {
     final List<TrainDto> trainsWithTrainNumberOver9000 = trainDtos.stream()
         .filter(t -> trainNumbersOver9000.contains(t.trainNumber()))
         .toList();
+
     // then
     assertThat(trainsWithTrainNumberOver9000).hasSize(1);
   }
@@ -87,16 +91,20 @@ class ComplexStreamsAndPracticesTest {
    */
   @Test
   void good_AllTrainsWithTrainNumberOver9000_TrainsKnowTheirTrainNumber() {
+
+    // given
     final var wagons = wagonDtos.stream()
         .map(WagonDto::asWagon)
         .toList();
     final var trains = trainDtos.stream()
         .map(t -> t.asTrain(wagons))
         .toList();
+
     // when
     final var trainsWithTrainNumberOver9000 = trains.stream()
         .filter(Train::hasTrainNumberOver9000)  // keep trains where #hasTrainNumberOver9000 is true
         .toList();
+
     // then
     assertThat(trainsWithTrainNumberOver9000).hasSize(1);
   }
@@ -106,6 +114,7 @@ class ComplexStreamsAndPracticesTest {
    */
   @Test
   void bad_SortingTrainsByLength() {
+
     // when
     final List<TrainDto> sortedByLength = trainDtos.stream()
         .sorted((a, b) -> {
@@ -113,19 +122,18 @@ class ComplexStreamsAndPracticesTest {
               .map(wagonNumber -> wagonDtos.stream()
                   .filter(wagonDto -> wagonDto.wagonNumber().equals(wagonNumber)).findFirst()
                   .orElseThrow())
-              .map(wagon -> wagon.wagonBodyLength() + wagon.distanceAftClutch()
-                  + wagon.distanceFrontClutch())
+              .map(wagon -> wagon.wagonBodyLength() + wagon.distanceAftClutch() + wagon.distanceFrontClutch())
               .reduce(0L, Long::sum);
           final Long lengthOfB = b.wagonNumbers().stream()  // code duplication...
               .map(wagonNumber -> wagonDtos.stream()
                   .filter(wagonDto -> wagonDto.wagonNumber().equals(wagonNumber)).findFirst()
                   .orElseThrow())
-              .map(wagon -> wagon.wagonBodyLength() + wagon.distanceAftClutch()
-                  + wagon.distanceFrontClutch())
+              .map(wagon -> wagon.wagonBodyLength() + wagon.distanceAftClutch() + wagon.distanceFrontClutch())
               .reduce(0L, Long::sum);
           return Long.compare(lengthOfA, lengthOfB);
         })
         .toList();
+
     // then
     assertThat(sortedByLength)
         .hasSize(6)
@@ -144,6 +152,7 @@ class ComplexStreamsAndPracticesTest {
    */
   @Test
   void good_SortingTrainsByLength_TrainsBestKnowHowLongTheyAre() {
+
     // given
     final var wagons = wagonDtos.stream()
         .map(WagonDto::asWagon)
@@ -151,10 +160,12 @@ class ComplexStreamsAndPracticesTest {
     final var convertedTrains = trainDtos.stream()
         .map(t -> t.asTrain(wagons))
         .toList();
+
     // when
     final List<Train> sortedByLength = convertedTrains.stream()
         .sorted(Comparator.comparingLong(Train::length))  // sort by answer to sent #length message
         .toList();
+
     // then
     assertThat(sortedByLength)
         .hasSize(6)
@@ -169,6 +180,7 @@ class ComplexStreamsAndPracticesTest {
    */
   @Test
   void bad_LengthOfAllTrainsCombined() {
+
     // when
     final Long totalLengthOfAllTrains = trainDtos.stream()
         .map(TrainDto::wagonNumbers)  // keep wagon numbers (list); we now have Stream<List<String>>
@@ -179,6 +191,7 @@ class ComplexStreamsAndPracticesTest {
         .map(wagonDto -> wagonDto.wagonBodyLength() + wagonDto.distanceAftClutch()
             + wagonDto.distanceFrontClutch())   // keep their lengths (combined with clutch distances)
         .reduce(0L, Long::sum);  // sum up lengths
+
     // then
     assertThat(totalLengthOfAllTrains).isEqualTo(23066);
   }
@@ -190,6 +203,7 @@ class ComplexStreamsAndPracticesTest {
    */
   @Test
   void good_lengthOfAllTrains_TrainsKnowTheirLength() {
+
     // given
     final var wagons = wagonDtos.stream()
         .map(WagonDto::asWagon)
@@ -197,10 +211,12 @@ class ComplexStreamsAndPracticesTest {
     final var trains = trainDtos.stream()
         .map(t -> t.asTrain(wagons))
         .toList();
+
     // when
     final Long totalLengthOfAllTrains = trains.stream()
         .map(Train::length)      // only keep length of trains
         .reduce(0L, Long::sum);  // sum them up
+
     // then
     assertThat(totalLengthOfAllTrains).isEqualTo(23066);
   }
@@ -210,6 +226,7 @@ class ComplexStreamsAndPracticesTest {
    */
   @Test
   void bad_totalWeightOfTrain() {
+
     final Map<String, Long> trainNumberWeightMap = trainDtos.stream()
         .collect(Collectors.toMap(
             TrainDto::trainNumber,  // becomes the Key of the map
@@ -218,6 +235,7 @@ class ComplexStreamsAndPracticesTest {
                 .map(WagonDto::weight)
                 .reduce(0L, Long::sum)  // becomes Value of the map
         ));
+
     assertThat(trainNumberWeightMap)
         .hasSize(6)
         .containsKey("9000").matches(m -> m.get("9000").equals(0L))
@@ -226,6 +244,7 @@ class ComplexStreamsAndPracticesTest {
 
   @Test
   void good_totalWeightOfTrain_AskingATrainItsWeight() {
+
     // given
     final var wagons = wagonDtos.stream()
         .map(WagonDto::asWagon)
@@ -233,12 +252,14 @@ class ComplexStreamsAndPracticesTest {
     final var trains = trainDtos.stream()
         .map(t -> t.asTrain(wagons))
         .toList();
+
     // when
     final Map<TrainNumber, Long> trainNumberWeightMap = trains.stream()
         .collect(Collectors.toMap(
             Train::trainNumber,  // trainNumber as Key
             Train::weight        // weight as Value
         ));
+
     // then
     final var first = TrainNumber.of("9000");
     final var second = TrainNumber.of("42");
