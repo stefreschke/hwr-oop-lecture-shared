@@ -47,14 +47,17 @@ class CliTest {
   GameRepository gameRepository;
 
   private OutputStream outputStream;
+  private OutputStream errorStream;
   private Cli sut;
 
   @BeforeEach
   void setUp() {
     this.outputStream = new ByteArrayOutputStream();
+    this.errorStream = new ByteArrayOutputStream();
     when(gameRepositoryFunction.apply(any())).thenReturn(gameRepository);
     this.sut = new Cli(
         outputStream,
+        errorStream,
         repo -> newGameUseCase,  // disregard repo, pass mocks
         repo -> playOnGameUseCase,
         repo -> pickupStackOnGameUseCase,
@@ -68,6 +71,8 @@ class CliTest {
     sut.handle("new_game", "id", "1337", "trump", "HEARTS", "players", "alpha",
         "beta", "--file", "example.csv");
     final var output = outputStream.toString();
+    final var errors = errorStream.toString();
+    assertThat(errors).isEmpty();
     assertThat(output).contains("Created new game with id: 1337");
     verify(gameRepositoryFunction).apply(pathOf("example.csv"));
     verify(newGameUseCase).newGame("1337", "HEARTS", List.of("alpha", "beta"));
@@ -77,6 +82,8 @@ class CliTest {
   void onGamePLayerLays_SingleCard_PlaySingleCardUseCaseCalled() {
     sut.handle("on", "game", "1337", "player", "alpha", "lays", "H7", "--file", "example.csv");
     final var output = outputStream.toString();
+    final var errors = errorStream.toString();
+    assertThat(errors).isEmpty();
     assertThat(output).contains("alpha", "lays", "H7", "on game 1337");
     verify(gameRepositoryFunction).apply(pathOf("example.csv"));
     verify(playOnGameUseCase).play("1337", "alpha", List.of("H7"));
@@ -87,6 +94,8 @@ class CliTest {
     sut.handle("on", "game", "1337", "player", "alpha", "lays", "H7,S7,H8", "--file",
         "example.csv");
     final var output = outputStream.toString();
+    final var errors = errorStream.toString();
+    assertThat(errors).isEmpty();
     assertThat(output).contains("alpha", "lays", "H7", "H8", "S7", "on game 1337");
     verify(gameRepositoryFunction).apply(pathOf("example.csv"));
     verify(playOnGameUseCase).play("1337", "alpha", List.of("H7", "S7", "H8"));
@@ -97,6 +106,8 @@ class CliTest {
     sut.handle("on", "game", "1337", "player", "alpha", "lays", "H7", "S7", "H8", "--file",
         "example.csv");
     final var output = outputStream.toString();
+    final var errors = errorStream.toString();
+    assertThat(errors).isEmpty();
     assertThat(output).contains("alpha", "lays", "H7", "H8", "S7", "on game 1337");
     verify(gameRepositoryFunction).apply(pathOf("example.csv"));
     verify(playOnGameUseCase).play("1337", "alpha", List.of("H7", "S7", "H8"));
@@ -106,6 +117,8 @@ class CliTest {
   void onGamePlayerPicksUp_PickupCalled() {
     sut.handle("on", "game", "1337", "player", "beta", "picks", "up", "--file", "example.csv");
     final var output = outputStream.toString();
+    final var errors = errorStream.toString();
+    assertThat(errors).isEmpty();
     assertThat(output).contains("beta", "picked up", "on game 1337");
     verify(gameRepositoryFunction).apply(pathOf("example.csv"));
     verify(pickupStackOnGameUseCase).pickup("1337", "beta");
@@ -130,6 +143,8 @@ class CliTest {
     when(gameStateQuery.gameStateOf("1337")).thenReturn(gameStateDtoFixture);
     sut.handle("on", "game", "1337", "state", "--file", "example.csv");
     final var output = outputStream.toString();
+    final var errors = errorStream.toString();
+    assertThat(errors).isEmpty();
     assertThat(output).contains(
         "turn: alpha", "hand: AH,AC,AD", "layout: 2H,2C,2D",
         "cards to pickup from layout (3): 2H,2C,2D",

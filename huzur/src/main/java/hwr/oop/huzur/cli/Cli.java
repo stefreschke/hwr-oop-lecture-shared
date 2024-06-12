@@ -19,12 +19,14 @@ import java.util.function.Function;
 public final class Cli {
 
   private final PrintStream out;
+  private final PrintStream err;
   private final Function<Path, GameRepository> gameRepositoryFactory;
   private final ArgumentParser argumentParser;
   private GameRepository gameRepository;
 
   public Cli(
       OutputStream outputStream,
+      OutputStream errorStream,
       Function<GameRepository, NewGameUseCase> newGameUseCaseFactory,
       Function<GameRepository, PlayOnGameUseCase> playOnGameUseCaseFactory,
       Function<GameRepository, PickupStackOnGameUseCase> pickupStackOnGameUseCaseFactory,
@@ -32,6 +34,7 @@ public final class Cli {
       Function<Path, GameRepository> gameRepositoryFactory
   ) {
     this.out = new PrintStream(outputStream);
+    this.err = new PrintStream(errorStream);
     this.gameRepositoryFactory = gameRepositoryFactory;
     this.argumentParser = new ArgumentParser(
         () -> safelyCreateUseCaseUsing(gameRepository, newGameUseCaseFactory),
@@ -50,10 +53,22 @@ public final class Cli {
   }
 
   public void handle(String... arguments) {
-    handle(Arrays.asList(arguments));
+    handleCatchingExceptions(Arrays.asList(arguments));
   }
 
   public void handle(List<String> arguments) {
+    handleCatchingExceptions(arguments);
+  }
+
+  private void handleCatchingExceptions(List<String> arguments) {
+    try {
+      handleAllowingExceptions(arguments);
+    } catch (RuntimeException e) {
+      err.println(e.getMessage());
+    }
+  }
+
+  private void handleAllowingExceptions(List<String> arguments) {
     final List<String> mutable = new ArrayList<>(arguments);
     if (mutable.contains("--debug")) {
       out.println("Welcome to Huzur, the funky mongolian card game!");

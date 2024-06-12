@@ -13,6 +13,7 @@ public final class Main {
   public static void main(String[] args) {
     final Cli cli = new Cli(
         System.out,
+        System.err,
         NewGameService::new,
         PlayOnGameService::new,
         PickupStackOnGameService::new,
