@@ -1,11 +1,14 @@
 package hwr.oop.huzur.tests.domain;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.Card.Sign;
+import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.domain.cards.Joker;
 import hwr.oop.huzur.domain.cards.NormalCard;
+import hwr.oop.huzur.tests.ErrorHandlingTag;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
@@ -89,5 +92,13 @@ class CardsColorsSignsAndJokersTest {
       softly.assertThat(kingOfSpades.hasSign(Sign.THREE)).isFalse();
       softly.assertThat(kingOfSpades.hasSign(Sign.QUEEN)).isFalse();
     });
+  }
+
+  @Test
+  @ErrorHandlingTag
+  void unknownColor_Exception() {
+    final var converter = new CardConverter();
+    assertThatThrownBy(() -> converter.convertColor("T"))
+        .hasMessageContainingAll("Cannot convert String to Color", "expected [CDHS]", "got T");
   }
 }

@@ -65,6 +65,7 @@ public final class Cli {
       handleAllowingExceptions(arguments);
     } catch (RuntimeException e) {
       err.println(e.getMessage());
+      throw e;
     }
   }
 
@@ -100,22 +101,14 @@ public final class Cli {
     }
   }
 
-  private void assertIsValidFileName(String afterFile) {
-    if (afterFile.contains(" ") || !afterFile.contains(".")) {
+  private void assertIsValidFileName(String fileNameCandidate) {
+    if (fileNameCandidate.contains(" ") || !fileNameCandidate.contains(".")) {
       throw new IllegalArgumentException(
-          "variable passed to --file must be file name, but was: " + afterFile);
+          "variable passed to --file must be file name, but was: " + fileNameCandidate);
     }
   }
 
   private Path parsePath(String afterFile) {
-    final Path path;
-    try {
-      final File file = new File(afterFile);
-      path = file.toPath();
-    } catch (Exception e) {
-      throw new IllegalArgumentException(
-          "variable passed to --file cannot be parsed to file, was: " + afterFile, e);
-    }
-    return path;
+    return new File(afterFile).toPath();
   }
 }

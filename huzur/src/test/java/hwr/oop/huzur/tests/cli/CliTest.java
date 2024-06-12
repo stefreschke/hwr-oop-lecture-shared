@@ -1,6 +1,7 @@
 package hwr.oop.huzur.tests.cli;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
@@ -12,7 +13,9 @@ import hwr.oop.huzur.application.ports.in.NewGameUseCase;
 import hwr.oop.huzur.application.ports.in.PickupStackOnGameUseCase;
 import hwr.oop.huzur.application.ports.in.PlayOnGameUseCase;
 import hwr.oop.huzur.application.ports.out.GameRepository;
+import hwr.oop.huzur.application.ports.out.LoadGamePort.CouldNotLoadException;
 import hwr.oop.huzur.cli.Cli;
+import hwr.oop.huzur.tests.ErrorHandlingTag;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
@@ -169,16 +172,59 @@ class CliTest {
     );
     when(gameStateQuery.gameStateOf("1337")).thenReturn(gameStateDtoFixture);
     sut.handle("on", "game", "1337", "state", "--file", "example.csv");
-    final var output = outputStream.toString();
-    final var errors = errorStream.toString();
-    assertThat(errors).isEmpty();
-    assertThat(output).contains(
+    assertThat(outputStream.toString()).contains(
         "turn: alpha", "hand: AH,AC,AD", "layout: 2H,2C,2D",
         "cards to pickup from layout (3): 2H,2C,2D",
         "trump: HEARTS", "remaining Deck: empty",
         "beta has 4 cards remaining", "gamma has 5 cards remaining"
     );
+    assertThat(errorStream.toString()).isEmpty();
     verify(gameStateQuery).gameStateOf("1337");
+  }
+
+  @Test
+  @ErrorHandlingTag
+  void gameState_QueryNonExistingGame_Exception() {
+    when(gameStateQuery.gameStateOf("1337"))
+        .thenThrow(new CouldNotLoadException("Could not find game with id 1337"));
+    try {
+      sut.handle("on", "game", "1337", "state", "--file", "example.csv");
+      fail("MockedException was not thrown");
+    } catch (CouldNotLoadException e) {
+      // expected, nothing else to do
+    }
+    assertThat(outputStream.toString()).isEmpty();
+    assertThat(errorStream.toString())
+        .contains("Could not find game with id 1337");
+    verify(gameStateQuery).gameStateOf("1337");
+  }
+
+  @Test
+  @ErrorHandlingTag
+  void dashDashFileWithoutActualFile_ExceptionPointingToWrongUsage() {
+    try {
+      sut.handle("help", "--file");
+      fail("MockedException was not thrown");
+    } catch (IllegalArgumentException e) {
+      // expected, nothing else to do
+    }
+    assertThat(outputStream.toString()).isEmpty();
+    assertThat(errorStream.toString())
+        .contains("--file can not be the last argument");
+  }
+
+  @Test
+  @ErrorHandlingTag
+  void dashDashFileWithoutAFileProvided_ExceptionPointingToWrongUsage() {
+    try {
+      sut.handle("help", "--file", "example");
+      fail("MockedException was not thrown");
+    } catch (IllegalArgumentException e) {
+      // expected, nothing else to do
+    }
+    assertThat(outputStream.toString()).isEmpty();
+    assertThat(errorStream.toString())
+        .contains("variable passed to --file must be file name", "but was: example");
   }
 
   @Test

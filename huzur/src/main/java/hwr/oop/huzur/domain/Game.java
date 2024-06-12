@@ -41,4 +41,18 @@ public interface Game extends GameCardContext {
   Game play(Player player, List<Card> cards);
 
   Game pickup(Player player);
+
+  class CannotPickupException extends RuntimeException {
+
+    public CannotPickupException(String message) {
+      super(message);
+    }
+  }
+
+  class WrongPlayerException extends RuntimeException {
+
+    public WrongPlayerException(String message) {
+      super(message);
+    }
+  }
 }

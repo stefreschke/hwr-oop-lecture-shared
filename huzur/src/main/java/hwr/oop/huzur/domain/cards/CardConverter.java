@@ -74,7 +74,7 @@ public final class CardConverter {
   private static class UnknownColorException extends RuntimeException {
 
     public UnknownColorException(String colorString) {
-      super("Cannot convert Color, got: " + colorString);
+      super("Cannot convert String to Color, expected [CDHS], got " + colorString);
     }
   }
 }

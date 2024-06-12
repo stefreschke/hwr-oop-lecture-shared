@@ -1,6 +1,7 @@
 package hwr.oop.huzur.tests.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -65,4 +66,12 @@ class PickupUseCaseTest {
         .matches(g -> g.currentLayout().isEmpty(), "no layout")
         .matches(g -> g.handOf(beta).numberOfCards() == 10, "beta has 10 cards");
   }
+
+  @Test
+  void secondConstructor_DoesNotThrowException() {
+    assertDoesNotThrow(() -> new PickupStackOnGameService(
+        new TestDoubleRepository(saveGamePort, loadGamePort)
+    ));
+  }
+
 }

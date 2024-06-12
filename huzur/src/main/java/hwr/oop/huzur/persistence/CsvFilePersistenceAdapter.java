@@ -1,5 +1,6 @@
 package hwr.oop.huzur.persistence;
 
+import hwr.oop.huzur.IOExceptionBomb;
 import hwr.oop.huzur.application.ports.out.GameRepository;
 import hwr.oop.huzur.domain.Game;
 import java.io.IOException;
@@ -30,7 +31,7 @@ public final class CsvFilePersistenceAdapter implements GameRepository {
           .filter(l -> l.startsWith(id))
           .findFirst();
     } catch (IOException e) {
-      throw new IllegalStateException(e);
+      throw new CouldNotLoadException(e);
     }
     final var match = result;
     if (match.isPresent()) {
@@ -38,7 +39,7 @@ public final class CsvFilePersistenceAdapter implements GameRepository {
       final var csv = CsvRow.fromCsvFileLine(row);
       return csv.asGame();
     } else {
-      throw new IllegalStateException("id is not available, " + id);
+      throw new CouldNotLoadException("id is not available, " + id);
     }
   }
 
@@ -48,7 +49,7 @@ public final class CsvFilePersistenceAdapter implements GameRepository {
       ioExceptionBomb.fire();  // used for testing, to simulate IOException
       writer.append(CsvRow.fromGame(game).toString());
     } catch (IOException e) {
-      throw new IllegalStateException(e);
+      throw new CouldNotSaveException(e);
     }
   }
 }

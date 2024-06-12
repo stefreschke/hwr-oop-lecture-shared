@@ -9,7 +9,7 @@ import hwr.oop.huzur.domain.Player;
 import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.persistence.CsvFilePersistenceAdapter;
-import hwr.oop.huzur.persistence.IOExceptionBomb;
+import hwr.oop.huzur.IOExceptionBomb;
 import hwr.oop.huzur.tests.TestSetupFailedException;
 import java.io.File;
 import java.io.IOException;

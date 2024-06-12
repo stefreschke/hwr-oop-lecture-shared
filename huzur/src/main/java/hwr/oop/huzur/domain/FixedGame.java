@@ -100,6 +100,14 @@ final class FixedGame implements Game {
 
   @Override
   public Game pickup(Player player) {
+    if (!player.equals(turn)) {
+      throw new WrongPlayerException(
+          String.format("Not player %s's turn, player %s is the next player",
+              player, turn));
+    }
+    if (layout == null) {
+      throw new CannotPickupException("Cannot pickup, no layout present");
+    }
     final var newCards = Stream.concat(handCards.get(player).stream(), layout.allCards()).toList();
     return copy().noLayout().turn(nextPlayer()).player(player).hasCards(newCards).build();
   }

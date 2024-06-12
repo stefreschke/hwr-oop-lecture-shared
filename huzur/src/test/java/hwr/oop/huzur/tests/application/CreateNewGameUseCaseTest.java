@@ -73,4 +73,5 @@ class CreateNewGameUseCaseTest {
         .matches(g -> g.players().toList().containsAll(expectedPlayers),
             "alpha, beta, gamma, delta are players");
   }
+
 }
