@@ -2,6 +2,7 @@ package hwr.oop.huzur.tests.cli;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -54,7 +55,7 @@ class CliTest {
   void setUp() {
     this.outputStream = new ByteArrayOutputStream();
     this.errorStream = new ByteArrayOutputStream();
-    when(gameRepositoryFunction.apply(any())).thenReturn(gameRepository);
+    lenient().when(gameRepositoryFunction.apply(any())).thenReturn(gameRepository);
     this.sut = new Cli(
         outputStream,
         errorStream,
@@ -76,6 +77,32 @@ class CliTest {
     assertThat(output).contains("Created new game with id: 1337");
     verify(gameRepositoryFunction).apply(pathOf("example.csv"));
     verify(newGameUseCase).newGame("1337", "HEARTS", List.of("alpha", "beta"));
+  }
+
+  @Test
+  void debug_DisplaysDebugInformation() {
+    sut.handle("--debug");
+    final var output = outputStream.toString();
+    final var errors = errorStream.toString();
+    assertThat(errors).isEmpty();
+    assertThat(output).contains(
+        "Welcome to Huzur, the funky mongolian card game!",
+        "Arguments were: ", "--debug"
+    );
+  }
+
+  @Test
+  void help_DisplaysAllAvailableCommands() {
+    sut.handle("help");
+    final var output = outputStream.toString();
+    final var errors = errorStream.toString();
+    assertThat(errors).isEmpty();
+    assertThat(output).contains(
+        "help - display help message",
+        "new_game id {} trump {} players {} - Creates a new game",
+        "on game {} player {} play/lay/pick {} - Advance game by setting cards",
+        "on game {} state - display game state"
+    );
   }
 
   @Test

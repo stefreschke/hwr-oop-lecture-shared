@@ -23,4 +23,8 @@ public final class Main {
     cli.handle(Arrays.asList(args));
   }
 
+  public static void varargMain(String... args) {
+    main(args);
+  }
+
 }

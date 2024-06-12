@@ -18,6 +18,11 @@ final class NewGameCommand implements MutableCommand {
   }
 
   @Override
+  public String description() {
+    return "new_game id {} trump {} players {} - Creates a new game";
+  }
+
+  @Override
   public void parse(List<String> arguments) {
     this.gameId = arguments.get(2);
     this.trump = arguments.get(4);

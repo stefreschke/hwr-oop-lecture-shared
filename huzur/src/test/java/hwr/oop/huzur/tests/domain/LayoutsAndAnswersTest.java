@@ -303,7 +303,6 @@ class LayoutsAndAnswersTest {
     final var alpha = Player.id("alpha");
     final var beta = Player.id("beta");
     final var gamma = Player.id("gamma");
-    final var converter = new CardConverter();
     return Game.newBuilder()
         .id("1337")
         .playerOrder(alpha, beta, gamma)

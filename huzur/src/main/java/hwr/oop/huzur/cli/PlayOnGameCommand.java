@@ -24,6 +24,11 @@ public final class PlayOnGameCommand implements MutableCommand {
   }
 
   @Override
+  public String description() {
+    return "on game {} player {} play/lay/pick {} - Advance game by setting cards";
+  }
+
+  @Override
   public void parse(List<String> arguments) {
     this.gameId = arguments.get(2);
     this.playerId = arguments.get(4);

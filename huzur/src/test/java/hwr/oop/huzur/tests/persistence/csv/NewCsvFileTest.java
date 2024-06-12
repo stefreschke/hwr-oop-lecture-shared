@@ -13,7 +13,6 @@ import hwr.oop.huzur.persistence.CsvFilePersistenceAdapter;
 import hwr.oop.huzur.tests.TestSetupFailedException;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;

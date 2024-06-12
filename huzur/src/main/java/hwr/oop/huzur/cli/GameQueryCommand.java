@@ -16,6 +16,11 @@ public final class GameQueryCommand implements MutableCommand {
   }
 
   @Override
+  public String description() {
+    return "on game {} state - display game state";
+  }
+
+  @Override
   public void parse(List<String> arguments) {
     this.gameId = arguments.get(2);
   }
