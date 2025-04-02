@@ -1,0 +1,5 @@
+gameId;turn;trumpColor;playersAndCards;deck;currentLayout
+1337;alpha;H;alpha-D7,D8,D9,S7,S8,S9,J1:beta-DJ,DQ,DK,SJ,SQ,SK,J2:gamma-DA,D2,D3,HK,H2,H3,HA;H7,H8,H9,HT;
+42;beta;H;alpha-D8,D9,S9,J1:beta-DJ,DQ,DK,SJ,SQ,SK,J2:gamma-DA,D2,D3,HK,H2,H3,HA;;alpha-D7,S7,S8
+43;gamma;H;alpha-D8,D9,S9,J1:beta-DQ,DK,SJ,J2:gamma-DA,D2,D3,HK,H2,H3,HA;;alpha-D7,S7,S8_beta-DJ,SQ,SK
+44;gamma;H;alpha-D8,D9,S9,J1:beta-DQ,DK,SJ,J2:gamma-DA,D2,D3,HK,H2,H3,HA;;alpha-D7,S7,S8_beta-DJ,SQ,SK_gamma-D3,HK,H2

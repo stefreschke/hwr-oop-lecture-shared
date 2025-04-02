@@ -1,0 +1,3 @@
+#!/bin/bash
+
+java -cp target/huzur-0.1.0-SNAPSHOT.jar hwr.oop.huzur.Main $@
