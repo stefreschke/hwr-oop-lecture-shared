@@ -1,4 +1,3 @@
-
 = Lecture 04
 
 In this lecture, we learned about object-based concepts, mainly their _identity_, _equality_, and _comparability_.
@@ -9,9 +8,14 @@ The examples showcase how to use these concepts in Kotlin.
 
 For *identity*, the operators `===` and `!==` are used.
 
-For *equality*, the operators `==` and `!=` are used. They call the `equals` method of objects under the hood. If objects override the `equals` method, the `hashCode` method should also be overridden.
+For *equality*, the operators `==` and `!=` are used.
+They call the `equals` method of objects under the hood.
+If objects override the `equals` method, the `hashCode` method should also be overridden.
 
-For *comparability*, two options can be used. Objects either implement the `Comparable` interface, or another object is used that implements the `Comparator` interface. `Comparable` is useful if comparability is an internal concept of the object. A `Comparator` is useful if comparability is an external concept forced upon the object. An object can implement `Comparable` once whereas it can have multiple comparators.
+For *comparability*, two options can be used.
+Objects either implement the `Comparable` interface, or another object is used that implements the `Comparator` interface. `Comparable` is useful if comparability is an internal concept of the object.
+A `Comparator` is useful if comparability is an external concept forced upon the object.
+An object can implement `Comparable` once whereas it can have multiple comparators.
 
 == Exercise
 

@@ -20,7 +20,7 @@ class InheritanceTest : AnnotationSpec() {
     val rectangle = RectangleAsOpenClass(1.0, 2.0)
     // then
     assertThat(rectangle)
-      .isInstanceOf(SquareInheritingFromRectangle::class.java)
+      .isNotInstanceOf(SquareInheritingFromRectangle::class.java)
   }
 
   @Test

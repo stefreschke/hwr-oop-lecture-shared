@@ -1,9 +1,9 @@
 package hwr.oop.examples.polymorphism.adhoc
 
 class Train(
-  private val wagons: List<Wagon>
+  private val wagons: List<Wagon>,
 ) {
-  constructor(vararg wagons: Wagon): this(
+  constructor(vararg wagons: Wagon) : this(
     wagons.toList()
   )
 

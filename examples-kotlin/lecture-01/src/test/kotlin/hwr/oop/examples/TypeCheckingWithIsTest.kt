@@ -31,5 +31,4 @@ class TypeCheckingWithIsTest : AnnotationSpec() {
   }
 
 
-
 }

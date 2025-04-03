@@ -2,7 +2,7 @@ package hwr.oop.examples.abstraction.realization
 
 class EagerInitializedRectangle(
   firstSide: Double,
-  secondSide: Double
+  secondSide: Double,
 ) : Rectangle {
 
   private val perimeter = 2 * (firstSide + secondSide)

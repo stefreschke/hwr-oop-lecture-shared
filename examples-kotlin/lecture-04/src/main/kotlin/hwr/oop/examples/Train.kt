@@ -4,7 +4,7 @@ class Train(
   private val name: String = "ICE1337",
   private val start: String = "Berlin",
   private val destination: String = "Hamburg",
-  val numberOfWagons: Int = 1
+  val numberOfWagons: Int = 1,
 ) : Comparable<Train> {
 
   private var speed: Int = 0

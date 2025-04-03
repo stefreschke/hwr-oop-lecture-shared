@@ -13,6 +13,7 @@
   <packaging>pom</packaging>
 
   <modules>
+    <module>lecture-00</module>
     <module>lecture-01</module>
     <module>lecture-02</module>
     <module>lecture-04</module>
