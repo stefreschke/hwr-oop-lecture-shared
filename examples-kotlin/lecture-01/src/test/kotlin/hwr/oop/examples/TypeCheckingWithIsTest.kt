@@ -8,26 +8,26 @@ class TypeCheckingWithIsTest : AnnotationSpec() {
   @Test
   fun `literal 1, is Int, but no long`() {
     val number: Any = 1
-    val isInt = number is Int
-    val isLong = number is Long
-    assertThat(isInt).isTrue()
-    assertThat(isLong).isFalse()
+    val numberIsInt = number is Int
+    val numberIsLong = number is Long
+    assertThat(numberIsInt).isTrue()
+    assertThat(numberIsLong).isFalse()
   }
 
   @Test
   fun `literal 1, is no Long`() {
     val number: Any = 1
-    val isNoLong = number !is Long
-    assertThat(isNoLong).isTrue()
+    val numberIsNoLong = number !is Long
+    assertThat(numberIsNoLong).isTrue()
   }
 
   @Test
   fun `literal 1L, is Long, but no Int`() {
     val number: Any = 1L
-    val isInt = number is Int
-    val isLong = number is Long
-    assertThat(isInt).isFalse()
-    assertThat(isLong).isTrue()
+    val numberIsInt = number is Int
+    val numberIsLong = number is Long
+    assertThat(numberIsInt).isFalse()
+    assertThat(numberIsLong).isTrue()
   }
 
 
