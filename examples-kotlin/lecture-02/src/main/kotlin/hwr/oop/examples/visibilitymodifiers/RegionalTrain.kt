@@ -1,4 +1,4 @@
-package hwr.oop.examples.visibility_modifiers
+package hwr.oop.examples.visibilitymodifiers
 
 class RegionalTrain : Train() {
 

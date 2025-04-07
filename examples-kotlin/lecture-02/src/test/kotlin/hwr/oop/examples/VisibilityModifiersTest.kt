@@ -1,6 +1,6 @@
 package hwr.oop.examples
 
-import hwr.oop.examples.visibility_modifiers.RegionalTrain
+import hwr.oop.examples.visibilitymodifiers.RegionalTrain
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
