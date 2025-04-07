@@ -1,15 +1,14 @@
 package hwr.oop.exercise
 
-import hwr.oop.exercise.HelloPerson
 import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
 
 class HelloPersonTest : AnnotationSpec() {
     @Test
-    fun `A person says hello and tells its name`() {
+    fun `A Hans says hello and tells its name`() {
         // given
         val name = "Hans"
-        val person = HelloPerson(name)
+        val person = HelloPerson
         // when
         val result = person.sayHello()
         // then

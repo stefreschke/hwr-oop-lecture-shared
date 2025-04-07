@@ -1,8 +1,8 @@
 package hwr.oop.exercise
 
-class HelloPerson(
-    private val name: String,
-) {
+object HelloPerson {
+    private val name: String = "Hans"
+
     fun sayHello(): String {
         TODO("Not yet implemented")
     }
