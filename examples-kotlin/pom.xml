@@ -13,6 +13,9 @@
   <packaging>pom</packaging>
 
   <modules>
+    <!-- Examples focusing only on Kotlin, not in lecture -->
+    <module>kotlin-02</module>
+    <!-- Examples and exercises from lecture slides -->
     <module>lecture-00</module>
     <module>lecture-01</module>
     <module>lecture-02</module>
