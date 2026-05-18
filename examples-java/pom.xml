@@ -22,14 +22,13 @@
     <maven.compiler.source>21</maven.compiler.source>
     <maven.compiler.target>21</maven.compiler.target>
     <!-- testing -->
-    <junit.version>5.10.2</junit.version>
-    <assertj.version>3.25.3</assertj.version> <!-- used as assertion library -->
+    <junit.version>6.0.3</junit.version>
+    <assertj.version>3.27.6</assertj.version> <!-- used as assertion library -->
     <archunit.version>1.2.1</archunit.version>  <!-- used to enforce architectural decisions -->
-    <pitest-maven.version>1.15.8</pitest-maven.version> <!-- used to do mutation testing -->
-    <pitest-junit5-plugin.version>1.2.1
-    </pitest-junit5-plugin.version> <!-- used to enable pitest to use junit 5 -->
+    <pitest-maven.version>1.23.1</pitest-maven.version> <!-- used to do mutation testing -->
+    <pitest-junit5-plugin.version>1.2.3</pitest-junit5-plugin.version> <!-- used to enable pitest to use junit 5 -->
     <mockito-core.version>5.11.0</mockito-core.version> <!-- used as mocking library -->
-    <surefire-plugin.version>3.2.5</surefire-plugin.version>
+    <surefire-plugin.version>3.5.2</surefire-plugin.version>
   </properties>
   <dependencies>
     <!-- testing -->

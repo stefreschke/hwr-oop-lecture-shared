@@ -30,14 +30,13 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <kotlin.code.style>official</kotlin.code.style>
     <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
-    <kotlin.version>2.1.10</kotlin.version>
+    <kotlin.version>2.3.0</kotlin.version>
     <kotlin.code.style>official</kotlin.code.style>
     <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
-    <junit-jupiter.version>5.10.0</junit-jupiter.version>
+    <junit-jupiter.version>6.0.3</junit-jupiter.version>
     <kotest.version>5.9.1</kotest.version>
-    <assertj-core.version>3.27.3</assertj-core.version>
-    <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
-    <maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
+    <assertj-core.version>3.27.6</assertj-core.version>
+    <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
   </properties>
 
   <repositories>

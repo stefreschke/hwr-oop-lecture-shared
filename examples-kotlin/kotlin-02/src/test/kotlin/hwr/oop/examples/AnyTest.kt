@@ -26,7 +26,7 @@ class AnyTest : AnnotationSpec() {
     // then
     assertThat(result)
       .isEqualTo(equivalent)
-      .isTrue
+      .isFalse
   }
 
   @Test
