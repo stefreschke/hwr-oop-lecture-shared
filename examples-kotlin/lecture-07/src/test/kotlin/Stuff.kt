@@ -1,6 +1,6 @@
-import io.kotest.core.spec.style.AnnotationSpec
+import org.junit.jupiter.api.Test
 
-class Stuff : AnnotationSpec() {
+class Stuff {
   
   @Test
   fun `train of wagons`() {

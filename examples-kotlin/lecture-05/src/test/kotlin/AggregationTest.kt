@@ -1,9 +1,9 @@
 import hwr.oop.examples.association.aggregation.AggregateTrain
 import hwr.oop.examples.association.aggregation.AggregatedWagon
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class AggregationTest : AnnotationSpec() {
+class AggregationTest {
 
   @Test
   fun `parts of an aggregate have to be created first`() {

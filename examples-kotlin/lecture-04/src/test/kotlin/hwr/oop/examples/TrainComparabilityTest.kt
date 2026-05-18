@@ -1,9 +1,9 @@
 package hwr.oop.examples
 
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class TrainComparabilityTest : AnnotationSpec() {
+class TrainComparabilityTest {
 
   @Test
   fun `train accelerates to 100, other to 200, first compares lesser`() {

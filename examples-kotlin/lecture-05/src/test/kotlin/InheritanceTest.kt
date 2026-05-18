@@ -1,9 +1,9 @@
 import hwr.oop.examples.abstraction.inheritance.RectangleAsOpenClass
 import hwr.oop.examples.abstraction.inheritance.SquareInheritingFromRectangle
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class InheritanceTest : AnnotationSpec() {
+class InheritanceTest {
 
   @Test
   fun `squares are also rectangles`() {

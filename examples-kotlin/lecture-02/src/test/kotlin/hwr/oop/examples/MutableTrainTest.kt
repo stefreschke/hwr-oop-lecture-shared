@@ -1,9 +1,9 @@
 package hwr.oop.examples
 
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class MutableTrainTest : AnnotationSpec() {
+class MutableTrainTest {
     @Test
     fun `public attributes can be changed from outside`() {
         val train = MutableTrain()

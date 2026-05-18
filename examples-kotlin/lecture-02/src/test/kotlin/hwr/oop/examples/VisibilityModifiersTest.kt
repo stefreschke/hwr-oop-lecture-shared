@@ -1,10 +1,10 @@
 package hwr.oop.examples
 
 import hwr.oop.examples.visibilitymodifiers.RegionalTrain
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class VisibilityModifiersTest : AnnotationSpec() {
+class VisibilityModifiersTest {
   @Test
   fun `Regional Train can start Engine in super class`() {
     val regionalTrain = RegionalTrain()

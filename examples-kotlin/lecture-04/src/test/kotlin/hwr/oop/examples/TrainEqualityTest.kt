@@ -1,13 +1,9 @@
 package hwr.oop.examples
 
-import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
-import io.kotest.matchers.types.shouldHaveSameHashCodeAs
-import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class TrainEqualityTest : AnnotationSpec() {
+class TrainEqualityTest {
 
   @Test
   fun `equal REs, are not always identical`() {
@@ -35,7 +31,7 @@ class TrainEqualityTest : AnnotationSpec() {
     val first = Train("RE1", "Berlin", "Magdeburg")
     val second = Train("RE1", "Berlin", "Magdeburg")
     // then
-    first shouldNotBeSameInstanceAs second
+    assertThat(first).isNotSameAs(second)
   }
 
   @Test
@@ -87,7 +83,7 @@ class TrainEqualityTest : AnnotationSpec() {
     val first = Train("RE1", "Berlin", "Magdeburg")
     val second = Train("RE1", "Berlin", "Magdeburg")
     // then
-    first shouldBe second
+    assertThat(first).isEqualTo(second)
   }
 
   @Test
@@ -96,7 +92,7 @@ class TrainEqualityTest : AnnotationSpec() {
     val first = Train("RE1", "Berlin", "Magdeburg")
     val second = Train("RE1", "Berlin", "Magdeburg")
     // then
-    first shouldHaveSameHashCodeAs second
+    assertThat(first).hasSameHashCodeAs(second)
   }
 
   @Test
@@ -118,7 +114,7 @@ class TrainEqualityTest : AnnotationSpec() {
     val first = Train("RE1", "Berlin", "Magdeburg")
     val second = Train("RE8", "Berlin", "Wismar")
     // then
-    first shouldNotBe second
+    assertThat(first).isNotEqualTo(second)
   }
 
   @Test

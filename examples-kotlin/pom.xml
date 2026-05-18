@@ -34,7 +34,6 @@
     <kotlin.code.style>official</kotlin.code.style>
     <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
     <junit-jupiter.version>6.0.3</junit-jupiter.version>
-    <kotest.version>5.9.1</kotest.version>
     <assertj-core.version>3.27.6</assertj-core.version>
     <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
   </properties>
@@ -46,6 +45,18 @@
     </repository>
   </repositories>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>${junit-jupiter.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
@@ -53,15 +64,18 @@
       <version>${kotlin.version}</version>
     </dependency>
     <dependency>
-      <groupId>io.kotest</groupId>
-      <artifactId>kotest-runner-junit5-jvm</artifactId>
-      <version>${kotest.version}</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>io.kotest</groupId>
-      <artifactId>kotest-assertions-core-jvm</artifactId>
-      <version>${kotest.version}</version>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-launcher</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

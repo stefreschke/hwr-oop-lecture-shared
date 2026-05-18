@@ -1,9 +1,9 @@
 package hwr.oop.exercise
 
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class HelloPersonTest : AnnotationSpec() {
+class HelloPersonTest {
     @Test
     fun `A Hans says hello and tells its name`() {
         // given

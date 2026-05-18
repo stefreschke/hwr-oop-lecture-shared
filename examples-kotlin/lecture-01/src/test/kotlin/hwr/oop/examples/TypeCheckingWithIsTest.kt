@@ -1,9 +1,9 @@
 package hwr.oop.examples
 
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class TypeCheckingWithIsTest : AnnotationSpec() {
+class TypeCheckingWithIsTest {
 
   @Test
   fun `literal 1, is Int, but no long`() {

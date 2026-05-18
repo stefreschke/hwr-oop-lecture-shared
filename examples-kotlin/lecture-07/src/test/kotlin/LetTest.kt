@@ -1,16 +1,15 @@
-import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class LetTest : AnnotationSpec() {
+class LetTest {
 
   @Test
   fun `1? + 2? = 3?`() {
     val first: Int? = 1
     val second: Int? = 2
     val sum = sut_sum(first, second)
-    sum shouldBe 3
-    sum shouldNotBe null
+    assertThat(sum).isEqualTo(3)
+    assertThat(sum).isNotNull()
   }
 }
 

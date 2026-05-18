@@ -1,10 +1,10 @@
 package hwr.oop.examples
 
-import io.kotest.assertions.fail
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.assertj.core.api.Assertions.fail
+import org.junit.jupiter.api.Test
 
-class NothingTest : AnnotationSpec() {
+class NothingTest {
 
   @Test
   fun `any expression can be stored to variable typed as Nothing`() {

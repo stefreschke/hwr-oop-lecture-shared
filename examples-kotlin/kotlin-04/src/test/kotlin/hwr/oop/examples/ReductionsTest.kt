@@ -1,9 +1,9 @@
 package hwr.oop.examples
 
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class ReductionsTest : AnnotationSpec() {
+class ReductionsTest {
 
   @Test
   fun `1 to 5, first, selects 1`() {

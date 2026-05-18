@@ -1,9 +1,9 @@
 package hwr.oop.examples.polymorphism.adhoc
 
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class VarargsTest : AnnotationSpec() {
+class VarargsTest {
 
   @Test
   fun `train with no wagons, has no wagons`() {

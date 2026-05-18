@@ -1,9 +1,9 @@
 package hwr.oop.examples
 
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class RangesTest : AnnotationSpec() {
+class RangesTest {
 
   @Test
   fun `range from 1 to 10, same as list from 1 to 10`() {

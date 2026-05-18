@@ -1,11 +1,9 @@
 package hwr.oop.examples
 
-import io.kotest.core.spec.style.AnnotationSpec
-import io.kotest.matchers.types.shouldBeSameInstanceAs
-import io.kotest.matchers.types.shouldNotBeSameInstanceAs
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class TrainIdentityTest : AnnotationSpec() {
+class TrainIdentityTest {
 
   @Test
   fun `two objects are never identical`() {
@@ -33,7 +31,7 @@ class TrainIdentityTest : AnnotationSpec() {
     val first = Train("RE1", "Berlin", "Magdeburg")
     val second = Train("RE1", "Berlin", "Magdeburg")
     // then
-    first shouldNotBeSameInstanceAs second
+    assertThat(first).isNotSameAs(second)
   }
 
   @Test
@@ -62,7 +60,7 @@ class TrainIdentityTest : AnnotationSpec() {
     val first = Train("RE1", "Berlin", "Magdeburg")
     val second = first
     // then
-    first shouldBeSameInstanceAs second
+    assertThat(first).isSameAs(second)
   }
 
 }

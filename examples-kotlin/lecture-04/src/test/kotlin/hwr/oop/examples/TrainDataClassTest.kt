@@ -1,10 +1,10 @@
 package hwr.oop.examples
 
 import hwr.oop.examples.data_classes.TrainAsDataClass
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class TrainDataClassTest : AnnotationSpec() {
+class TrainDataClassTest {
 
   @Test
   fun `equal trains, not identical, are equal, same hashCode`() {

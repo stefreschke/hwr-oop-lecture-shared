@@ -1,9 +1,9 @@
 package hwr.oop.examples
 
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class MethodsTest : AnnotationSpec() {
+class MethodsTest {
 
   @Test
   fun `NonMovingTrain's speed is 0`() {

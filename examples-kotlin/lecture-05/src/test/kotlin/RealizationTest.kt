@@ -1,9 +1,9 @@
 import hwr.oop.examples.abstraction.realization.EagerInitializedRectangle
 import hwr.oop.examples.abstraction.realization.EagerInitializedSquare
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class RealizationTest : AnnotationSpec() {
+class RealizationTest {
 
   @Test
   fun `rectangles, 4 sides`() {

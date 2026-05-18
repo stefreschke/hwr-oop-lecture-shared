@@ -1,9 +1,9 @@
 package hwr.oop.examples
 
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class QueriesTest : AnnotationSpec() {
+class QueriesTest {
   @Test
   fun `any, true if at least one element satisfies the predicate`() {
     // given

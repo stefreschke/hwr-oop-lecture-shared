@@ -1,9 +1,9 @@
 package hwr.oop.examples
 
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class AttributesTest : AnnotationSpec() {
+class AttributesTest {
 
   @Test
   fun `Train with train number 1338, has train number 1338`() {

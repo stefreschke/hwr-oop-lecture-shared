@@ -1,8 +1,8 @@
 import hwr.oop.examples.association.composition.CompositionTrain
-import io.kotest.core.spec.style.AnnotationSpec
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
 
-class CompositionTest : AnnotationSpec() {
+class CompositionTest {
 
   @Test
   fun `composition creates parts by itself`() {
