@@ -1,8 +1,5 @@
 package hwr.oop.huzur.tests.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.Card.Sign;
 import hwr.oop.huzur.domain.cards.CardConverter;
@@ -14,6 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class StringShortcutsForCardsTest {
 

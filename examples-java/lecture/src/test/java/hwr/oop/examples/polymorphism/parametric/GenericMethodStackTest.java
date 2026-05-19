@@ -1,11 +1,11 @@
 package hwr.oop.examples.polymorphism.parametric;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 @DisplayName("Generics: Semi-Cool Stack, with Parameterization on Method while hiding cast")
 class GenericMethodStackTest {

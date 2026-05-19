@@ -5,34 +5,29 @@ import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.Deck;
 import hwr.oop.huzur.domain.layouts.Layout;
 import hwr.oop.huzur.domain.layouts.LayoutType;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 final class FixedGame implements Game {
 
   private final Color trump;
+
   private final List<Player> players;
+
   private final Map<Player, List<Card>> handCards;
+
   private final Deck deck;
+
   private final Player turn;
+
   private final Layout layout;
+
   private final GameId gameId;
 
-  FixedGame(
-      GameId gameId,
-      Color trump,
-      List<Player> players,
-      Map<Player, List<Card>> handCards,
-      Deck deck,
-      Player turn,
-      Layout layout
-  ) {
+  FixedGame(GameId gameId, Color trump, List<Player> players, Map<Player, List<Card>> handCards, Deck deck,
+            Player turn, Layout layout) {
     Objects.requireNonNull(gameId);
     Objects.requireNonNull(trump);
     Objects.requireNonNull(handCards);
@@ -101,9 +96,10 @@ final class FixedGame implements Game {
   @Override
   public Game pickup(Player player) {
     if (!player.equals(turn)) {
-      throw new WrongPlayerException(
-          String.format("Not player %s's turn, player %s is the next player",
-              player, turn));
+      throw new WrongPlayerException(String.format("Not player %s's turn, player %s is the next player",
+          player,
+          turn
+      ));
     }
     if (layout == null) {
       throw new CannotPickupException("Cannot pickup, no layout present");
@@ -138,10 +134,9 @@ final class FixedGame implements Game {
   }
 
   private void assertNoDuplicateCards(Map<Player, List<Card>> handCards, Deck deck) {
-    final var allCards = Stream.concat(
-        handCards.values().stream().flatMap(Collection::stream),
-        deck.peek()
-    ).toList();
+    final var allCards = Stream
+        .concat(handCards.values().stream().flatMap(Collection::stream), deck.peek())
+        .toList();
     final var duplicates = listDuplicateUsingCollectionsFrequency(allCards);
     if (!duplicates.isEmpty()) {
       throw new IllegalArgumentException("Found duplicate cards: " + duplicates);
@@ -155,7 +150,8 @@ final class FixedGame implements Game {
   }
 
   private HandOfPlayer smallestHand() {
-    return players.stream()
+    return players
+        .stream()
         .map(this::handOf)
         .reduce((a, b) -> a.numberOfCards() > b.numberOfCards() ? b : a)
         .orElseThrow();
@@ -166,18 +162,20 @@ final class FixedGame implements Game {
       final var numberOfCards = cards.size();
       final var smallHand = smallestHand();
       final var numberOfCardsInSmallestHand = smallHand.numberOfCards();
-      final var possibleLayouts = LayoutType.available(deck, numberOfCardsInSmallestHand)
+      final var possibleLayouts = LayoutType
+          .available(deck, numberOfCardsInSmallestHand)
           .map(LayoutType::numberOfCards)
-          .sorted().toList();
-      final var isAllowedLayout = possibleLayouts.stream()
-          .anyMatch(l -> l >= numberOfCards);
+          .sorted()
+          .toList();
+      final var isAllowedLayout = possibleLayouts.stream().anyMatch(l -> l >= numberOfCards);
       if (!isAllowedLayout) {
         final var smallHandPlayer = smallHand.player();
-        throw new IllegalArgumentException(
-            String.format(
-                "too many cards, player %s has %d cards remaining, allowed layouts are %s",
-                smallHandPlayer, numberOfCardsInSmallestHand, possibleLayouts)
-        );
+        throw new IllegalArgumentException(String.format(
+            "too many cards, player %s has %d cards remaining, allowed layouts are %s",
+            smallHandPlayer,
+            numberOfCardsInSmallestHand,
+            possibleLayouts
+        ));
       }
     }
   }
@@ -198,17 +196,13 @@ final class FixedGame implements Game {
     }
   }
 
-  private FixedGameBuilder copyWithUpdatedDeckAndHand(Player player,
-      List<Card> remainingPlayerCards) {
+  private FixedGameBuilder copyWithUpdatedDeckAndHand(Player player, List<Card> remainingPlayerCards) {
     final var builder = copy();
     final var drawTarget = calculateDrawTarget(remainingPlayerCards);
     final var needToDrawCards = drawTarget != 0;
     if (needToDrawCards) {
       final var result = deck.draw(drawTarget);
-      final var newHandCards = Stream.concat(
-          remainingPlayerCards.stream(),
-          result.cards()
-      ).toList();
+      final var newHandCards = Stream.concat(remainingPlayerCards.stream(), result.cards()).toList();
       return builder.player(player).hasCards(newHandCards).deck(result.deck());
     } else {
       return builder.player(player).hasCards(remainingPlayerCards);
@@ -222,8 +216,10 @@ final class FixedGame implements Game {
 
   private void assertCorrectPlayer(Player player) {
     if (!player.equals(turn)) {
-      throw new IllegalArgumentException(
-          String.format("%s played out of turn, next player is: %s", player, turn));
+      throw new IllegalArgumentException(String.format("%s played out of turn, next player is: %s",
+          player,
+          turn
+      ));
     }
   }
 
@@ -236,14 +232,12 @@ final class FixedGame implements Game {
   }
 
   private List<Player> listOfWinners() {
-    return handCards.entrySet().stream()
-        .filter(e -> e.getValue().isEmpty())
-        .map(Entry::getKey)
-        .toList();
+    return handCards.entrySet().stream().filter(e -> e.getValue().isEmpty()).map(Entry::getKey).toList();
   }
 
   private FixedGameBuilder copy() {
-    return Game.newBuilder()
+    return Game
+        .newBuilder()
         .id(gameId)
         .trump(trump)
         .deck(deck.peek())

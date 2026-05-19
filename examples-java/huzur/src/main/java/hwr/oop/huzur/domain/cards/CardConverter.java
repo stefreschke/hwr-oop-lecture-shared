@@ -1,6 +1,7 @@
 package hwr.oop.huzur.domain.cards;
 
 import hwr.oop.huzur.domain.cards.Card.Color;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 public final class CardConverter {
 
   private final Map<String, Card> handleMap;
+
   private final Map<Character, Color> colorHandleMap;
 
   public CardConverter() {
@@ -18,23 +20,16 @@ public final class CardConverter {
   }
 
   private Map<Character, Color> createColorHandleMap() {
-    return Color.all().stream().collect(Collectors.toMap(
-        Color::handle,
-        Function.identity()
-    ));
+    return Color.all().stream().collect(Collectors.toMap(Color::handle, Function.identity()));
   }
 
   private Map<String, Card> createMap() {
     final var cardFactory = new CardFactory();
-    return cardFactory.createAllCards().collect(Collectors.toMap(
-        Card::shortHandle,
-        Function.identity()
-    ));
+    return cardFactory.createAllCards().collect(Collectors.toMap(Card::shortHandle, Function.identity()));
   }
 
   public List<Card> parseCards(String cardsString) {
-    return Arrays.stream(cardsString.split(","))
-        .map(this::convert).toList();
+    return Arrays.stream(cardsString.split(",")).map(this::convert).toList();
   }
 
   public Card convert(String string) {

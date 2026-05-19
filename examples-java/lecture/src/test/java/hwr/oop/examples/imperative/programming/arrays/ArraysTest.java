@@ -1,10 +1,10 @@
 package hwr.oop.examples.imperative.programming.arrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 @DisplayName("Containers: Arrays, e.g. int[]{...}")
 class ArraysTest {

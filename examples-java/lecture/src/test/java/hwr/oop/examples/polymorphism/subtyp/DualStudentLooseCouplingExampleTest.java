@@ -1,18 +1,10 @@
 package hwr.oop.examples.polymorphism.subtyp;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import hwr.oop.examples.polymorphism.subtyp.roles.Alcohol;
-import hwr.oop.examples.polymorphism.subtyp.roles.Employer;
-import hwr.oop.examples.polymorphism.subtyp.roles.DualStudent;
-import hwr.oop.examples.polymorphism.subtyp.roles.Money;
-import hwr.oop.examples.polymorphism.subtyp.roles.Party;
-import hwr.oop.examples.polymorphism.subtyp.roles.PartyGuest;
-import hwr.oop.examples.polymorphism.subtyp.roles.Student;
-import hwr.oop.examples.polymorphism.subtyp.roles.Teacher;
-import hwr.oop.examples.polymorphism.subtyp.roles.Worker;
+import hwr.oop.examples.polymorphism.subtyp.roles.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Lose Kopplung: Duale Student*in")
 class DualStudentLooseCouplingExampleTest {

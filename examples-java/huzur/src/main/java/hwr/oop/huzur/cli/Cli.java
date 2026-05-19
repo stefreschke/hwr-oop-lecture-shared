@@ -5,49 +5,43 @@ import hwr.oop.huzur.application.ports.in.NewGameUseCase;
 import hwr.oop.huzur.application.ports.in.PickupStackOnGameUseCase;
 import hwr.oop.huzur.application.ports.in.PlayOnGameUseCase;
 import hwr.oop.huzur.application.ports.out.GameRepository;
+
 import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 
 public final class Cli {
 
   private final PrintStream out;
+
   private final PrintStream err;
+
   private final Function<Path, GameRepository> gameRepositoryFactory;
+
   private final ArgumentParser argumentParser;
+
   private GameRepository gameRepository;
 
-  public Cli(
-      OutputStream outputStream,
-      OutputStream errorStream,
-      Function<GameRepository, NewGameUseCase> newGameUseCaseFactory,
-      Function<GameRepository, PlayOnGameUseCase> playOnGameUseCaseFactory,
-      Function<GameRepository, PickupStackOnGameUseCase> pickupStackOnGameUseCaseFactory,
-      Function<GameRepository, GameStateQuery> gameStateQueryFactory,
-      Function<Path, GameRepository> gameRepositoryFactory
-  ) {
+  public Cli(OutputStream outputStream, OutputStream errorStream,
+             Function<GameRepository, NewGameUseCase> newGameUseCaseFactory,
+             Function<GameRepository, PlayOnGameUseCase> playOnGameUseCaseFactory,
+             Function<GameRepository, PickupStackOnGameUseCase> pickupStackOnGameUseCaseFactory,
+             Function<GameRepository, GameStateQuery> gameStateQueryFactory,
+             Function<Path, GameRepository> gameRepositoryFactory) {
     this.out = new PrintStream(outputStream);
     this.err = new PrintStream(errorStream);
     this.gameRepositoryFactory = gameRepositoryFactory;
-    this.argumentParser = new ArgumentParser(
-        () -> safelyCreateUseCaseUsing(gameRepository, newGameUseCaseFactory),
+    this.argumentParser = new ArgumentParser(() -> safelyCreateUseCaseUsing(gameRepository, newGameUseCaseFactory),
         () -> safelyCreateUseCaseUsing(gameRepository, playOnGameUseCaseFactory),
         () -> safelyCreateUseCaseUsing(gameRepository, pickupStackOnGameUseCaseFactory),
         () -> safelyCreateUseCaseUsing(gameRepository, gameStateQueryFactory)
     );
   }
 
-  private <T> T safelyCreateUseCaseUsing(
-      GameRepository gameRepository,
-      Function<GameRepository, T> factory
-  ) {
+  private <T> T safelyCreateUseCaseUsing(GameRepository gameRepository, Function<GameRepository, T> factory) {
     Objects.requireNonNull(gameRepository);
     return factory.apply(gameRepository);
   }

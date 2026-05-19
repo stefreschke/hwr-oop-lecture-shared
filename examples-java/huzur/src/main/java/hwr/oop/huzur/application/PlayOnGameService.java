@@ -6,12 +6,15 @@ import hwr.oop.huzur.application.ports.out.LoadGamePort;
 import hwr.oop.huzur.application.ports.out.SaveGamePort;
 import hwr.oop.huzur.domain.Player;
 import hwr.oop.huzur.domain.cards.CardConverter;
+
 import java.util.List;
 
 public final class PlayOnGameService implements PlayOnGameUseCase {
 
   private final LoadGamePort loadGamePort;
+
   private final SaveGamePort saveGamePort;
+
   private final CardConverter converter;
 
   public PlayOnGameService(GameRepository gameRepository) {

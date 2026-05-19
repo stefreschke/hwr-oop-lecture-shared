@@ -2,7 +2,6 @@ package hwr.oop.huzur.domain.cards;
 
 public record Joker(int strength) implements Card {
 
-
   public static Card first() {
     return new Joker(13337);
   }
@@ -10,7 +9,6 @@ public record Joker(int strength) implements Card {
   public static Card second() {
     return new Joker(1337);
   }
-
 
   @Override
   public boolean hasColor(Color trump) {

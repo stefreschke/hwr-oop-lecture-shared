@@ -1,10 +1,10 @@
 package hwr.oop.examples.polymorphism.parametric;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 @DisplayName("Generics: Cool Stack, with Parameterization on Class")
 class GenericStackTest {

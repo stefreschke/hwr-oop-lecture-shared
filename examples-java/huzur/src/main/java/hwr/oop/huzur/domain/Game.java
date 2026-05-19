@@ -2,6 +2,7 @@ package hwr.oop.huzur.domain;
 
 import hwr.oop.huzur.domain.cards.Card;
 import hwr.oop.huzur.domain.layouts.Layout;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;

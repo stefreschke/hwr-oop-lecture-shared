@@ -4,11 +4,11 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class MutableTrainTest {
-    @Test
-    fun `public attributes can be changed from outside`() {
-        val train = MutableTrain()
-        train.speed = 100
-        val retrievedSpeed = train.speed
-        assertThat(retrievedSpeed).isEqualTo(100)
-    }
+	@Test
+	fun `public attributes can be changed from outside`() {
+		val train = MutableTrain()
+		train.speed = 100
+		val retrievedSpeed = train.speed
+		assertThat(retrievedSpeed).isEqualTo(100)
+	}
 }

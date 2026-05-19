@@ -1,9 +1,9 @@
 package hwr.oop.examples.classes.meta;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Object: Class meta information (.class and #getClass)")
 class MetaInformationTest {

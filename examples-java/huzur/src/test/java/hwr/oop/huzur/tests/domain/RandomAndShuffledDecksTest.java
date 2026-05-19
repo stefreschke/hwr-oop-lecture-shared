@@ -1,24 +1,21 @@
 package hwr.oop.huzur.tests.domain;
 
+import hwr.oop.huzur.domain.cards.Card.Color;
+import hwr.oop.huzur.domain.cards.Card.Sign;
+import hwr.oop.huzur.domain.cards.*;
+import hwr.oop.huzur.tests.ErrorHandlingTag;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
+
+import java.util.Collections;
+
 import static hwr.oop.huzur.tests.Utils.allCardsOfColor;
 import static hwr.oop.huzur.tests.Utils.allCardsOfSign;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
-
-import hwr.oop.huzur.domain.cards.Card.Color;
-import hwr.oop.huzur.domain.cards.Card.Sign;
-import hwr.oop.huzur.domain.cards.CardConverter;
-import hwr.oop.huzur.domain.cards.CardFactory;
-import hwr.oop.huzur.domain.cards.Deck;
-import hwr.oop.huzur.domain.cards.Joker;
-import hwr.oop.huzur.domain.cards.NormalCard;
-import hwr.oop.huzur.tests.ErrorHandlingTag;
-import java.util.Collections;
-import org.assertj.core.api.SoftAssertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 
 class RandomAndShuffledDecksTest {
 

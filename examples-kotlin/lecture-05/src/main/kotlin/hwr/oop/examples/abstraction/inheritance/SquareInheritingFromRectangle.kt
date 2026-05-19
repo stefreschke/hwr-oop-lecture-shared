@@ -1,7 +1,7 @@
 package hwr.oop.examples.abstraction.inheritance
 
 class SquareInheritingFromRectangle(
-  sideLength: Double,
+	sideLength: Double,
 ) : RectangleAsOpenClass(sideLength, sideLength) {
-  // nothing else to do here!
+	// nothing else to do here!
 }

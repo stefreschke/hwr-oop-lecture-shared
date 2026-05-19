@@ -1,7 +1,6 @@
 package hwr.oop.huzur.tests.persistence.csv;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
+import hwr.oop.huzur.IOExceptionBomb;
 import hwr.oop.huzur.application.ports.out.LoadGamePort;
 import hwr.oop.huzur.application.ports.out.SaveGamePort;
 import hwr.oop.huzur.domain.Game;
@@ -9,26 +8,27 @@ import hwr.oop.huzur.domain.Player;
 import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.persistence.CsvFilePersistenceAdapter;
-import hwr.oop.huzur.IOExceptionBomb;
 import hwr.oop.huzur.tests.TestSetupFailedException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class IOExceptionHandlingTest {
 
   private static final String FILE_NAME = "src/test/resources/tempFile.csv";
-
-  private Path path;
   private final Player alpha = Player.id("alpha");
   private final Player beta = Player.id("beta");
   private final Player gamma = Player.id("gamma");
   private final String expectedMessage = IOExceptionBomb.MESSAGE;
+  private Path path;
   private SaveGamePort saveGamePort;
   private LoadGamePort loadGamePort;
   private CardConverter converter;

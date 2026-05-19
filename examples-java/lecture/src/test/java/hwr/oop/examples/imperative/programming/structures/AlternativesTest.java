@@ -1,9 +1,9 @@
 package hwr.oop.examples.imperative.programming.structures;
 
-import static org.junit.jupiter.api.Assertions.fail;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 @DisplayName("Foundations: Alternatives (if else)")
 class AlternativesTest {
@@ -28,9 +28,9 @@ class AlternativesTest {
   @Test
   void if_ConditionTrueThenBlockOnlyOneStatement_BracketsNotNecessary() {
     boolean condition = true;
-      if (condition) {
-          return;  // no brackets, next statement not part of then-block
-      }
+    if (condition) {
+      return;  // no brackets, next statement not part of then-block
+    }
     fail();
   }
 
@@ -47,11 +47,11 @@ class AlternativesTest {
   @Test
   void ifElse_ConditionTrueElseBlockOnlyOneStatement_BracketsNotNecessary() {
     boolean condition = true;
-      if (condition) {
-          // no fail
-      } else {
-          fail();  // no brackets, next statement not part of else-block
-      }
+    if (condition) {
+      // no fail
+    } else {
+      fail();  // no brackets, next statement not part of else-block
+    }
   }
 
   @Test

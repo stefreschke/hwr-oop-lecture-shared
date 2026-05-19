@@ -6,27 +6,29 @@ import hwr.oop.huzur.domain.cards.Card;
 import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.domain.layouts.Layout;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public final class CsvRow {
 
   private final String id;
+
   private final String turnString;
+
   private final String trumpString;
+
   private final String playersAndCardsString;
+
   private final String deckString;
+
   private final String layoutString;
+
   private final CardConverter converter;
 
-  public CsvRow(String idString, String turnString, String trumpString,
-      String playersAndCardsString,
-      String deckString, String layoutString) {
+  public CsvRow(String idString, String turnString, String trumpString, String playersAndCardsString,
+                String deckString, String layoutString) {
     this.id = idString;
     this.turnString = turnString;
     this.trumpString = trumpString;
@@ -42,16 +44,20 @@ public final class CsvRow {
     while (mutable.size() <= 6) {
       mutable.add("");
     }
-    return new CsvRow(mutable.get(0), mutable.get(1), mutable.get(2), mutable.get(3),
-        mutable.get(4), mutable.get(5));
+    return new CsvRow(mutable.get(0),
+        mutable.get(1),
+        mutable.get(2),
+        mutable.get(3),
+        mutable.get(4),
+        mutable.get(5)
+    );
   }
 
   public static CsvRow fromGame(Game game) {
     final var remainingDeckString = parseRemainingDeckStrings(game);
     final var playerAndCardString = parsePlayersAndCardsString(game);
     final String layoutString = parseLayoutString(game);
-    return new CsvRow(
-        game.id().value(),
+    return new CsvRow(game.id().value(),
         game.turn().id(),
         game.trump().toString().substring(0, 1),
         playerAndCardString,
@@ -61,21 +67,18 @@ public final class CsvRow {
   }
 
   private static String parseRemainingDeckStrings(Game game) {
-    return game.remainingDeck()
-        .map(Card::shortHandle)
-        .reduce(SeparatedBy.comma())
-        .orElse("");
+    return game.remainingDeck().map(Card::shortHandle).reduce(SeparatedBy.comma()).orElse("");
   }
 
   private static String parsePlayersAndCardsString(Game game) {
-    final var playersAndCards = game.players().collect(Collectors.toMap(
-        Function.identity(),
-        p -> game.handOf(p).cards()
-            .map(Card::shortHandle)
-            .reduce(SeparatedBy.comma())
-            .orElseThrow()
-    ));
-    return playersAndCards.entrySet().stream()
+    final var playersAndCards = game
+        .players()
+        .collect(Collectors.toMap(Function.identity(),
+            p -> game.handOf(p).cards().map(Card::shortHandle).reduce(SeparatedBy.comma()).orElseThrow()
+        ));
+    return playersAndCards
+        .entrySet()
+        .stream()
         .map(e -> e.getKey().id() + "-" + e.getValue())
         .reduce(SeparatedBy.colon())
         .orElseThrow();
@@ -106,10 +109,7 @@ public final class CsvRow {
   }
 
   private static String parseLayoutToString(Layout previousL) {
-    final var cardsString = previousL.cards()
-        .map(Card::shortHandle)
-        .reduce(SeparatedBy.comma())
-        .orElseThrow();
+    final var cardsString = previousL.cards().map(Card::shortHandle).reduce(SeparatedBy.comma()).orElseThrow();
     final var player = previousL.player();
     final var playerString = player.id();
     return playerString + "-" + cardsString;
@@ -132,21 +132,15 @@ public final class CsvRow {
     } else {
       builder.deck(converter.parseCards(deckString));
     }
-    return builder
-        .trump(trump)
-        .turn(Player.id(turnString))
-        .build();
+    return builder.trump(trump).turn(Player.id(turnString)).build();
   }
 
   private Map<Player, List<Card>> parsePlayersAndCards() {
     final var playerCardStrings = Arrays.stream(playersAndCardsString.split(":"));
     return playerCardStrings
         .map(s -> Arrays.asList(s.split("-")))
-        .collect(Collectors.toMap(
-            i -> Player.id(i.getFirst()),
-            i -> Arrays.stream(i.getLast().split(","))
-                .map(converter::convert)
-                .toList()
+        .collect(Collectors.toMap(i -> Player.id(i.getFirst()),
+            i -> Arrays.stream(i.getLast().split(",")).map(converter::convert).toList()
         ));
   }
 
@@ -174,15 +168,12 @@ public final class CsvRow {
     final var parts = Arrays.asList(layoutString.split("-"));
     final var player = Player.id(parts.getFirst());
     final var cards = converter.parseCards(parts.getLast());
-    return Layout
-        .answering(previous)
-        .with(player, cards)
-        .given(() -> trump);
+    return Layout.answering(previous).with(player, cards).given(() -> trump);
   }
 
   @Override
   public String toString() {
-    return id + ";" + turnString + ";" + trumpString + ";" +
-        playersAndCardsString + ";" + deckString + ";" + layoutString;
+    return id + ";" + turnString + ";" + trumpString + ";" + playersAndCardsString + ";" + deckString + ";"
+        + layoutString;
   }
 }

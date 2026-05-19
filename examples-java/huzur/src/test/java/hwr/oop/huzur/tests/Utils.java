@@ -4,6 +4,7 @@ import hwr.oop.huzur.domain.cards.Card;
 import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.Card.Sign;
 import hwr.oop.huzur.domain.cards.NormalCard;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;

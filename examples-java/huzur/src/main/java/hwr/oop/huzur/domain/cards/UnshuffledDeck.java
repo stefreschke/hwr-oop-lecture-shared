@@ -7,12 +7,12 @@ final class UnshuffledDeck implements Deck {
 
   private final List<Card> cards;
 
-  static Deck of(List<Card> cards) {
-    return new UnshuffledDeck(cards);
-  }
-
   UnshuffledDeck(List<Card> cards) {
     this.cards = cards;
+  }
+
+  static Deck of(List<Card> cards) {
+    return new UnshuffledDeck(cards);
   }
 
   @Override

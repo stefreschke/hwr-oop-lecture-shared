@@ -4,12 +4,12 @@ import java.util.stream.Stream;
 
 public final class CardFactory {
 
-  public Stream<Card> createAllCards() {
-    return Stream.concat(createNormalCards(), createJokers());
-  }
-
   private static Stream<Card> createJokers() {
     return Stream.of(Joker.first(), Joker.second());
+  }
+
+  public Stream<Card> createAllCards() {
+    return Stream.concat(createNormalCards(), createJokers());
   }
 
   private Stream<Card> createNormalCards() {

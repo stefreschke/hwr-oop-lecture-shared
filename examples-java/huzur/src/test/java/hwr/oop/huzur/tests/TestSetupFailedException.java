@@ -5,11 +5,11 @@ package hwr.oop.huzur.tests;
  */
 public class TestSetupFailedException extends RuntimeException {
 
-  public static TestSetupFailedException wrapping(Throwable cause) {
-    return new TestSetupFailedException(cause);
-  }
-
   private TestSetupFailedException(Throwable cause) {
     super(cause);
+  }
+
+  public static TestSetupFailedException wrapping(Throwable cause) {
+    return new TestSetupFailedException(cause);
   }
 }

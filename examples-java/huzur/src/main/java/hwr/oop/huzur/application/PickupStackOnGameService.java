@@ -9,6 +9,7 @@ import hwr.oop.huzur.domain.Player;
 public final class PickupStackOnGameService implements PickupStackOnGameUseCase {
 
   private final LoadGamePort loadGamePort;
+
   private final SaveGamePort saveGamePort;
 
   public PickupStackOnGameService(GameRepository gameRepository) {

@@ -1,12 +1,5 @@
 package hwr.oop.huzur.tests.cli;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import hwr.oop.huzur.application.ports.in.GameStateQuery;
 import hwr.oop.huzur.application.ports.in.GameStateQuery.GameStateDto;
 import hwr.oop.huzur.application.ports.in.NewGameUseCase;
@@ -16,6 +9,12 @@ import hwr.oop.huzur.application.ports.out.GameRepository;
 import hwr.oop.huzur.application.ports.out.LoadGamePort.CouldNotLoadException;
 import hwr.oop.huzur.cli.Cli;
 import hwr.oop.huzur.tests.ErrorHandlingTag;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.OutputStream;
@@ -23,11 +22,11 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CliTest {
@@ -51,7 +50,9 @@ class CliTest {
   GameRepository gameRepository;
 
   private OutputStream outputStream;
+
   private OutputStream errorStream;
+
   private Cli sut;
 
   @BeforeEach
@@ -59,8 +60,7 @@ class CliTest {
     this.outputStream = new ByteArrayOutputStream();
     this.errorStream = new ByteArrayOutputStream();
     lenient().when(gameRepositoryFunction.apply(any())).thenReturn(gameRepository);
-    this.sut = new Cli(
-        outputStream,
+    this.sut = new Cli(outputStream,
         errorStream,
         repo -> newGameUseCase,  // disregard repo, pass mocks
         repo -> playOnGameUseCase,
@@ -72,8 +72,7 @@ class CliTest {
 
   @Test
   void newGame_CreatesNewGame() {
-    sut.handle("new_game", "id", "1337", "trump", "HEARTS", "players", "alpha",
-        "beta", "--file", "example.csv");
+    sut.handle("new_game", "id", "1337", "trump", "HEARTS", "players", "alpha", "beta", "--file", "example.csv");
     final var output = outputStream.toString();
     final var errors = errorStream.toString();
     assertThat(errors).isEmpty();
@@ -88,10 +87,7 @@ class CliTest {
     final var output = outputStream.toString();
     final var errors = errorStream.toString();
     assertThat(errors).isEmpty();
-    assertThat(output).contains(
-        "Welcome to Huzur, the funky mongolian card game!",
-        "Arguments were: ", "--debug"
-    );
+    assertThat(output).contains("Welcome to Huzur, the funky mongolian card game!", "Arguments were: ", "--debug");
   }
 
   @Test
@@ -100,8 +96,7 @@ class CliTest {
     final var output = outputStream.toString();
     final var errors = errorStream.toString();
     assertThat(errors).isEmpty();
-    assertThat(output).contains(
-        "help - display help message",
+    assertThat(output).contains("help - display help message",
         "new_game id {} trump {} players {} - Creates a new game",
         "on game {} player {} play/lay/pick {} - Advance game by setting cards",
         "on game {} state - display game state"
@@ -121,8 +116,7 @@ class CliTest {
 
   @Test
   void onGamePlayerLays_ThreeCardsCommaSeparated_PlayThreeCardsUseCaseCalled() {
-    sut.handle("on", "game", "1337", "player", "alpha", "lays", "H7,S7,H8", "--file",
-        "example.csv");
+    sut.handle("on", "game", "1337", "player", "alpha", "lays", "H7,S7,H8", "--file", "example.csv");
     final var output = outputStream.toString();
     final var errors = errorStream.toString();
     assertThat(errors).isEmpty();
@@ -133,8 +127,7 @@ class CliTest {
 
   @Test
   void onGamePlayerLays_ThreeCardsSpaceSeparated_PlayThreeCardsUseCaseCalled() {
-    sut.handle("on", "game", "1337", "player", "alpha", "lays", "H7", "S7", "H8", "--file",
-        "example.csv");
+    sut.handle("on", "game", "1337", "player", "alpha", "lays", "H7", "S7", "H8", "--file", "example.csv");
     final var output = outputStream.toString();
     final var errors = errorStream.toString();
     assertThat(errors).isEmpty();
@@ -156,27 +149,25 @@ class CliTest {
 
   @Test
   void gameState_QueryCalled() {
-    final var gameStateDtoFixture = new GameStateDto(
-        "alpha",
+    final var gameStateDtoFixture = new GameStateDto("alpha",
         List.of("AH", "AC", "AD"),
         List.of("2H", "2C", "2D"),
         List.of("2H", "2C", "2D"),
         false,
-        Map.of(
-            "alpha", 3,
-            "beta", 4,
-            "gamma", 5
-        ),
+        Map.of("alpha", 3, "beta", 4, "gamma", 5),
         0,
         "HEARTS"
     );
     when(gameStateQuery.gameStateOf("1337")).thenReturn(gameStateDtoFixture);
     sut.handle("on", "game", "1337", "state", "--file", "example.csv");
-    assertThat(outputStream.toString()).contains(
-        "turn: alpha", "hand: AH,AC,AD", "layout: 2H,2C,2D",
+    assertThat(outputStream.toString()).contains("turn: alpha",
+        "hand: AH,AC,AD",
+        "layout: 2H,2C,2D",
         "cards to pickup from layout (3): 2H,2C,2D",
-        "trump: HEARTS", "remaining Deck: empty",
-        "beta has 4 cards remaining", "gamma has 5 cards remaining"
+        "trump: HEARTS",
+        "remaining Deck: empty",
+        "beta has 4 cards remaining",
+        "gamma has 5 cards remaining"
     );
     assertThat(errorStream.toString()).isEmpty();
     verify(gameStateQuery).gameStateOf("1337");
@@ -185,8 +176,7 @@ class CliTest {
   @Test
   @ErrorHandlingTag
   void gameState_QueryNonExistingGame_Exception() {
-    when(gameStateQuery.gameStateOf("1337"))
-        .thenThrow(new CouldNotLoadException("Could not find game with id 1337"));
+    when(gameStateQuery.gameStateOf("1337")).thenThrow(new CouldNotLoadException("Could not find game with id 1337"));
     try {
       sut.handle("on", "game", "1337", "state", "--file", "example.csv");
       fail("MockedException was not thrown");
@@ -194,8 +184,7 @@ class CliTest {
       // expected, nothing else to do
     }
     assertThat(outputStream.toString()).isEmpty();
-    assertThat(errorStream.toString())
-        .contains("Could not find game with id 1337");
+    assertThat(errorStream.toString()).contains("Could not find game with id 1337");
     verify(gameStateQuery).gameStateOf("1337");
   }
 
@@ -209,8 +198,7 @@ class CliTest {
       // expected, nothing else to do
     }
     assertThat(outputStream.toString()).isEmpty();
-    assertThat(errorStream.toString())
-        .contains("--file can not be the last argument");
+    assertThat(errorStream.toString()).contains("--file can not be the last argument");
   }
 
   @Test
@@ -223,8 +211,7 @@ class CliTest {
       // expected, nothing else to do
     }
     assertThat(outputStream.toString()).isEmpty();
-    assertThat(errorStream.toString())
-        .contains("variable passed to --file must be file name", "but was: example");
+    assertThat(errorStream.toString()).contains("variable passed to --file must be file name", "but was: example");
   }
 
   @Test

@@ -3,6 +3,7 @@ package hwr.oop.huzur.domain.layouts;
 import hwr.oop.huzur.domain.GameCardContext;
 import hwr.oop.huzur.domain.Player;
 import hwr.oop.huzur.domain.cards.Card;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -45,7 +46,9 @@ public interface Layout {
   class AnswerBuilder {
 
     private final Layout previous;
+
     private Player player;
+
     private List<Card> cards;
 
     private AnswerBuilder(Layout previous) {

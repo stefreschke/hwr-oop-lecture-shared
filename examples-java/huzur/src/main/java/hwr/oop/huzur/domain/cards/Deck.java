@@ -7,8 +7,8 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 /**
- * Decks are <i>immutable</i>. If you {@link #draw(int)} cards, the drawn cards and the updated Deck
- * is returned as part of {@link DrawFromDeckResult}.
+ * Decks are <i>immutable</i>. If you {@link #draw(int)} cards, the drawn cards and the updated Deck is returned as part
+ * of {@link DrawFromDeckResult}.
  */
 public interface Deck {
 
@@ -52,8 +52,10 @@ public interface Deck {
     }
 
     private static String buildMessage(int drawnCards, int remainingCards) {
-      return String.format("Tried to draw %d cards from deck,"
-          + " but there were only %d cards remaining", drawnCards, remainingCards);
+      return String.format("Tried to draw %d cards from deck," + " but there were only %d cards remaining",
+          drawnCards,
+          remainingCards
+      );
     }
   }
 
@@ -63,6 +65,7 @@ public interface Deck {
   final class DrawFromDeckResult {
 
     private final Deck deck;
+
     private final List<Card> cards;
 
     DrawFromDeckResult(Deck deck, List<Card> cards) {

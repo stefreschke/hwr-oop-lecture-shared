@@ -1,6 +1,7 @@
 package hwr.oop.huzur.domain;
 
 import hwr.oop.huzur.domain.cards.Card;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.stream.Stream;
 public final class HandOfPlayer {
 
   private final Player player;
+
   private final List<Card> cards;
 
   public HandOfPlayer(Player player, List<Card> cards) {

@@ -3,6 +3,7 @@ package hwr.oop.huzur.persistence;
 import hwr.oop.huzur.IOExceptionBomb;
 import hwr.oop.huzur.application.ports.out.GameRepository;
 import hwr.oop.huzur.domain.Game;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,6 +12,7 @@ import java.util.Optional;
 public final class CsvFilePersistenceAdapter implements GameRepository {
 
   private final Path csvFilePath;
+
   private final IOExceptionBomb ioExceptionBomb;
 
   public CsvFilePersistenceAdapter(Path csvFilePath) {
@@ -27,9 +29,7 @@ public final class CsvFilePersistenceAdapter implements GameRepository {
     Optional<String> result;
     try (var stuff = Files.newBufferedReader(csvFilePath)) {
       ioExceptionBomb.fire();  // used for testing, to simulate IOException
-      result = stuff.lines()
-          .filter(l -> l.startsWith(id))
-          .findFirst();
+      result = stuff.lines().filter(l -> l.startsWith(id)).findFirst();
     } catch (IOException e) {
       throw new CouldNotLoadException(e);
     }

@@ -1,16 +1,17 @@
 package hwr.oop.huzur.tests.domain;
 
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-
 import hwr.oop.huzur.domain.FixedGameBuilder;
 import hwr.oop.huzur.domain.Game;
 import hwr.oop.huzur.domain.Player;
 import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.domain.cards.Deck;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 class WinningGamesTest {
 

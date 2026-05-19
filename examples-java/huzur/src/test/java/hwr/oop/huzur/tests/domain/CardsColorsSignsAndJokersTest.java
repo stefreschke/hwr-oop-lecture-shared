@@ -1,16 +1,17 @@
 package hwr.oop.huzur.tests.domain;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-
 import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.Card.Sign;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.domain.cards.Joker;
 import hwr.oop.huzur.domain.cards.NormalCard;
 import hwr.oop.huzur.tests.ErrorHandlingTag;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 class CardsColorsSignsAndJokersTest {
 

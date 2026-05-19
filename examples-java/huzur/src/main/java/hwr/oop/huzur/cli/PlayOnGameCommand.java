@@ -2,6 +2,7 @@ package hwr.oop.huzur.cli;
 
 import hwr.oop.huzur.application.ports.in.PickupStackOnGameUseCase;
 import hwr.oop.huzur.application.ports.in.PlayOnGameUseCase;
+
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,15 +13,28 @@ import java.util.function.Supplier;
 public final class PlayOnGameCommand implements MutableCommand {
 
   private final Supplier<PlayOnGameUseCase> playOnGameUseCase;
+
   private final Supplier<PickupStackOnGameUseCase> pickupStackOnGameUseCase;
+
   private String gameId;
+
   private String playerId;
+
   private List<String> cards;
 
   public PlayOnGameCommand(Supplier<PlayOnGameUseCase> playOnGameUseCase,
-      Supplier<PickupStackOnGameUseCase> pickupStackOnGameUseCase) {
+                           Supplier<PickupStackOnGameUseCase> pickupStackOnGameUseCase) {
     this.playOnGameUseCase = playOnGameUseCase;
     this.pickupStackOnGameUseCase = pickupStackOnGameUseCase;
+  }
+
+  private static List<String> parseCardStrings(List<String> arguments) {
+    return arguments
+        .subList(6, arguments.size())
+        .stream()
+        .map(c -> Arrays.stream(c.split(",")).toList())
+        .flatMap(Collection::stream)
+        .toList();
   }
 
   @Override
@@ -40,18 +54,12 @@ public final class PlayOnGameCommand implements MutableCommand {
     }
   }
 
-  private static List<String> parseCardStrings(List<String> arguments) {
-    return arguments.subList(6, arguments.size()).stream()
-        .map(c -> Arrays.stream(c.split(",")).toList())
-        .flatMap(Collection::stream)
-        .toList();
-  }
-
   @Override
   public boolean isApplicable(List<String> arguments) {
-    return arguments.size() >= 7 && arguments.getFirst().equals("on") && arguments.get(1)
-        .equals("game") && arguments.get(3).equals("player") && (arguments.get(5).equals("lays")
-        || arguments.get(5).equals("plays") || arguments.get(5).equals("picks"));
+    return arguments.size() >= 7 && arguments.getFirst().equals("on") && arguments.get(1).equals("game")
+        && arguments.get(3).equals("player") && (arguments.get(5).equals("lays") || arguments
+        .get(5)
+        .equals("plays") || arguments.get(5).equals("picks"));
   }
 
   @Override

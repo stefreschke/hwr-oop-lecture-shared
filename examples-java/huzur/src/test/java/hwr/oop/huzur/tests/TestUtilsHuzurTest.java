@@ -1,13 +1,13 @@
 package hwr.oop.huzur.tests;
 
-import static hwr.oop.huzur.tests.Utils.allCardsOfColor;
-import static hwr.oop.huzur.tests.Utils.allCardsOfSign;
-import static org.assertj.core.api.Assertions.assertThat;
-
 import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.Card.Sign;
 import hwr.oop.huzur.domain.cards.NormalCard;
 import org.junit.jupiter.api.Test;
+
+import static hwr.oop.huzur.tests.Utils.allCardsOfColor;
+import static hwr.oop.huzur.tests.Utils.allCardsOfSign;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class TestUtilsHuzurTest {
 

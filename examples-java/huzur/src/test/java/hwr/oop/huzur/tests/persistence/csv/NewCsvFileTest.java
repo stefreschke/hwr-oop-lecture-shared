@@ -1,9 +1,5 @@
 package hwr.oop.huzur.tests.persistence.csv;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-
 import hwr.oop.huzur.application.ports.out.LoadGamePort;
 import hwr.oop.huzur.application.ports.out.LoadGamePort.CouldNotLoadException;
 import hwr.oop.huzur.application.ports.out.SaveGamePort;
@@ -14,25 +10,28 @@ import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.persistence.CsvFilePersistenceAdapter;
 import hwr.oop.huzur.tests.ErrorHandlingTag;
 import hwr.oop.huzur.tests.TestSetupFailedException;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 class NewCsvFileTest {
 
   private static final String FILE_NAME = "src/test/resources/tempFile.csv";
-
-  private Path path;
   private final Player alpha = Player.id("alpha");
   private final Player beta = Player.id("beta");
   private final Player gamma = Player.id("gamma");
+  private Path path;
   private SaveGamePort saveGamePort;
   private LoadGamePort loadGamePort;
   private CardConverter converter;

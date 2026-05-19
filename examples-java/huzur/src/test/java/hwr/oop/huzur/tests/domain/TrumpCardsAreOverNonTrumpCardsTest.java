@@ -1,23 +1,24 @@
 package hwr.oop.huzur.tests.domain;
 
 
-import static hwr.oop.huzur.tests.Utils.allCardsOfColor;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
-
 import hwr.oop.huzur.domain.Game;
 import hwr.oop.huzur.domain.Player;
 import hwr.oop.huzur.domain.cards.Card;
 import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.CardConverter;
 import hwr.oop.huzur.domain.cards.Joker;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
+
+import static hwr.oop.huzur.tests.Utils.allCardsOfColor;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 class TrumpCardsAreOverNonTrumpCardsTest {
 
@@ -140,15 +141,15 @@ class TrumpCardsAreOverNonTrumpCardsTest {
     private final Comparator<Card> sut;
     private final CardConverter converter;
 
-    private static ComparatorAssert sut(Comparator<Card> sut) {
-      return new ComparatorAssert(sut);
-    }
-
     private ComparatorAssert(Comparator<Card> sut) {
       Objects.requireNonNull(sut);
       this.sut = sut;
       this.softly = new SoftAssertions();
       this.converter = new CardConverter();
+    }
+
+    private static ComparatorAssert sut(Comparator<Card> sut) {
+      return new ComparatorAssert(sut);
     }
 
     private ComparatorAssert strongerThan(Card bigger, Card smaller) {

@@ -1,8 +1,5 @@
 package hwr.oop.huzur.tests.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
 import hwr.oop.huzur.domain.Game;
 import hwr.oop.huzur.domain.Game.CannotPickupException;
 import hwr.oop.huzur.domain.Game.WrongPlayerException;
@@ -11,6 +8,9 @@ import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.tests.ErrorHandlingTag;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FreshlyCreateGameTest {
 

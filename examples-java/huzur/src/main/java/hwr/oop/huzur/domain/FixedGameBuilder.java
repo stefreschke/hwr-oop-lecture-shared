@@ -4,6 +4,7 @@ import hwr.oop.huzur.domain.cards.Card;
 import hwr.oop.huzur.domain.cards.Card.Color;
 import hwr.oop.huzur.domain.cards.Deck;
 import hwr.oop.huzur.domain.layouts.Layout;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -13,11 +14,17 @@ import java.util.stream.Stream;
 public final class FixedGameBuilder {
 
   private final Map<Player, List<Card>> map;
+
   private GameId gameId;
+
   private Color trump;
+
   private Deck deck;
+
   private Player turn;
+
   private Layout layout;
+
   private List<Player> players;
 
   FixedGameBuilder() {

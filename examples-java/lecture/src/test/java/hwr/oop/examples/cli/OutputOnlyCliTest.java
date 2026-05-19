@@ -1,13 +1,14 @@
 package hwr.oop.examples.cli;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("CLI: Output only (2024ff)")
 class OutputOnlyCliTest {
@@ -38,6 +39,6 @@ class OutputOnlyCliTest {
 
   @Test
   void main_DoesNotThrowException() {
-    Assertions.assertDoesNotThrow(() -> Main.main(new String[] {"3", "4"}));
+    Assertions.assertDoesNotThrow(() -> Main.main(new String[]{"3", "4"}));
   }
 }

@@ -4,9 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Cards are <i>immutable</i> and should be usable as Key in {@link java.util.Map}. Thus, any
- * implementation must implement {@link Object#equals(Object)} and {@link Object#hashCode()}
- * accordingly.
+ * Cards are <i>immutable</i> and should be usable as Key in {@link java.util.Map}. Thus, any implementation must
+ * implement {@link Object#equals(Object)} and {@link Object#hashCode()} accordingly.
  */
 public interface Card {
 
@@ -25,10 +24,19 @@ public interface Card {
   String shortHandle();
 
   enum Sign {
-    THREE(7, '3'), ACE(9, 'A'), SEVEN(0, '7'), EIGHT(1, '8'), NINE(2, '9'), TEN(3, 'T'),
-    JACK(4, 'J'), QUEEN(5, 'Q'), KING(6, 'K'), TWO(8, '2');
+    THREE(7, '3'),
+    ACE(9, 'A'),
+    SEVEN(0, '7'),
+    EIGHT(1, '8'),
+    NINE(2, '9'),
+    TEN(3, 'T'),
+    JACK(4, 'J'),
+    QUEEN(5, 'Q'),
+    KING(6, 'K'),
+    TWO(8, '2');
 
     private final int strength;
+
     private final char handle;
 
     Sign(int strength, char handle) {
@@ -54,12 +62,12 @@ public interface Card {
 
     private final char handle;
 
-    public static List<Color> all() {
-      return Arrays.asList(Color.values());
-    }
-
     Color(char handle) {
       this.handle = handle;
+    }
+
+    public static List<Color> all() {
+      return Arrays.asList(Color.values());
     }
 
     public char handle() {

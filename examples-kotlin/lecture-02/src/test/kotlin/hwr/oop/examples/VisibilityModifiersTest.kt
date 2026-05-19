@@ -5,10 +5,10 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class VisibilityModifiersTest {
-  @Test
-  fun `Regional Train can start Engine in super class`() {
-    val regionalTrain = RegionalTrain()
-    regionalTrain.accelerateTo(100)
-    assertThat(regionalTrain.isEngineStarted()).isTrue()
-  }
+	@Test
+	fun `Regional Train can start Engine in super class`() {
+		val regionalTrain = RegionalTrain()
+		regionalTrain.accelerateTo(100)
+		assertThat(regionalTrain.isEngineStarted()).isTrue()
+	}
 }

@@ -1,6 +1,7 @@
 package hwr.oop.huzur.cli;
 
 import hwr.oop.huzur.application.ports.in.NewGameUseCase;
+
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Objects;
@@ -9,8 +10,11 @@ import java.util.function.Supplier;
 final class NewGameCommand implements MutableCommand {
 
   private final Supplier<NewGameUseCase> newGameUseCase;
+
   private String trump;
+
   private String gameId;
+
   private List<String> players;
 
   public NewGameCommand(Supplier<NewGameUseCase> newGameUseCase) {
@@ -31,10 +35,9 @@ final class NewGameCommand implements MutableCommand {
 
   @Override
   public boolean isApplicable(List<String> arguments) {
-    return arguments.size() >= 8
-        && arguments.get(1).equals("id")
-        && arguments.get(3).equals("trump")
-        && arguments.get(5).equals("players");
+    return arguments.size() >= 8 && arguments.get(1).equals("id") && arguments.get(3).equals("trump") && arguments
+        .get(5)
+        .equals("players");
   }
 
   @Override

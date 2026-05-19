@@ -1,9 +1,9 @@
 package hwr.oop.examples.imperative.programming.types;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Primitives: Autoboxing (e.g. between int and Integer)")
 class AutoboxingTest {
