@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 
 @Disabled("Remove this annotation to activate the exercise")
 class HandTest {
+ 
 	@Test
 	fun `card matches top of discard pile by rank`() {
 		val hand = Hand(listOf(Card(Rank.SEVEN, Suit.CLUBS)))
